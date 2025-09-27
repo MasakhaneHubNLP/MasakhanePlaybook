@@ -50,10 +50,12 @@ const config = {
           routeBasePath: '/',
           sidebarPath: './sidebars.js',
           breadcrumbs: false,
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/keduog/masakhane-playbook/edit/main/',
         },
         blog: false,
         
@@ -71,6 +73,12 @@ const config = {
       image: 'img/docusaurus-social-card.jpg',
       colorMode: {
         respectPrefersColorScheme: true,
+      },
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
       },
       navbar: {
         title: 'Masakhane Playbook',
