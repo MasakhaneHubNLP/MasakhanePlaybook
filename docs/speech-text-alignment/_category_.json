@@ -1,0 +1,8 @@
+{
+  "label": "Speech-text alignment",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn about aligning speech recordings with text transcriptions."
+  }
+}
