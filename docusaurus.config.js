@@ -20,15 +20,15 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://keduog.github.io',
+  url: 'https://masakhaneplaybook.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/masakhane-playbook/',
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'keduog', // Usually your GitHub org/user name.
-  projectName: 'masakhane-playbook', // Usually your repo name.
+  organizationName: 'masakhaneplaybook', // Usually your GitHub org/user name.
+  projectName: 'masakhaneplaybook.github.io', // Usually your repo name.
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
   onBrokenLinks: 'throw',
@@ -55,7 +55,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/keduog/masakhane-playbook/edit/main/',
+            'https://github.com/masakhaneplaybook/masakhaneplaybook.github.io/edit/main/',
         },
         blog: false,
         
@@ -152,7 +152,7 @@ const config = {
             items: [
               {
                 label: 'GitHub Repository',
-                href: 'https://github.com/keduog/masakhane-playbook',
+                href: 'https://github.com/masakhaneplaybook/masakhaneplaybook.github.io',
               },
             ],
           },
