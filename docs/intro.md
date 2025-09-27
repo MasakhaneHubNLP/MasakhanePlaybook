@@ -7,8 +7,6 @@ slug: /
 
 Building language resources for African languages: a comprehensive playbook on how to engage communities and create datasets for language AI solutions.
 
-![Masakhane Playbook](../static/img/masakhane-banner.jpg)
-
 ## Welcome to the playbook for African language data collection!
 
 This playbook will help you to plan and manage projects to collect **voice data**, **text data**, **translation datasets**, and other language resources for African languages. It provides guidance on community engagement, data collection methodologies, quality assurance, and sustainability practices.
