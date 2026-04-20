@@ -23,7 +23,8 @@ jobs:
 
       - name: Build website
         run: yarn build
-
+        env:
+          PROGRESS: false # This disables the plugin causing the crash
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
