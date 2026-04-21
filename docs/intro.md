@@ -3,7 +3,7 @@ sidebar_position: 1
 slug: /
 ---
 
-# Introduction
+# 1. Introduction
 
 A comprehensive guide to dataset design, annotation, and task formulation for building reliable and responsible language AI systems.
 
