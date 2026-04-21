@@ -27,6 +27,9 @@
     "@docusaurus/types": "3.9.1",
     "gh-pages": "^6.3.0"
   },
+  "resolutions": {
+    "webpackbar": "7.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
