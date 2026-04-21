@@ -57,6 +57,7 @@ const config = {
           breadcrumbs: false,
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
+          // progress: false, // ADD THIS LINE TO PREVENT THE CRASH
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
