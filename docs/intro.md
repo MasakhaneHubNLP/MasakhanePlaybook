@@ -5,52 +5,86 @@ slug: /
 
 # Introduction
 
-Building language resources for African languages: a comprehensive playbook on how to engage communities and create datasets for language AI solutions.
+A comprehensive guide to dataset design, annotation, and task formulation for building reliable and responsible language AI systems.
 
-## Welcome to the playbook for African language data collection!
+## Welcome to the dataset design and annotation playbook!
 
-This playbook will help you to plan and manage projects to collect **voice data**, **text data**, **translation datasets**, and other language resources for African languages. It provides guidance on community engagement, data collection methodologies, quality assurance, and sustainability practices.
+This playbook will help you plan and develop **training and evaluation datasets**, define **annotation schemas**, and design **AI tasks** across different languages, domains, and modalities. It provides guidance on dataset structuring, labeling strategies, and ethical considerations for language technologies.
 
 ## Who is this playbook for?
 
 This playbook is designed for:
 
-- **Researchers** working on African language NLP
-- **Community organizers** leading local language initiatives  
-- **Data collection teams** building language resources
-- **Project managers** overseeing language dataset creation
-- **Students and academics** studying African languages
-- **Technology developers** creating language AI solutions
+- **Researchers** working on NLP dataset creation and evaluation  
+- **Annotation teams** developing labeled datasets  
+- **Project managers** overseeing data collection and annotation workflows  
+- **AI practitioners** designing and evaluating language models  
+- **Students and academics** studying dataset design and annotation  
+- **Multilingual communities** contributing to language resources  
 
 ## What will you learn?
 
 By the end of this playbook, you will understand:
 
-- How to set up community-driven data collection projects
-- Best practices for voice recording and text annotation
-- Methods for creating high-quality translation datasets
-- Strategies for ensuring dataset sustainability and reuse
-- Guidelines for ethical data collection and community engagement
-- Technical workflows for data processing and validation
+- How to define the **purpose and scope** of a dataset  
+- Differences between **training and evaluation datasets**  
+- Trade-offs between **scale and quality**  
+- How to design **label schemas and ontologies**  
+- Approaches for **multi-label, single-label, and structured outputs**  
+- How to handle **ambiguity, edge cases, and annotation boundaries**  
+- Best practices for **multilingual and cross-lingual dataset design**  
+- Ethical considerations, risks, and limitations in dataset creation  
 
 ## How to use this playbook
 
 Each section of this playbook contains:
 
-- **Practical guidance** with step-by-step instructions
-- **Real-world examples** from successful African language projects
-- **Templates and checklists** you can adapt for your project
-- **Community resources** and links to helpful tools
-- **Best practices** learned from the Masakhane community
+- **Clear explanations** of dataset design principles  
+- **Structured guidance** for task and schema definition  
+- **Examples and edge cases** to support annotation decisions  
+- **Practical recommendations** for dataset creation workflows  
+- **Ethical considerations** to guide responsible use  
 
 ## Getting Started
 
 Ready to begin? Start with our foundational sections:
 
-1. **Understanding African Language Data** - Learn about the unique challenges and opportunities
-2. **Community Engagement** - Build partnerships with local language speakers
-3. **Voice Recording** - Set up audio data collection workflows
-4. **Text Annotation** - Create high-quality text datasets
-5. **Translation Datasets** - Build parallel corpora for machine translation
+1. **Purpose of this Playbook** – Understand target users, scope, and intended use  
+2. **How to Use This Playbook** – Learn how to navigate chapters and contribute  
+3. **Dataset Types and Design Goals** – Explore dataset categories and trade-offs  
+4. **Task and Schema Definition** – Define tasks, labels, and annotation structures  
+5. **Glossary and Terminology** – Learn key concepts and definitions  
 
-Join us in building technology that serves all African languages and communities!
+## Purpose of this playbook
+
+- Target users and communities  
+- Languages, domains, and modalities covered  
+- Intended use and risks  
+
+## How to Use This Playbook
+
+- Who this playbook is for  
+- Chapter overviews  
+- Acknowledgements  
+- Ethical scope and limitations  
+- Video recording resources  
+- How to use  
+- How to contribute (GitHub)  
+
+## Dataset Types and Design Goals
+
+- Training vs evaluation datasets  
+- General-purpose vs domain-specific datasets  
+- Scale vs quality trade-offs  
+- Monolingual, multilingual, cross-lingual setups  
+
+## Task and Schema Definition
+
+- Task formulation (classification, generation, alignment, retrieval)  
+- Label schema and ontology design  
+- Multi-label vs single-label vs structured outputs  
+- Ambiguity, edge cases, and annotation boundaries  
+
+## Glossary and Terminology
+
+A reference section providing clear definitions of key terms used throughout the playbook.
