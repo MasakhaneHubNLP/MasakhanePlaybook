@@ -59,7 +59,17 @@ Ready to begin? Start with our foundational sections:
 
 - Target users and communities  
 - Languages, domains, and modalities covered  
-- Intended use and risks   
+- Intended use and risks  
+
+## How to Use This Playbook
+
+- Who this playbook is for  
+- Chapter overviews  
+- Acknowledgements  
+- Ethical scope and limitations  
+- Video recording resources  
+- How to use  
+- How to contribute (GitHub)  
 
 ## Dataset Types and Design Goals
 
