@@ -80,8 +80,8 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      // Open Graph / social card image (1200 x 630)
+      image: 'img/social-card.png',
       colorMode: {
         respectPrefersColorScheme: true,
       },
