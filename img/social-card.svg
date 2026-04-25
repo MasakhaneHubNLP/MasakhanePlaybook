@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#143a23"/>
+      <stop offset="45%" stop-color="#205d3b"/>
+      <stop offset="100%" stop-color="#33925d"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.85" cy="0.12" r="0.55">
+      <stop offset="0%" stop-color="#4fddbf" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#4fddbf" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#4fddbf" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.05" cy="0.95" r="0.55">
+      <stop offset="0%" stop-color="#3cad6e" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#3cad6e" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#3cad6e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#aef0c8"/>
+      <stop offset="100%" stop-color="#4fddbf"/>
+    </linearGradient>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#aef0c8"/>
+      <stop offset="100%" stop-color="#4fddbf"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base gradient -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Radiant glows -->
+  <rect width="1200" height="630" fill="url(#glowA)"/>
+  <rect width="1200" height="630" fill="url(#glowB)"/>
+
+  <!-- Decorative orbs -->
+  <circle cx="1080" cy="110" r="200" fill="#4fddbf" opacity="0.08"/>
+  <circle cx="90" cy="560" r="240" fill="#3cad6e" opacity="0.10"/>
+  <circle cx="980" cy="540" r="90" fill="#aef0c8" opacity="0.10"/>
+
+  <!-- Subtle dotted accent (small dots scattered) -->
+  <g fill="#aef0c8" opacity="0.18">
+    <circle cx="900" cy="80" r="3"/>
+    <circle cx="940" cy="80" r="3"/>
+    <circle cx="980" cy="80" r="3"/>
+    <circle cx="1020" cy="80" r="3"/>
+    <circle cx="900" cy="120" r="3"/>
+    <circle cx="940" cy="120" r="3"/>
+    <circle cx="980" cy="120" r="3"/>
+    <circle cx="900" cy="160" r="3"/>
+    <circle cx="940" cy="160" r="3"/>
+    <circle cx="900" cy="200" r="3"/>
+  </g>
+
+  <!-- Top eyebrow: dot + label -->
+  <g transform="translate(80, 80)">
+    <circle cx="9" cy="12" r="9" fill="url(#accent)"/>
+    <text x="34" y="19" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#aef0c8" letter-spacing="3">
+      MASAKHANE HUB · AFRICA NLP
+    </text>
+  </g>
+
+  <!-- Mark: stylized "M" badge in top-right -->
+  <g transform="translate(1020, 60)">
+    <circle cx="60" cy="60" r="60" fill="#ffffff" opacity="0.08"/>
+    <circle cx="60" cy="60" r="60" fill="none" stroke="url(#markGrad)" stroke-width="2"/>
+    <text x="60" y="82" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="64" font-weight="800" fill="url(#markGrad)" text-anchor="middle">M</text>
+  </g>
+
+  <!-- Headline -->
+  <text x="80" y="270" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="86" font-weight="800" fill="#ffffff" letter-spacing="-3">
+    Masakhane Playbook
+  </text>
+
+  <!-- Tagline (two lines) -->
+  <text x="80" y="370" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="#ffffff" letter-spacing="-1">
+    Build African language datasets,
+  </text>
+  <text x="80" y="425" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="46" font-weight="700" fill="url(#accent)" letter-spacing="-1">
+    the right way.
+  </text>
+
+  <!-- Sub-tagline -->
+  <text x="80" y="490" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#ffffff" opacity="0.75">
+    An open playbook and annotation platform for grassroots African NLP.
+  </text>
+
+  <!-- Bottom accent bar + footer tag -->
+  <rect x="80" y="540" width="120" height="4" rx="2" fill="url(#accent)"/>
+  <text x="80" y="585" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#aef0c8" letter-spacing="3">
+    OPEN SOURCE · COMMUNITY-DRIVEN · APACHE 2.0
+  </text>
+
+  <!-- Right-bottom URL hint -->
+  <text x="1120" y="585" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#ffffff" opacity="0.55" text-anchor="end" letter-spacing="1">
+    masakhanehubnlp.github.io
+  </text>
+</svg>
