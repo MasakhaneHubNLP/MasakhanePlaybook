@@ -244,22 +244,20 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
       // Algolia DocSearch — search across the playbook, blog, and pages.
-      // Uncomment this block once DocSearch approval arrives.
-      // 1. Apply for free hosted DocSearch: https://docsearch.algolia.com/apply/
-      // 2. Algolia will email you the credentials below.
-      // 3. Replace the placeholders, or move them to env vars and read with
-      //    process.env.ALGOLIA_APP_ID etc. (recommended).
-      // The apiKey here is the *public search-only* key — safe to commit.
-      // Never commit the Admin API key.
-      // algolia: {
-      //   appId: process.env.ALGOLIA_APP_ID || "YOUR_APP_ID",
-      //   apiKey: process.env.ALGOLIA_SEARCH_API_KEY || "YOUR_SEARCH_API_KEY",
-      //   indexName: process.env.ALGOLIA_INDEX_NAME || "masakhane-playbook",
-      //   contextualSearch: true,
-      //   searchPagePath: "search",
-      //   insights: false,
-      //   placeholder: "Search the Playbook",
-      // },
+      // Search bar renders, but results return auth errors until DocSearch
+      // approval arrives and you replace the placeholders below (or set the
+      // matching env vars). The apiKey is the *public search-only* key once
+      // issued — safe to commit. Never commit the Admin API key.
+      // Apply: https://docsearch.algolia.com/apply/
+      algolia: {
+        appId: process.env.ALGOLIA_APP_ID || "YOUR_APP_ID",
+        apiKey: process.env.ALGOLIA_SEARCH_API_KEY || "YOUR_SEARCH_API_KEY",
+        indexName: process.env.ALGOLIA_INDEX_NAME || "masakhane-playbook",
+        contextualSearch: true,
+        searchPagePath: "search",
+        insights: false,
+        placeholder: "Search the Playbook",
+      },
     }),
 };
 

@@ -30,6 +30,9 @@
   "resolutions": {
     "webpackbar": "7.0.0"
   },
+  "overrides": {
+    "webpackbar": "7.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
