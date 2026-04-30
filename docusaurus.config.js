@@ -209,12 +209,12 @@ const config = {
         items: [
           {
             to: "/playbook/",
-            label: "Playbook",
+            label: "MasakhanePlaybook",
             position: "left",
           },
           {
             to: "/tool",
-            label: "Annotation Tool",
+            label: "MasakhaneTool",
             position: "left",
           },
           {
@@ -259,11 +259,11 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Playbook",
+                label: "MasakhanePlaybook",
                 to: "/playbook/",
               },
               {
-                label: "Annotation Tool",
+                label: "MasakhaneTool",
                 to: "/tool",
               },
               {

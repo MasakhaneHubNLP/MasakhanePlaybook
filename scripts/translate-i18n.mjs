@@ -23,8 +23,8 @@ const FILES = [
 const T = {
   ha: {
     // navbar
-    "item.label.Playbook": "Littafi",
-    "item.label.Annotation Tool": "Kayan Lakabi",
+    "item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "item.label.MasakhaneTool": "MasakhaneTool",
     "item.label.Blog": "Bulogi",
     "item.label.Download PDF": "Sauke PDF",
     "logo.alt": "Tambarin Masakhane",
@@ -33,8 +33,8 @@ const T = {
     "link.title.Docs": "Takardu",
     "link.title.Community": "Al'umma",
     "link.title.More": "Ƙari",
-    "link.item.label.Playbook": "Littafi",
-    "link.item.label.Annotation Tool": "Kayan Lakabi",
+    "link.item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "link.item.label.MasakhaneTool": "MasakhaneTool",
     "link.item.label.Blog": "Bulogi",
     "link.item.label.GitHub Repository": "Ma'ajiyar GitHub",
     copyright: "Haƙƙin mallaka © 2026 Masakhane. An gina shi da Docusaurus.",
@@ -110,8 +110,8 @@ const T = {
   },
 
   am: {
-    "item.label.Playbook": "መመሪያ",
-    "item.label.Annotation Tool": "የማብራሪያ መሣሪያ",
+    "item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "item.label.MasakhaneTool": "MasakhaneTool",
     "item.label.Blog": "ብሎግ",
     "item.label.Download PDF": "PDF አውርድ",
     "logo.alt": "የማሳካኔ ሎጎ",
@@ -119,8 +119,8 @@ const T = {
     "link.title.Docs": "ሰነዶች",
     "link.title.Community": "ማህበረሰብ",
     "link.title.More": "ተጨማሪ",
-    "link.item.label.Playbook": "መመሪያ",
-    "link.item.label.Annotation Tool": "የማብራሪያ መሣሪያ",
+    "link.item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "link.item.label.MasakhaneTool": "MasakhaneTool",
     "link.item.label.Blog": "ብሎግ",
     "link.item.label.GitHub Repository": "GitHub ማከማቻ",
     copyright: "የቅጂ መብት © 2026 ማሳካኔ። በDocusaurus የተገነባ።",
@@ -194,8 +194,8 @@ const T = {
   },
 
   sw: {
-    "item.label.Playbook": "Kitabu cha Mwongozo",
-    "item.label.Annotation Tool": "Chombo cha Ufafanuzi",
+    "item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "item.label.MasakhaneTool": "MasakhaneTool",
     "item.label.Blog": "Blogu",
     "item.label.Download PDF": "Pakua PDF",
     "logo.alt": "Nembo ya Masakhane",
@@ -203,8 +203,8 @@ const T = {
     "link.title.Docs": "Hati",
     "link.title.Community": "Jumuiya",
     "link.title.More": "Zaidi",
-    "link.item.label.Playbook": "Kitabu cha Mwongozo",
-    "link.item.label.Annotation Tool": "Chombo cha Ufafanuzi",
+    "link.item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "link.item.label.MasakhaneTool": "MasakhaneTool",
     "link.item.label.Blog": "Blogu",
     "link.item.label.GitHub Repository": "Hifadhi ya GitHub",
     copyright: "Hakimiliki © 2026 Masakhane. Imejengwa kwa Docusaurus.",
@@ -278,8 +278,8 @@ const T = {
   },
 
   fr: {
-    "item.label.Playbook": "Manuel",
-    "item.label.Annotation Tool": "Outil d'annotation",
+    "item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "item.label.MasakhaneTool": "MasakhaneTool",
     "item.label.Blog": "Blog",
     "item.label.Download PDF": "Télécharger le PDF",
     "logo.alt": "Logo Masakhane",
@@ -287,8 +287,8 @@ const T = {
     "link.title.Docs": "Documentation",
     "link.title.Community": "Communauté",
     "link.title.More": "Plus",
-    "link.item.label.Playbook": "Manuel",
-    "link.item.label.Annotation Tool": "Outil d'annotation",
+    "link.item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "link.item.label.MasakhaneTool": "MasakhaneTool",
     "link.item.label.Blog": "Blog",
     "link.item.label.GitHub Repository": "Dépôt GitHub",
     copyright:
@@ -363,8 +363,8 @@ const T = {
   },
 
   pt: {
-    "item.label.Playbook": "Manual",
-    "item.label.Annotation Tool": "Ferramenta de Anotação",
+    "item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "item.label.MasakhaneTool": "MasakhaneTool",
     "item.label.Blog": "Blog",
     "item.label.Download PDF": "Baixar PDF",
     "logo.alt": "Logótipo Masakhane",
@@ -372,8 +372,8 @@ const T = {
     "link.title.Docs": "Documentação",
     "link.title.Community": "Comunidade",
     "link.title.More": "Mais",
-    "link.item.label.Playbook": "Manual",
-    "link.item.label.Annotation Tool": "Ferramenta de Anotação",
+    "link.item.label.MasakhanePlaybook": "MasakhanePlaybook",
+    "link.item.label.MasakhaneTool": "MasakhaneTool",
     "link.item.label.Blog": "Blog",
     "link.item.label.GitHub Repository": "Repositório do GitHub",
     copyright:

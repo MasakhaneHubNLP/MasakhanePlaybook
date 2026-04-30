@@ -7,12 +7,12 @@
     "message": "Logótipo Masakhane",
     "description": "The alt text of navbar logo"
   },
-  "item.label.Playbook": {
-    "message": "Manual",
+  "item.label.MasakhanePlaybook": {
+    "message": "MasakhanePlaybook",
     "description": "Navbar item with label Playbook"
   },
-  "item.label.Annotation Tool": {
-    "message": "Ferramenta de Anotação",
+  "item.label.MasakhaneTool": {
+    "message": "MasakhaneTool",
     "description": "Navbar item with label Annotation Tool"
   },
   "item.label.Blog": {

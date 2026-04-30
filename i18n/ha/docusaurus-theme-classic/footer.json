@@ -11,12 +11,12 @@
     "message": "Ƙari",
     "description": "The title of the footer links column with title=More in the footer"
   },
-  "link.item.label.Playbook": {
-    "message": "Littafi",
+  "link.item.label.MasakhanePlaybook": {
+    "message": "MasakhanePlaybook",
     "description": "The label of footer link with label=Playbook linking to /playbook/"
   },
-  "link.item.label.Annotation Tool": {
-    "message": "Kayan Lakabi",
+  "link.item.label.MasakhaneTool": {
+    "message": "MasakhaneTool",
     "description": "The label of footer link with label=Annotation Tool linking to /tool"
   },
   "link.item.label.Blog": {
