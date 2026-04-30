@@ -233,6 +233,45 @@ button[aria-label="Toggle navigation bar"],
   }
 }
 
+/* Navbar Discord button (icon-only) */
+.navbar-discord {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0 0.35rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  color: #5865f2;
+  text-decoration: none !important;
+  line-height: 1;
+  transition: border-color 0.15s ease, background 0.15s ease,
+    transform 0.15s ease, color 0.15s ease;
+}
+
+.navbar-discord:hover {
+  background: rgba(88, 101, 242, 0.1);
+  border-color: #5865f2;
+  color: #5865f2;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .navbar-discord {
+  border-color: var(--ifm-color-emphasis-400);
+  color: #7289da;
+}
+
+[data-theme="dark"] .navbar-discord:hover {
+  background: rgba(114, 137, 218, 0.18);
+  border-color: #7289da;
+  color: #7289da;
+}
+
+.navbar-discord-icon {
+  flex-shrink: 0;
+}
+
 /* ==========================================================================
    Blog list page — card grid layout
    Scoped to the blog index via [itemtype="https://schema.org/Blog"], so it
