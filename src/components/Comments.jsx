@@ -10,9 +10,9 @@ import Giscus from "@giscus/react";
 // 4. Copy the data-repo-id and data-category-id from the generated snippet
 // 5. Paste them below in REPO_ID and CATEGORY_ID
 const REPO = "MasakhaneHubNLP/MasakhanePlaybook";
-const REPO_ID = "REPLACE_WITH_REPO_ID";
-const CATEGORY = "General";
-const CATEGORY_ID = "REPLACE_WITH_CATEGORY_ID";
+const REPO_ID = "R_kgDORJq3oQ";
+const CATEGORY = "Comments";
+const CATEGORY_ID = "DIC_kwDORJq3oc4C8EW7";
 
 function CommentsImpl() {
   const { colorMode } = useColorMode();
@@ -26,7 +26,7 @@ function CommentsImpl() {
       strict="0"
       reactionsEnabled="1"
       emitMetadata="0"
-      inputPosition="top"
+      inputPosition="bottom"
       theme={colorMode === "dark" ? "dark" : "light"}
       lang="en"
       loading="lazy"
