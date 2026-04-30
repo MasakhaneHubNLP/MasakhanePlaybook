@@ -57,7 +57,6 @@ const config = {
 
   clientModules: [
     require.resolve("./src/clientModules/githubStars.js"),
-    require.resolve("./src/clientModules/fontSize.js"),
   ],
 
   // Cloudflare Web Analytics — privacy-friendly, no cookies, no consent banner needed.
@@ -231,14 +230,9 @@ const config = {
             rel: "noopener noreferrer",
           },
           {
-            type: "html",
-            position: "right",
-            value:
-              '<div class="navbar-font-controls" role="group" aria-label="Font size controls">' +
-              '<button type="button" class="navbar-font-btn" data-font-scale-action="dec" aria-label="Decrease font size" title="Decrease font size"><span class="navbar-font-a-sm">A</span><span class="navbar-font-sign">−</span></button>' +
-              '<button type="button" class="navbar-font-btn navbar-font-reset" data-font-scale-action="reset" aria-label="Reset font size" title="Reset font size">A</button>' +
-              '<button type="button" class="navbar-font-btn" data-font-scale-action="inc" aria-label="Increase font size" title="Increase font size"><span class="navbar-font-a-lg">A</span><span class="navbar-font-sign">+</span></button>' +
-              "</div>",
+            to: "/newsletter",
+            label: "Newsletter",
+            position: "left",
           },
           {
             type: "html",
