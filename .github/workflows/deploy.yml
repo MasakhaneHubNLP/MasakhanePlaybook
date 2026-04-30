@@ -23,6 +23,10 @@ jobs:
 
       - name: Build website
         run: yarn build
+
+      - name: Generate Playbook PDF
+        run: yarn pdf:built
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

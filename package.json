@@ -11,7 +11,10 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "pdf:generate": "mkdir -p build/downloads && docs-to-pdf docusaurus --initialDocURLs=http://localhost:3000/MasakhanePlaybook/playbook/ --contentSelector=article --paginationSelector=a.pagination-nav__link--next --excludeSelectors=.theme-doc-toc-mobile,.theme-doc-footer,.theme-edit-this-page,.theme-last-updated --outputPDFFilename=build/downloads/masakhane-playbook.pdf --paperFormat=A4 --pdfMargin=20,20,20,20 --coverTitle='Masakhane Playbook' --coverSub='Democratizing machine translation for African languages'",
+    "pdf:built": "start-server-and-test serve http://localhost:3000/MasakhanePlaybook/playbook/ pdf:generate",
+    "pdf": "yarn build && yarn pdf:built"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.0",
@@ -25,7 +28,10 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.0",
     "@docusaurus/types": "3.10.0",
-    "gh-pages": "^6.3.0"
+    "docs-to-pdf": "^1.1.0",
+    "gh-pages": "^6.3.0",
+    "serve": "^14.2.6",
+    "start-server-and-test": "^2.0.0"
   },
   "resolutions": {
     "webpackbar": "7.0.0"

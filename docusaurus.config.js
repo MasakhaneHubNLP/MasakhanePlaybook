@@ -128,6 +128,13 @@ const config = {
             position: "left",
           },
           {
+            href: "/MasakhanePlaybook/downloads/masakhane-playbook.pdf",
+            label: "Download PDF",
+            position: "left",
+            target: "_blank",
+            rel: "noopener noreferrer",
+          },
+          {
             type: "html",
             position: "right",
             value:
