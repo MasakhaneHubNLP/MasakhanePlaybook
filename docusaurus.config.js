@@ -42,7 +42,15 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en", "ha", "am", "sw", "fr", "pt"],
+    localeConfigs: {
+      en: { label: "English", direction: "ltr", htmlLang: "en", path: "en" },
+      ha: { label: "Hausa", direction: "ltr", htmlLang: "ha", path: "ha" },
+      am: { label: "Amharic", direction: "ltr", htmlLang: "am", path: "am" },
+      sw: { label: "Swahili", direction: "ltr", htmlLang: "sw", path: "sw" },
+      fr: { label: "Français", direction: "ltr", htmlLang: "fr", path: "fr" },
+      pt: { label: "Português", direction: "ltr", htmlLang: "pt", path: "pt" },
+    },
   },
 
   clientModules: [
@@ -157,35 +165,8 @@ const config = {
               "</a>",
           },
           {
-            type: "dropdown",
-            label: "Language",
+            type: "localeDropdown",
             position: "right",
-            items: [
-              {
-                label: "Amharic",
-                href: "#amharic",
-              },
-              {
-                label: "Hausa",
-                href: "#hausa",
-              },
-              {
-                label: "Swahili",
-                href: "#swahili",
-              },
-              {
-                label: "English",
-                href: "#english",
-              },
-              {
-                label: "French",
-                href: "#french",
-              },
-              {
-                label: "Portuguese",
-                href: "#portuguese",
-              },
-            ],
           },
         ],
       },

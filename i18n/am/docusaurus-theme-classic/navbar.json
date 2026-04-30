@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "MasakhaneHub",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Masakhane Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Playbook": {
+    "message": "Playbook",
+    "description": "Navbar item with label Playbook"
+  },
+  "item.label.Annotation Tool": {
+    "message": "Annotation Tool",
+    "description": "Navbar item with label Annotation Tool"
+  },
+  "item.label.Blog": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.Download PDF": {
+    "message": "Download PDF",
+    "description": "Navbar item with label Download PDF"
+  }
+}
