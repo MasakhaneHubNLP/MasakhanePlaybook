@@ -12,7 +12,7 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "pdf:generate": "mkdir -p build/downloads && docs-to-pdf docusaurus --initialDocURLs=http://localhost:3000/MasakhanePlaybook/playbook/ --contentSelector=article --paginationSelector=a.pagination-nav__link--next --excludeSelectors=.theme-doc-toc-mobile,.theme-doc-footer,.theme-edit-this-page,.theme-last-updated --outputPDFFilename=build/downloads/masakhane-playbook.pdf --paperFormat=A4 --pdfMargin=20,20,20,20 --coverTitle='Masakhane Playbook' --coverSub='Democratizing machine translation for African languages'",
+    "pdf:generate": "mkdir -p build/downloads && docs-to-pdf docusaurus --initialDocURLs=http://localhost:3000/MasakhanePlaybook/playbook/ --contentSelector=article --paginationSelector=a.pagination-nav__link--next --excludeSelectors=.theme-doc-toc-mobile,.theme-doc-footer,.theme-edit-this-page,.theme-last-updated --outputPDFFilename=build/downloads/masakhane-playbook.pdf --paperFormat=A4 --pdfMargin=20,20,20,20 --puppeteerArgs=--no-sandbox,--disable-setuid-sandbox --coverTitle='Masakhane Playbook' --coverSub='Democratizing machine translation for African languages'",
     "pdf:built": "start-server-and-test serve http://localhost:3000/MasakhanePlaybook/playbook/ pdf:generate",
     "pdf": "yarn build && yarn pdf:built"
   },
