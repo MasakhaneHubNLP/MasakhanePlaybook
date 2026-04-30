@@ -1,0 +1,25 @@
+{
+  "name": "Masakhane Playbook",
+  "short_name": "Masakhane",
+  "description": "Democratizing machine translation for African languages",
+  "start_url": "/MasakhanePlaybook/",
+  "scope": "/MasakhanePlaybook/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#0f6c4a",
+  "icons": [
+    {
+      "src": "/MasakhanePlaybook/img/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/MasakhanePlaybook/img/social-card.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
