@@ -1,7 +1,7 @@
 ---
 slug: welcome-to-the-masakhane-blog
 title: "Welcome to the Masakhane Blog"
-authors: [masakhane]
+authors: [shamsuddeen]
 tags: [announcement, playbook]
 image: /img/blog/sample-post.svg
 ---
@@ -29,7 +29,7 @@ Posts live in the `blog/` folder of the [MasakhanePlaybook repo](https://github.
 ---
 slug: your-post-slug
 title: "Your post title"
-authors: [masakhane]
+authors: [shamsuddeen]
 tags: [announcement]
 image: /img/blog/your-thumbnail.png
 ---

@@ -1,7 +1,7 @@
 ---
 slug: call-for-chapters-masakhane-playbook
 title: "Call for Chapters: Masakhane Playbook"
-authors: [masakhane]
+authors: [shamsuddeen]
 tags: [call-for-chapters, playbook, announcement]
 image: /img/social-card.png
 ---
