@@ -4,75 +4,75 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.2. Data Collection, Curation, and Governance": {
-    "message": "2. Data Collection, Curation, and Governance",
+    "message": "2. Collecte, curation et gouvernance des données",
     "description": "The label for category '2. Data Collection, Curation, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.2. Data Collection, Curation, and Governance.link.generated-index.description": {
-    "message": "Learn how to collect, curate, and manage datasets responsibly, ensuring quality, diversity, and compliance with legal and ethical standards.",
+    "message": "Apprenez à collecter, organiser et gérer les jeux de données de manière responsable, en garantissant qualité, diversité et conformité aux normes légales et éthiques.",
     "description": "The generated-index page description for category '2. Data Collection, Curation, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.3. Annotation Design and Workforce Management": {
-    "message": "3. Annotation Design and Workforce Management",
+    "message": "3. Conception de l'annotation et gestion des équipes",
     "description": "The label for category '3. Annotation Design and Workforce Management' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.3. Annotation Design and Workforce Management.link.generated-index.description": {
-    "message": "Learn about Annotation Design and Workforce Management",
+    "message": "Découvrez la conception de l'annotation et la gestion des équipes",
     "description": "The generated-index page description for category '3. Annotation Design and Workforce Management' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.4. Data Quality Assurance and Validation": {
-    "message": "4. Data Quality Assurance and Validation",
+    "message": "4. Assurance qualité et validation des données",
     "description": "The label for category '4. Data Quality Assurance and Validation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.4. Data Quality Assurance and Validation.link.generated-index.description": {
-    "message": "Learn about Data Quality Assurance and Validation",
+    "message": "Découvrez l'assurance qualité et la validation des données",
     "description": "The generated-index page description for category '4. Data Quality Assurance and Validation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.5. Modality-Specific Task Design": {
-    "message": "5. Modality-Specific Task Design",
+    "message": "5. Conception de tâches spécifiques à la modalité",
     "description": "The label for category '5. Modality-Specific Task Design' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.5. Modality-Specific Task Design.link.generated-index.description": {
-    "message": "Learn about Modality-Specific Task Design",
+    "message": "Découvrez la conception de tâches spécifiques à la modalité",
     "description": "The generated-index page description for category '5. Modality-Specific Task Design' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. Documentation, Data Release, and Governance": {
-    "message": "6. Documentation, Data Release, and Governance",
+    "message": "6. Documentation, publication des données et gouvernance",
     "description": "The label for category '6. Documentation, Data Release, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. Documentation, Data Release, and Governance.link.generated-index.description": {
-    "message": "Learn about Documentation, Data Release, and Governance",
+    "message": "Découvrez la documentation, la publication des données et la gouvernance",
     "description": "The generated-index page description for category '6. Documentation, Data Release, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. LLM-Assisted and Synthetic Data Generation": {
-    "message": "6. LLM-Assisted and Synthetic Data Generation",
+    "message": "6. Génération de données assistée par LLM et synthétique",
     "description": "The label for category '6. LLM-Assisted and Synthetic Data Generation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. LLM-Assisted and Synthetic Data Generation.link.generated-index.description": {
-    "message": "Learn about LLM-Assisted and Synthetic Data Generation",
+    "message": "Découvrez la génération de données assistée par LLM et synthétique",
     "description": "The generated-index page description for category '6. LLM-Assisted and Synthetic Data Generation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.8. Evaluation, Benchmarking, and Data Integrity": {
-    "message": "8. Evaluation, Benchmarking, and Data Integrity",
+    "message": "8. Évaluation, benchmarking et intégrité des données",
     "description": "The label for category '8. Evaluation, Benchmarking, and Data Integrity' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.8. Evaluation, Benchmarking, and Data Integrity.link.generated-index.description": {
-    "message": "Learn about Evaluation, Benchmarking, and Data Integrity",
+    "message": "Découvrez l'évaluation, le benchmarking et l'intégrité des données",
     "description": "The generated-index page description for category '8. Evaluation, Benchmarking, and Data Integrity' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.9. Dataset Lifecycle Management and Release Checklist": {
-    "message": "9. Dataset Lifecycle Management and Release Checklist",
+    "message": "9. Gestion du cycle de vie et liste de vérification de publication",
     "description": "The label for category '9. Dataset Lifecycle Management and Release Checklist' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.9. Dataset Lifecycle Management and Release Checklist.link.generated-index.description": {
-    "message": "Learn about Dataset Lifecycle Management and Release Checklist",
+    "message": "Découvrez la gestion du cycle de vie et la liste de vérification de publication",
     "description": "The generated-index page description for category '9. Dataset Lifecycle Management and Release Checklist' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.10. Community and Collaboration": {
-    "message": "10. Community and Collaboration",
+    "message": "10. Communauté et collaboration",
     "description": "The label for category '10. Community and Collaboration' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.10. Community and Collaboration.link.generated-index.description": {
-    "message": "Learn about Community and Collaboration",
+    "message": "Découvrez la communauté et la collaboration",
     "description": "The generated-index page description for category '10. Community and Collaboration' in sidebar 'tutorialSidebar'"
   }
 }

@@ -72,7 +72,7 @@
     "description": "The label used to navigate to the previous doc"
   },
   "theme.docs.paginator.next": {
-    "message": "Próxima",
+    "message": "Seguinte",
     "description": "The label used to navigate to the next doc"
   },
   "theme.docs.tagDocListPageTitle.nDocsTagged": {
@@ -123,7 +123,7 @@
     "description": "The sentence used to display when a page has been last updated, and by who"
   },
   "theme.NotFound.title": {
-    "message": "Página não encontrada",
+    "message": "Página Não Encontrada",
     "description": "The title of the 404 page"
   },
   "theme.navbar.mobileVersionsDropdown.label": {
@@ -147,7 +147,7 @@
     "description": "The default label used for the Info admonition (:::info)"
   },
   "theme.admonition.note": {
-    "message": "observação",
+    "message": "nota",
     "description": "The default label used for the Note admonition (:::note)"
   },
   "theme.admonition.tip": {
@@ -183,11 +183,11 @@
     "description": "The ARIA label for the main navigation"
   },
   "theme.NotFound.p1": {
-    "message": "Não foi possível encontrar o que você está procurando.",
+    "message": "Não foi possível encontrar o que procurava.",
     "description": "The first paragraph of the 404 page"
   },
   "theme.NotFound.p2": {
-    "message": "Por favor, entre em contato com o dono do site que ligou você à URL original e informe que o link está quebrado.",
+    "message": "Por favor, contacte o proprietário do site que o ligou ao URL original e informe-o de que o link está quebrado.",
     "description": "The 2nd paragraph of the 404 page"
   },
   "theme.TOCCollapsible.toggleButtonLabel": {
@@ -195,7 +195,7 @@
     "description": "The label used by the button on the collapsible TOC component"
   },
   "theme.navbar.mobileLanguageDropdown.label": {
-    "message": "Línguas",
+    "message": "Idiomas",
     "description": "The label for the mobile language switcher dropdown"
   },
   "theme.blog.post.readMore": {
@@ -227,7 +227,7 @@
     "description": "The ARIA label for copy code blocks button"
   },
   "theme.docs.breadcrumbs.home": {
-    "message": "Página Inicial",
+    "message": "Página inicial",
     "description": "The ARIA label for the home page in the breadcrumbs"
   },
   "theme.docs.sidebar.navAriaLabel": {
@@ -271,7 +271,7 @@
     "description": "The ARIA label and title attribute for expand button of doc sidebar"
   },
   "theme.SearchBar.label": {
-    "message": "Procurar",
+    "message": "Pesquisar",
     "description": "The ARIA label and placeholder for search button"
   },
   "theme.SearchModal.searchBox.resetButtonTitle": {
@@ -463,7 +463,7 @@
     "description": "The link text for reporting missing results"
   },
   "theme.SearchModal.placeholder": {
-    "message": "Procurar documentos",
+    "message": "Pesquisar documentação",
     "description": "The placeholder of the input of the DocSearch pop-up modal"
   },
   "theme.SearchPage.documentsFound.plurals": {
@@ -550,7 +550,7 @@
     "description": "The label of the button to try again rendering when the React error boundary captures an error"
   },
   "theme.common.skipToMainContent": {
-    "message": "Pular para o conteúdo principal",
+    "message": "Saltar para o conteúdo principal",
     "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
   },
   "theme.tags.tagsPageTitle": {

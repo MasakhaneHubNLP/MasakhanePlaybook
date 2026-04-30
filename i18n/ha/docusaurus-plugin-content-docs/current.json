@@ -4,75 +4,75 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.2. Data Collection, Curation, and Governance": {
-    "message": "2. Data Collection, Curation, and Governance",
+    "message": "2. Tara Bayanai, Tsarawa, da Mulki",
     "description": "The label for category '2. Data Collection, Curation, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.2. Data Collection, Curation, and Governance.link.generated-index.description": {
-    "message": "Learn how to collect, curate, and manage datasets responsibly, ensuring quality, diversity, and compliance with legal and ethical standards.",
+    "message": "Koyi yadda ake tarawa, tsarawa, da sarrafa bayanai cikin alhakanci, tare da tabbatar da inganci, bambanci, da bin doka da ɗabi'a.",
     "description": "The generated-index page description for category '2. Data Collection, Curation, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.3. Annotation Design and Workforce Management": {
-    "message": "3. Annotation Design and Workforce Management",
+    "message": "3. Tsarin Lakabi da Sarrafa Ma'aikata",
     "description": "The label for category '3. Annotation Design and Workforce Management' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.3. Annotation Design and Workforce Management.link.generated-index.description": {
-    "message": "Learn about Annotation Design and Workforce Management",
+    "message": "Koyi game da Tsarin Lakabi da Sarrafa Ma'aikata",
     "description": "The generated-index page description for category '3. Annotation Design and Workforce Management' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.4. Data Quality Assurance and Validation": {
-    "message": "4. Data Quality Assurance and Validation",
+    "message": "4. Tabbatar da Ingancin Bayanai",
     "description": "The label for category '4. Data Quality Assurance and Validation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.4. Data Quality Assurance and Validation.link.generated-index.description": {
-    "message": "Learn about Data Quality Assurance and Validation",
+    "message": "Koyi game da Tabbatar da Ingancin Bayanai",
     "description": "The generated-index page description for category '4. Data Quality Assurance and Validation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.5. Modality-Specific Task Design": {
-    "message": "5. Modality-Specific Task Design",
+    "message": "5. Tsarin Aiki na Musamman",
     "description": "The label for category '5. Modality-Specific Task Design' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.5. Modality-Specific Task Design.link.generated-index.description": {
-    "message": "Learn about Modality-Specific Task Design",
+    "message": "Koyi game da Tsarin Aiki na Musamman",
     "description": "The generated-index page description for category '5. Modality-Specific Task Design' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. Documentation, Data Release, and Governance": {
-    "message": "6. Documentation, Data Release, and Governance",
+    "message": "6. Takardu, Bayyana Bayanai, da Mulki",
     "description": "The label for category '6. Documentation, Data Release, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. Documentation, Data Release, and Governance.link.generated-index.description": {
-    "message": "Learn about Documentation, Data Release, and Governance",
+    "message": "Koyi game da Takardu, Bayyana Bayanai, da Mulki",
     "description": "The generated-index page description for category '6. Documentation, Data Release, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. LLM-Assisted and Synthetic Data Generation": {
-    "message": "6. LLM-Assisted and Synthetic Data Generation",
+    "message": "6. Samar da Bayanai ta hanyar LLM da Roba",
     "description": "The label for category '6. LLM-Assisted and Synthetic Data Generation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. LLM-Assisted and Synthetic Data Generation.link.generated-index.description": {
-    "message": "Learn about LLM-Assisted and Synthetic Data Generation",
+    "message": "Koyi game da Samar da Bayanai ta hanyar LLM da Roba",
     "description": "The generated-index page description for category '6. LLM-Assisted and Synthetic Data Generation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.8. Evaluation, Benchmarking, and Data Integrity": {
-    "message": "8. Evaluation, Benchmarking, and Data Integrity",
+    "message": "8. Tantancewa, Auna, da Amincin Bayanai",
     "description": "The label for category '8. Evaluation, Benchmarking, and Data Integrity' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.8. Evaluation, Benchmarking, and Data Integrity.link.generated-index.description": {
-    "message": "Learn about Evaluation, Benchmarking, and Data Integrity",
+    "message": "Koyi game da Tantancewa, Auna, da Amincin Bayanai",
     "description": "The generated-index page description for category '8. Evaluation, Benchmarking, and Data Integrity' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.9. Dataset Lifecycle Management and Release Checklist": {
-    "message": "9. Dataset Lifecycle Management and Release Checklist",
+    "message": "9. Sarrafa Tsawon Rayuwar Bayanai da Jerin Sakewa",
     "description": "The label for category '9. Dataset Lifecycle Management and Release Checklist' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.9. Dataset Lifecycle Management and Release Checklist.link.generated-index.description": {
-    "message": "Learn about Dataset Lifecycle Management and Release Checklist",
+    "message": "Koyi game da Sarrafa Tsawon Rayuwar Bayanai da Jerin Sakewa",
     "description": "The generated-index page description for category '9. Dataset Lifecycle Management and Release Checklist' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.10. Community and Collaboration": {
-    "message": "10. Community and Collaboration",
+    "message": "10. Al'umma da Haɗin Kai",
     "description": "The label for category '10. Community and Collaboration' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.10. Community and Collaboration.link.generated-index.description": {
-    "message": "Learn about Community and Collaboration",
+    "message": "Koyi game da Al'umma da Haɗin Kai",
     "description": "The generated-index page description for category '10. Community and Collaboration' in sidebar 'tutorialSidebar'"
   }
 }

@@ -1,26 +1,26 @@
 {
   "link.title.Docs": {
-    "message": "Docs",
+    "message": "Hati",
     "description": "The title of the footer links column with title=Docs in the footer"
   },
   "link.title.Community": {
-    "message": "Community",
+    "message": "Jumuiya",
     "description": "The title of the footer links column with title=Community in the footer"
   },
   "link.title.More": {
-    "message": "More",
+    "message": "Zaidi",
     "description": "The title of the footer links column with title=More in the footer"
   },
   "link.item.label.Playbook": {
-    "message": "Playbook",
+    "message": "Kitabu cha Mwongozo",
     "description": "The label of footer link with label=Playbook linking to /playbook/"
   },
   "link.item.label.Annotation Tool": {
-    "message": "Annotation Tool",
+    "message": "Chombo cha Ufafanuzi",
     "description": "The label of footer link with label=Annotation Tool linking to /tool"
   },
   "link.item.label.Blog": {
-    "message": "Blog",
+    "message": "Blogu",
     "description": "The label of footer link with label=Blog linking to /blog"
   },
   "link.item.label.Masakhane": {
@@ -44,11 +44,11 @@
     "description": "The label of footer link with label=Zindi Africa linking to https://zindi.africa/"
   },
   "link.item.label.GitHub Repository": {
-    "message": "GitHub Repository",
+    "message": "Hifadhi ya GitHub",
     "description": "The label of footer link with label=GitHub Repository linking to https://github.com/MasakhaneHubNLP/MasakhanePlaybook"
   },
   "copyright": {
-    "message": "Copyright © 2026 Masakhane. Built with Docusaurus.",
+    "message": "Hakimiliki © 2026 Masakhane. Imejengwa kwa Docusaurus.",
     "description": "The footer copyright"
   }
 }

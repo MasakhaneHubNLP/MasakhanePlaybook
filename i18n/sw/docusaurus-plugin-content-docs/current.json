@@ -4,75 +4,75 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.2. Data Collection, Curation, and Governance": {
-    "message": "2. Data Collection, Curation, and Governance",
+    "message": "2. Ukusanyaji, Uangalizi, na Utawala wa Data",
     "description": "The label for category '2. Data Collection, Curation, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.2. Data Collection, Curation, and Governance.link.generated-index.description": {
-    "message": "Learn how to collect, curate, and manage datasets responsibly, ensuring quality, diversity, and compliance with legal and ethical standards.",
+    "message": "Jifunze jinsi ya kukusanya, kutunza, na kusimamia hifadhidata kwa uwajibikaji, ukihakikisha ubora, utofauti, na utii wa sheria na maadili.",
     "description": "The generated-index page description for category '2. Data Collection, Curation, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.3. Annotation Design and Workforce Management": {
-    "message": "3. Annotation Design and Workforce Management",
+    "message": "3. Muundo wa Ufafanuzi na Usimamizi wa Wafanyakazi",
     "description": "The label for category '3. Annotation Design and Workforce Management' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.3. Annotation Design and Workforce Management.link.generated-index.description": {
-    "message": "Learn about Annotation Design and Workforce Management",
+    "message": "Jifunze kuhusu Muundo wa Ufafanuzi na Usimamizi wa Wafanyakazi",
     "description": "The generated-index page description for category '3. Annotation Design and Workforce Management' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.4. Data Quality Assurance and Validation": {
-    "message": "4. Data Quality Assurance and Validation",
+    "message": "4. Uhakikisho wa Ubora wa Data na Uthibitisho",
     "description": "The label for category '4. Data Quality Assurance and Validation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.4. Data Quality Assurance and Validation.link.generated-index.description": {
-    "message": "Learn about Data Quality Assurance and Validation",
+    "message": "Jifunze kuhusu Uhakikisho wa Ubora wa Data na Uthibitisho",
     "description": "The generated-index page description for category '4. Data Quality Assurance and Validation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.5. Modality-Specific Task Design": {
-    "message": "5. Modality-Specific Task Design",
+    "message": "5. Muundo wa Kazi Maalum kwa Modaliti",
     "description": "The label for category '5. Modality-Specific Task Design' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.5. Modality-Specific Task Design.link.generated-index.description": {
-    "message": "Learn about Modality-Specific Task Design",
+    "message": "Jifunze kuhusu Muundo wa Kazi Maalum kwa Modaliti",
     "description": "The generated-index page description for category '5. Modality-Specific Task Design' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. Documentation, Data Release, and Governance": {
-    "message": "6. Documentation, Data Release, and Governance",
+    "message": "6. Uwekaji Hati, Utoaji wa Data, na Utawala",
     "description": "The label for category '6. Documentation, Data Release, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. Documentation, Data Release, and Governance.link.generated-index.description": {
-    "message": "Learn about Documentation, Data Release, and Governance",
+    "message": "Jifunze kuhusu Uwekaji Hati, Utoaji wa Data, na Utawala",
     "description": "The generated-index page description for category '6. Documentation, Data Release, and Governance' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. LLM-Assisted and Synthetic Data Generation": {
-    "message": "6. LLM-Assisted and Synthetic Data Generation",
+    "message": "6. Uzalishaji wa Data kwa Msaada wa LLM na Bandia",
     "description": "The label for category '6. LLM-Assisted and Synthetic Data Generation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.6. LLM-Assisted and Synthetic Data Generation.link.generated-index.description": {
-    "message": "Learn about LLM-Assisted and Synthetic Data Generation",
+    "message": "Jifunze kuhusu Uzalishaji wa Data kwa Msaada wa LLM na Bandia",
     "description": "The generated-index page description for category '6. LLM-Assisted and Synthetic Data Generation' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.8. Evaluation, Benchmarking, and Data Integrity": {
-    "message": "8. Evaluation, Benchmarking, and Data Integrity",
+    "message": "8. Tathmini, Ulinganishaji, na Uadilifu wa Data",
     "description": "The label for category '8. Evaluation, Benchmarking, and Data Integrity' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.8. Evaluation, Benchmarking, and Data Integrity.link.generated-index.description": {
-    "message": "Learn about Evaluation, Benchmarking, and Data Integrity",
+    "message": "Jifunze kuhusu Tathmini, Ulinganishaji, na Uadilifu wa Data",
     "description": "The generated-index page description for category '8. Evaluation, Benchmarking, and Data Integrity' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.9. Dataset Lifecycle Management and Release Checklist": {
-    "message": "9. Dataset Lifecycle Management and Release Checklist",
+    "message": "9. Usimamizi wa Mzunguko wa Maisha wa Hifadhidata na Orodha ya Utoaji",
     "description": "The label for category '9. Dataset Lifecycle Management and Release Checklist' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.9. Dataset Lifecycle Management and Release Checklist.link.generated-index.description": {
-    "message": "Learn about Dataset Lifecycle Management and Release Checklist",
+    "message": "Jifunze kuhusu Usimamizi wa Mzunguko wa Maisha wa Hifadhidata na Orodha ya Utoaji",
     "description": "The generated-index page description for category '9. Dataset Lifecycle Management and Release Checklist' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.10. Community and Collaboration": {
-    "message": "10. Community and Collaboration",
+    "message": "10. Jumuiya na Ushirikiano",
     "description": "The label for category '10. Community and Collaboration' in sidebar 'tutorialSidebar'"
   },
   "sidebar.tutorialSidebar.category.10. Community and Collaboration.link.generated-index.description": {
-    "message": "Learn about Community and Collaboration",
+    "message": "Jifunze kuhusu Jumuiya na Ushirikiano",
     "description": "The generated-index page description for category '10. Community and Collaboration' in sidebar 'tutorialSidebar'"
   }
 }

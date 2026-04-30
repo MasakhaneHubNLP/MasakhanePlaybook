@@ -44,7 +44,7 @@
     "description": "The ARIA label for the back to top button"
   },
   "theme.colorToggle.ariaLabel.mode.system": {
-    "message": "system mode",
+    "message": "mode système",
     "description": "The name for the system color mode"
   },
   "theme.colorToggle.ariaLabel.mode.light": {
@@ -103,7 +103,7 @@
     "description": "The label used for the latest version suggestion link label"
   },
   "theme.common.editThisPage": {
-    "message": "Éditer cette page",
+    "message": "Modifier cette page",
     "description": "The link label to edit the current page"
   },
   "theme.common.headingLinkTitle": {
@@ -131,7 +131,7 @@
     "description": "The label for the navbar versions dropdown on mobile view"
   },
   "theme.tags.tagsListLabel": {
-    "message": "Tags :",
+    "message": "Étiquettes :",
     "description": "The label alongside a tag list"
   },
   "theme.admonition.caution": {
@@ -147,7 +147,7 @@
     "description": "The default label used for the Info admonition (:::info)"
   },
   "theme.admonition.note": {
-    "message": "remarque",
+    "message": "note",
     "description": "The default label used for the Note admonition (:::note)"
   },
   "theme.admonition.tip": {
@@ -155,7 +155,7 @@
     "description": "The default label used for the Tip admonition (:::tip)"
   },
   "theme.admonition.warning": {
-    "message": "attention",
+    "message": "avertissement",
     "description": "The default label used for the Warning admonition (:::warning)"
   },
   "theme.AnnouncementBar.closeButtonAriaLabel": {
@@ -183,11 +183,11 @@
     "description": "The ARIA label for the main navigation"
   },
   "theme.NotFound.p1": {
-    "message": "Nous n'avons pas trouvé ce que vous recherchez.",
+    "message": "Nous n'avons pas pu trouver ce que vous cherchiez.",
     "description": "The first paragraph of the 404 page"
   },
   "theme.NotFound.p2": {
-    "message": "Veuillez contacter le propriétaire du site qui vous a lié à l'URL d'origine et leur faire savoir que leur lien est cassé.",
+    "message": "Veuillez contacter le propriétaire du site qui vous a redirigé vers l'URL d'origine et l'informer que son lien est cassé.",
     "description": "The 2nd paragraph of the 404 page"
   },
   "theme.TOCCollapsible.toggleButtonLabel": {
@@ -219,7 +219,7 @@
     "description": "The title attribute for toggle word wrapping button of code block lines"
   },
   "theme.blog.post.readMore": {
-    "message": "Lire plus",
+    "message": "Lire la suite",
     "description": "The label used in blog post item excerpts to link to full blog posts"
   },
   "theme.blog.post.readMoreLabel": {
@@ -274,7 +274,7 @@
     "message": "Voir les {count} résultats"
   },
   "theme.SearchBar.label": {
-    "message": "Chercher",
+    "message": "Rechercher",
     "description": "The ARIA label and placeholder for search button"
   },
   "theme.SearchModal.searchBox.resetButtonTitle": {
@@ -466,7 +466,7 @@
     "description": "The link text for reporting missing results"
   },
   "theme.SearchModal.placeholder": {
-    "message": "Rechercher des docs",
+    "message": "Rechercher dans la documentation",
     "description": "The placeholder of the input of the DocSearch pop-up modal"
   },
   "theme.SearchPage.documentsFound.plurals": {
@@ -550,11 +550,11 @@
     "description": "The label of the button to try again rendering when the React error boundary captures an error"
   },
   "theme.common.skipToMainContent": {
-    "message": "Aller au contenu principal",
+    "message": "Passer au contenu principal",
     "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
   },
   "theme.tags.tagsPageTitle": {
-    "message": "Tags",
+    "message": "Étiquettes",
     "description": "The title of the tag list page"
   }
 }

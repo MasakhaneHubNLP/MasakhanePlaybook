@@ -4,23 +4,23 @@
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "Masakhane Logo",
+    "message": "Tambarin Masakhane",
     "description": "The alt text of navbar logo"
   },
   "item.label.Playbook": {
-    "message": "Playbook",
+    "message": "Littafi",
     "description": "Navbar item with label Playbook"
   },
   "item.label.Annotation Tool": {
-    "message": "Annotation Tool",
+    "message": "Kayan Lakabi",
     "description": "Navbar item with label Annotation Tool"
   },
   "item.label.Blog": {
-    "message": "Blog",
+    "message": "Bulogi",
     "description": "Navbar item with label Blog"
   },
   "item.label.Download PDF": {
-    "message": "Download PDF",
+    "message": "Sauke PDF",
     "description": "Navbar item with label Download PDF"
   }
 }
