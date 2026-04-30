@@ -4511,6 +4511,11 @@ docs-to-pdf@^1.1.0:
     puppeteer-core "^24.0.0"
     sanitize-html "^2.17.0"
 
+docusaurus-plugin-banner@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/docusaurus-plugin-banner/-/docusaurus-plugin-banner-0.4.0.tgz#23951e18d8d25d8f5a6890ffa9e5a4c5d814c7c6"
+  integrity sha512-NhaG5XuMF4VkNrN0H5FbqFKlvOhEE/ofm54yvOtpQOyuN8167XldbC4Uj61XJUvQjbPnL+H8y90DaoHKXEQT9A==
+
 dom-converter@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/dom-converter/-/dom-converter-0.2.0.tgz"

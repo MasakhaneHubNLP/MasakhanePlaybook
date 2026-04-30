@@ -98,6 +98,17 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      "docusaurus-plugin-banner",
+      {
+        id: "call-for-chapters",
+        content:
+          '📢 <strong>Call for Chapters now open</strong> — contribute to the Masakhane Playbook. <a href="/MasakhanePlaybook/blog/call-for-chapters-masakhane-playbook">Read more →</a>',
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
