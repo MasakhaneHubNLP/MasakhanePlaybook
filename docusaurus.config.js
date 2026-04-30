@@ -60,6 +60,16 @@ const config = {
     require.resolve("./src/clientModules/fontSize.js"),
   ],
 
+  // Cloudflare Web Analytics — privacy-friendly, no cookies, no consent banner needed.
+  // The beacon token is publicly visible in browser HTML by design.
+  scripts: [
+    {
+      src: "https://static.cloudflareinsights.com/beacon.min.js",
+      defer: true,
+      "data-cf-beacon": '{"token": "8475b9722e134f55b7092e21a386cfd4"}',
+    },
+  ],
+
   stylesheets: [
     {
       href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
