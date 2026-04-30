@@ -19,7 +19,7 @@ This is the first post on the new Masakhane blog. We'll use this space to share 
 
 ## Subscribe
 
-The blog publishes an RSS feed at [`/blog/rss.xml`](/blog/rss.xml) and an Atom feed at [`/blog/atom.xml`](/blog/atom.xml). Drop either into your feed reader to follow along.
+The blog publishes an RSS feed at [`/blog/rss.xml`](pathname:///blog/rss.xml) and an Atom feed at [`/blog/atom.xml`](pathname:///blog/atom.xml). Drop either into your feed reader to follow along.
 
 ## How to write a post
 
