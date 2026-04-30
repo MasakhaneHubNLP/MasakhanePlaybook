@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkmasakhane_playbook=globalThis.webpackChunkmasakhane_playbook||[]).push([[4284],{1912(a){a.exports=JSON.parse('{"blogBasePath":"/MasakhanePlaybook/am/blog","blogTitle":"Masakhane Blog","authorsListPath":"/MasakhanePlaybook/am/blog/authors"}')}}]);

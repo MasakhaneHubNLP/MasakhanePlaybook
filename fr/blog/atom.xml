@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog</id>
+    <title>Masakhane Blog</title>
+    <updated>2026-04-30T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog"/>
+    <subtitle>Masakhane Playbook Blog</subtitle>
+    <icon>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/img/favicon.ico</icon>
+    <rights>Copyright © 2026 Masakhane.</rights>
+    <entry>
+        <title type="html"><![CDATA[Call for Chapters: Masakhane Playbook]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook"/>
+        <updated>2026-04-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The Masakhane community is opening a Call for Chapters for the Masakhane Playbook — a community-driven, open guide for building, evaluating, and deploying NLP systems for African languages. We invite researchers, practitioners, students, language experts, and community members to contribute chapters that shape how the next generation of African language technology is built.]]></summary>
+        <content type="html"><![CDATA[<p>The Masakhane community is opening a <strong>Call for Chapters</strong> for the Masakhane Playbook — a community-driven, open guide for building, evaluating, and deploying NLP systems for African languages. We invite researchers, practitioners, students, language experts, and community members to contribute chapters that shape how the next generation of African language technology is built.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-a-playbook">Why a Playbook?<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook#why-a-playbook" class="hash-link" aria-label="Lien direct vers Why a Playbook?" title="Lien direct vers Why a Playbook?" translate="no">​</a></h2>
+<p>African languages remain underrepresented in mainstream NLP. The Playbook exists to close that gap by collecting <strong>practical, reproducible, and culturally grounded</strong> guidance: from data collection and annotation, through model training and evaluation, to deployment and ethics. Rather than a static textbook, it is a living resource maintained by the community it serves.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-were-looking-for">What we're looking for<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook#what-were-looking-for" class="hash-link" aria-label="Lien direct vers What we're looking for" title="Lien direct vers What we're looking for" translate="no">​</a></h2>
+<p>We welcome chapter proposals on (but not limited to):</p>
+<ul>
+<li class=""><strong>Data</strong> — curation, licensing, dialectal coverage, low-resource bootstrapping, parallel corpora, speech datasets.</li>
+<li class=""><strong>Annotation</strong> — guidelines for African languages, inter-annotator agreement, tooling, working with native-speaker annotators.</li>
+<li class=""><strong>Modeling</strong> — machine translation, ASR/TTS, NER, POS, sentiment, multilingual pretraining, adapters, and small/efficient models.</li>
+<li class=""><strong>Evaluation</strong> — human evaluation protocols, benchmarks, error analysis specific to African language families.</li>
+<li class=""><strong>Deployment</strong> — productionizing models on the continent, edge devices, offline-first applications, language ID, code-switching.</li>
+<li class=""><strong>Ethics &amp; Community</strong> — consent, data sovereignty, fair compensation for contributors, language preservation.</li>
+<li class=""><strong>Case Studies</strong> — end-to-end stories from real projects (Hausa, Amharic, Swahili, Yoruba, Igbo, Zulu, Wolof, and many more).</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="who-can-contribute">Who can contribute?<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook#who-can-contribute" class="hash-link" aria-label="Lien direct vers Who can contribute?" title="Lien direct vers Who can contribute?" translate="no">​</a></h2>
+<p><strong>Anyone.</strong> You do not need to be an academic. We particularly encourage:</p>
+<ul>
+<li class="">First-time authors paired with mentors from the community</li>
+<li class="">Native speakers and linguists working alongside ML practitioners</li>
+<li class="">Students, independent researchers, and industry contributors</li>
+<li class="">Cross-organizational collaborations (Masakhane, EthioNLP, HausaNLP, Lanfrica, Zindi, and others)</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-to-propose-a-chapter">How to propose a chapter<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook#how-to-propose-a-chapter" class="hash-link" aria-label="Lien direct vers How to propose a chapter" title="Lien direct vers How to propose a chapter" translate="no">​</a></h2>
+<ol>
+<li class=""><strong>Submit a proposal</strong> — a short abstract (200–400 words), an outline, target audience, and the languages/topics covered.</li>
+<li class=""><strong>Review</strong> — proposals are reviewed by the editorial team for fit, scope, and overlap with existing chapters.</li>
+<li class=""><strong>Draft</strong> — accepted authors work in the open on the <a href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook" target="_blank" rel="noopener noreferrer" class="">Playbook GitHub repository</a>, with reviewer support.</li>
+<li class=""><strong>Publish</strong> — accepted chapters are merged into the Playbook with author attribution and DOIs (where applicable).</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-dates">Key dates<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook#key-dates" class="hash-link" aria-label="Lien direct vers Key dates" title="Lien direct vers Key dates" translate="no">​</a></h2>
+<table><thead><tr><th>Milestone</th><th>Date</th></tr></thead><tbody><tr><td>Call opens</td><td><strong>30 April 2026</strong></td></tr><tr><td>Proposal deadline</td><td><strong>30 June 2026</strong></td></tr><tr><td>Acceptance notifications</td><td><strong>31 July 2026</strong></td></tr><tr><td>First drafts due</td><td><strong>30 September 2026</strong></td></tr><tr><td>Reviewer feedback</td><td><strong>31 October 2026</strong></td></tr><tr><td>Final chapters due</td><td><strong>15 December 2026</strong></td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-to-get-involved">How to get involved<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/call-for-chapters-masakhane-playbook#how-to-get-involved" class="hash-link" aria-label="Lien direct vers How to get involved" title="Lien direct vers How to get involved" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Read the existing Playbook</strong>: <a class="" href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/playbook">/playbook</a></li>
+<li class=""><strong>Open a proposal issue</strong> on the <a href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook/issues/new" target="_blank" rel="noopener noreferrer" class="">GitHub repository</a></li>
+<li class=""><strong>Join the Masakhane community</strong>: <a href="https://www.masakhane.io/" target="_blank" rel="noopener noreferrer" class="">masakhane.io</a></li>
+<li class=""><strong>Questions?</strong> Reach out via the GitHub Discussions tab on the repo.</li>
+</ul>
+<p>We are building a resource <em>by</em> the community, <em>for</em> the community. If you have a perspective, an experiment, or a story that deserves to be in the Playbook — we want to hear from you.</p>
+<p><em>Ǹbá! Karibu! Welkom! Bienvenue! Bem-vindos!</em></p>]]></content>
+        <author>
+            <name>Masakhane Team</name>
+            <uri>https://www.masakhane.io/</uri>
+        </author>
+        <category label="Call for Chapters" term="Call for Chapters"/>
+        <category label="Playbook" term="Playbook"/>
+        <category label="Announcement" term="Announcement"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Welcome to the Masakhane Blog]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome-to-the-masakhane-blog</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome-to-the-masakhane-blog"/>
+        <updated>2026-04-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This is the first post on the new Masakhane blog. We'll use this space to share community updates, calls for contribution, project milestones, and stories from teams building NLP for African languages.]]></summary>
+        <content type="html"><![CDATA[<p>This is the first post on the new Masakhane blog. We'll use this space to share community updates, calls for contribution, project milestones, and stories from teams building NLP for African languages.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-you-can-expect-here">What you can expect here<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome-to-the-masakhane-blog#what-you-can-expect-here" class="hash-link" aria-label="Lien direct vers What you can expect here" title="Lien direct vers What you can expect here" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Calls for contribution</strong> — chapters, datasets, annotations, reviewers.</li>
+<li class=""><strong>Release notes</strong> — when new versions of the Playbook ship.</li>
+<li class=""><strong>Community spotlights</strong> — research, tools, and projects from across the Masakhane network.</li>
+<li class=""><strong>Tutorials &amp; how-tos</strong> — short, practical pieces that complement the Playbook.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="subscribe">Subscribe<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome-to-the-masakhane-blog#subscribe" class="hash-link" aria-label="Lien direct vers Subscribe" title="Lien direct vers Subscribe" translate="no">​</a></h2>
+<p>The blog publishes an RSS feed at <a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/rss.xml" target="_blank" rel="noopener noreferrer" class=""><code>/blog/rss.xml</code></a> and an Atom feed at <a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/atom.xml" target="_blank" rel="noopener noreferrer" class=""><code>/blog/atom.xml</code></a>. Drop either into your feed reader to follow along.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-to-write-a-post">How to write a post<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome-to-the-masakhane-blog#how-to-write-a-post" class="hash-link" aria-label="Lien direct vers How to write a post" title="Lien direct vers How to write a post" translate="no">​</a></h2>
+<p>Posts live in the <code>blog/</code> folder of the <a href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook" target="_blank" rel="noopener noreferrer" class="">MasakhanePlaybook repo</a>. Each post is a markdown file (or a folder containing <code>index.md</code> if you have images). The frontmatter looks like this:</p>
+<div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">---</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">slug</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> your</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">post</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">slug</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">title</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"Your post title"</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">authors</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token plain">masakhane</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">tags</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token plain">announcement</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">image</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> /img/blog/your</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">thumbnail.png</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">---</span><br></div></code></pre></div></div>
+<p>Add a <code>&lt;!-- truncate --&gt;</code> marker after the intro paragraph so the blog index shows only that intro on the card.</p>
+<p>That's it — open a PR, and we'll publish it.</p>]]></content>
+        <author>
+            <name>Masakhane Team</name>
+            <uri>https://www.masakhane.io/</uri>
+        </author>
+        <category label="Announcement" term="Announcement"/>
+        <category label="Playbook" term="Playbook"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Welcome]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/welcome"/>
+        <updated>2021-08-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
+<p>Here are a few tips you might find useful.</p>
+<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
+<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
+<p>The blog post date can be extracted from filenames, such as:</p>
+<ul>
+<li class=""><code>2019-05-30-welcome.md</code></li>
+<li class=""><code>2019-05-30-welcome/index.md</code></li>
+</ul>
+<p>A blog post folder can be convenient to co-locate blog post images:</p>
+<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
+<p>The blog supports tags as well!</p>
+<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+        <author>
+            <name>Yangshun Tay</name>
+            <uri>https://linkedin.com/in/yangshun</uri>
+        </author>
+        <category label="Facebook" term="Facebook"/>
+        <category label="Hello" term="Hello"/>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MDX Blog Post]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/mdx-blog-post</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/mdx-blog-post"/>
+        <updated>2021-08-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></summary>
+        <content type="html"><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features" target="_blank" rel="noopener noreferrer" class="">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/" target="_blank" rel="noopener noreferrer" class="">MDX</a>.</p>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>astuce</div><div class="admonitionContent_BuS1"><p>Use the power of React to create interactive blog posts.</p></div></div>
+<!-- -->
+<p>For example, use JSX to create an interactive button:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">button onClick</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">alert</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'button clicked!'</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">}</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token maybe-class-name">Click</span><span class="token plain"> me</span><span class="token operator" style="color:#393A34">!</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token operator" style="color:#393A34">/</span><span class="token plain">button</span><span class="token operator" style="color:#393A34">&gt;</span><br></div></code></pre></div></div>
+<button>Click me!</button>]]></content>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Long Blog Post]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/long-blog-post</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/long-blog-post"/>
+        <updated>2019-05-29T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This is the summary of a very long blog post,]]></summary>
+        <content type="html"><![CDATA[<p>This is the summary of a very long blog post,</p>
+<p>Use a <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code> comment to limit blog post size in the list view.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
+        <author>
+            <name>Yangshun Tay</name>
+            <uri>https://linkedin.com/in/yangshun</uri>
+        </author>
+        <category label="Hello" term="Hello"/>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[First Blog Post]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/first-blog-post</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/fr/blog/first-blog-post"/>
+        <updated>2019-05-28T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Lorem ipsum dolor sit amet...]]></summary>
+        <content type="html"><![CDATA[<p>Lorem ipsum dolor sit amet...</p>
+<p>...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content>
+        <author>
+            <name>Sébastien Lorber</name>
+            <uri>https://sebastienlorber.com</uri>
+        </author>
+        <author>
+            <name>Yangshun Tay</name>
+            <uri>https://linkedin.com/in/yangshun</uri>
+        </author>
+        <category label="Hola" term="Hola"/>
+        <category label="Docusaurus" term="Docusaurus"/>
+    </entry>
+</feed>
