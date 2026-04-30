@@ -1,0 +1,24 @@
+# See https://citation-file-format.github.io/ for the full schema.
+# GitHub renders a "Cite this repository" button from this file.
+cff-version: 1.2.0
+message: "If you use the Masakhane Playbook in your research or work, please cite it as below."
+type: software
+title: "Masakhane Playbook: A Practical Guide for Building NLP Systems for African Languages"
+abstract: >
+  A community-driven, open guide for building, evaluating, and deploying
+  natural language processing systems for African languages. Covers dataset
+  design, annotation, model training, evaluation, deployment, and ethics.
+authors:
+  - name: "Masakhane Community"
+    website: "https://www.masakhane.io/"
+url: "https://masakhanehubnlp.github.io/MasakhanePlaybook/"
+repository-code: "https://github.com/MasakhaneHubNLP/MasakhanePlaybook"
+date-released: "2026-04-30"
+keywords:
+  - "African languages"
+  - "natural language processing"
+  - "low-resource NLP"
+  - "dataset annotation"
+  - "machine translation"
+  - "Masakhane"
+license: MIT

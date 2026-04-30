@@ -320,6 +320,10 @@ const config = {
             title: "More",
             items: [
               {
+                label: "Cite this Playbook",
+                to: "/cite",
+              },
+              {
                 label: "GitHub Repository",
                 href: "https://github.com/MasakhaneHubNLP/MasakhanePlaybook",
               },

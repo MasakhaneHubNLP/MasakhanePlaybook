@@ -17,6 +17,7 @@ This is a living resource maintained by the [Masakhane](https://www.masakhane.io
 - [How to write a blog post](#how-to-write-a-blog-post)
 - [Local setup](#local-setup)
 - [Reporting issues](#reporting-issues)
+- [How to cite](#how-to-cite)
 - [Code of conduct](#code-of-conduct)
 - [License](#license)
 
@@ -281,6 +282,29 @@ For deeper details (every plugin, gotchas, repo layout), see [CONTRIBUTING.md](C
 - **Bug in a chapter** (typo, broken link, wrong information): open a [new issue](https://github.com/MasakhaneHubNLP/MasakhanePlaybook/issues/new) with the URL of the page and what's wrong.
 - **Feature request**: open an issue describing what you'd like and why.
 - **Question**: prefer [GitHub Discussions](https://github.com/MasakhaneHubNLP/MasakhanePlaybook/discussions) for open-ended questions.
+
+---
+
+## How to cite
+
+If you use the Masakhane Playbook in your research, teaching, or work, please cite it.
+
+**BibTeX:**
+
+```bibtex
+@misc{masakhane2026playbook,
+  author       = {{Masakhane Community}},
+  title        = {Masakhane Playbook: A Practical Guide for Building NLP Systems for African Languages},
+  year         = {2026},
+  publisher    = {Masakhane},
+  url          = {https://masakhanehubnlp.github.io/MasakhanePlaybook/},
+  note         = {Open-source community resource}
+}
+```
+
+**Other formats**: GitHub auto-renders a **"Cite this repository"** button in the right sidebar of this repo (powered by [`CITATION.cff`](CITATION.cff)). Click it for APA, MLA, Chicago, and other formats.
+
+If you cite a specific chapter, include the chapter title and the URL of the chapter page.
 
 ---
 
