@@ -1,0 +1,27 @@
+# Caddy reverse proxy for Listmonk.
+# Replace newsletter.example.org with your real hostname.
+# Caddy auto-provisions Let's Encrypt TLS for any public hostname pointed here.
+
+newsletter.example.org {
+    encode gzip zstd
+
+    # CORS for cross-origin form submissions from the docs site.
+    # Replace https://masakhanehubnlp.github.io with your site origin(s).
+    @docs_origin {
+        header Origin https://masakhanehubnlp.github.io
+    }
+    handle @docs_origin {
+        header Access-Control-Allow-Origin "https://masakhanehubnlp.github.io"
+        header Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        header Access-Control-Allow-Headers "Content-Type"
+    }
+
+    reverse_proxy app:9000
+
+    # Optional: rate-limit subscription endpoint to deter spam.
+    # Requires the caddy-ratelimit plugin if you want this active.
+    # @subscribe path /subscription/form
+    # rate_limit @subscribe {
+    #     zone subscribe { events 5 window 1m }
+    # }
+}

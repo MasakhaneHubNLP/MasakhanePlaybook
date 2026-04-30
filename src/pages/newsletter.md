@@ -4,8 +4,6 @@ description: Monthly updates on African-language NLP research, datasets, models,
 hide_table_of_contents: true
 ---
 
-# AfricaNLP Newsletter
-
 Stay current with **NLP for African languages** — research papers, new datasets, models, events, calls for contribution, and updates from the Masakhane community. One email a month, no spam.
 
 ## What you'll get
@@ -21,16 +19,21 @@ Stay current with **NLP for African languages** — research papers, new dataset
 > **Coming soon.** Subscription form launching shortly. In the meantime, follow the project on GitHub and join the discussion below.
 
 <!--
-TODO: Replace this placeholder with your actual signup form when the newsletter
-backend is set up. Common options:
+NEWSLETTER FORM EMBED — replace this comment with the HTML <form> that Listmonk's
+admin UI generates (Listmonk → Forms tab → copy snippet) once the newsletter
+backend is deployed. See infra/newsletter/README.md for full setup instructions.
 
-  - Substack: <iframe src="https://yourname.substack.com/embed" ...></iframe>
-  - Buttondown: <form action="https://buttondown.email/api/emails/embed-subscribe/USERNAME">
-  - ConvertKit: their JS embed snippet
-  - Mailchimp: their JS embed snippet
-  - Self-hosted (Listmonk, etc.): your own form
+Expected snippet shape:
 
-Pick one, paste their embed code, and remove this comment.
+  <form method="post" action="https://newsletter.your-domain/subscription/form" class="listmonk-form">
+    <div>
+      <input type="hidden" name="nonce" />
+      <p><input type="email" name="email" required placeholder="E-mail" /></p>
+      <p><input type="text" name="name" placeholder="Name (optional)" /></p>
+      <p><input type="hidden" name="l" value="..." /></p>
+      <p><button type="submit">Subscribe</button></p>
+    </div>
+  </form>
 -->
 
 ## Stay in the loop while we set up
