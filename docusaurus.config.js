@@ -122,6 +122,62 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      "@docusaurus/plugin-ideal-image",
+      {
+        quality: 70,
+        max: 1030,
+        min: 640,
+        steps: 2,
+        disableInDev: false,
+      },
+    ],
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        debug: false,
+        offlineModeActivationStrategies: [
+          "appInstalled",
+          "standalone",
+          "queryString",
+        ],
+        pwaHead: [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: "/MasakhanePlaybook/img/logo.svg",
+          },
+          {
+            tagName: "link",
+            rel: "manifest",
+            href: "/MasakhanePlaybook/manifest.json",
+          },
+          {
+            tagName: "meta",
+            name: "theme-color",
+            content: "#0f6c4a",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-capable",
+            content: "yes",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "default",
+          },
+          {
+            tagName: "link",
+            rel: "apple-touch-icon",
+            href: "/MasakhanePlaybook/img/logo.svg",
+          },
+        ],
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
