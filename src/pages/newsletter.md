@@ -19,21 +19,20 @@ Stay current with **NLP for African languages** — research papers, new dataset
 > **Coming soon.** Subscription form launching shortly. In the meantime, follow the project on GitHub and join the discussion below.
 
 <!--
-NEWSLETTER FORM EMBED — replace this comment with the HTML <form> that Listmonk's
-admin UI generates (Listmonk → Forms tab → copy snippet) once the newsletter
-backend is deployed. See infra/newsletter/README.md for full setup instructions.
+EMAIL SUBSCRIPTION FORM — paste your provider's embed snippet here once you've
+signed up. Replace the blockquote above. Examples:
 
-Expected snippet shape:
+  Buttondown (https://buttondown.com — 100 subs free):
+    <form action="https://buttondown.com/api/emails/embed-subscribe/YOUR_USERNAME"
+          method="post" target="popupwindow"
+          onsubmit="window.open('https://buttondown.com/YOUR_USERNAME', 'popupwindow')"
+          class="embeddable-buttondown-form">
+      <input type="email" name="email" placeholder="you@example.com" required />
+      <button type="submit">Subscribe</button>
+    </form>
 
-  <form method="post" action="https://newsletter.your-domain/subscription/form" class="listmonk-form">
-    <div>
-      <input type="hidden" name="nonce" />
-      <p><input type="email" name="email" required placeholder="E-mail" /></p>
-      <p><input type="text" name="name" placeholder="Name (optional)" /></p>
-      <p><input type="hidden" name="l" value="..." /></p>
-      <p><button type="submit">Subscribe</button></p>
-    </div>
-  </form>
+  MailerLite, EmailOctopus, or self-hosted Listmonk (see infra/newsletter/README.md):
+    Use their respective embed snippets in place of the above.
 -->
 
 ## Stay in the loop while we set up
