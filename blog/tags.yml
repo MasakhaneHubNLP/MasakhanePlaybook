@@ -1,3 +1,18 @@
+call-for-chapters:
+  label: Call for Chapters
+  permalink: /call-for-chapters
+  description: Open calls to contribute chapters to the Masakhane Playbook
+
+playbook:
+  label: Playbook
+  permalink: /playbook
+  description: Posts about the Masakhane Playbook
+
+announcement:
+  label: Announcement
+  permalink: /announcement
+  description: Community announcements
+
 facebook:
   label: Facebook
   permalink: /facebook

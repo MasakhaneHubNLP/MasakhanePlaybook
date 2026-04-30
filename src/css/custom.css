@@ -232,3 +232,122 @@ button[aria-label="Toggle navigation bar"],
     padding: 0.45rem 0.7rem;
   }
 }
+
+/* ==========================================================================
+   Blog list page — card grid layout
+   Scoped to the blog index via [itemtype="https://schema.org/Blog"], so it
+   doesn't affect individual post pages or the docs.
+   ========================================================================== */
+
+main[itemtype="https://schema.org/Blog"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+main[itemtype="https://schema.org/Blog"] > .blog-card > article {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+main[itemtype="https://schema.org/Blog"] .blog-card,
+main[itemtype="https://schema.org/Blog"] > article {
+  display: flex;
+  flex-direction: column;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  margin: 0;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+main[itemtype="https://schema.org/Blog"] .blog-card:hover,
+main[itemtype="https://schema.org/Blog"] > article:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--ifm-color-primary-lighter);
+}
+
+.blog-card-thumbnail {
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.blog-card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-card-thumbnail img {
+  transform: scale(1.04);
+}
+
+.blog-card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+.blog-card-body > article {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+main[itemtype="https://schema.org/Blog"] > article:not(.blog-card *) {
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+main[itemtype="https://schema.org/Blog"] header h2 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+main[itemtype="https://schema.org/Blog"] header h2 a {
+  color: var(--ifm-heading-color);
+  text-decoration: none;
+}
+
+main[itemtype="https://schema.org/Blog"] header h2 a:hover {
+  color: var(--ifm-color-primary);
+}
+
+main[itemtype="https://schema.org/Blog"] .markdown {
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-700);
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  margin-bottom: 1rem;
+}
+
+main[itemtype="https://schema.org/Blog"] article > footer {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-100);
+}
+
+@media (max-width: 600px) {
+  main[itemtype="https://schema.org/Blog"] {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
