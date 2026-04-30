@@ -5,6 +5,8 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import { themes as prismThemes } from "prism-react-renderer";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -58,6 +60,16 @@ const config = {
     require.resolve("./src/clientModules/fontSize.js"),
   ],
 
+  stylesheets: [
+    {
+      href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+      type: "text/css",
+      integrity:
+        "sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV",
+      crossorigin: "anonymous",
+    },
+  ],
+
   presets: [
     [
       "classic",
@@ -74,6 +86,8 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/docs/",
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         blog: {
           showReadingTime: true,
@@ -98,22 +112,19 @@ const config = {
     ],
   ],
 
-  plugins: [
-    [
-      "docusaurus-plugin-banner",
-      {
-        id: "call-for-chapters",
-        content:
-          '📢 <strong>Call for Chapters now open</strong> — contribute to the Masakhane Playbook. <a href="/MasakhanePlaybook/blog/call-for-chapters-masakhane-playbook">Read more →</a>',
-      },
-    ],
-  ],
-
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Open Graph / social card image (1200 x 630)
       image: "img/social-card.png",
+      announcementBar: {
+        id: "live-soon-2026-04",
+        content:
+          '✓ <strong>Coming soon</strong> — the Masakhane Playbook will be live shortly. <a href="/MasakhanePlaybook/blog">See latest updates →</a>',
+        backgroundColor: "#e8f5ec",
+        textColor: "#0f3d2b",
+        isCloseable: true,
+      },
       colorMode: {
         respectPrefersColorScheme: true,
       },
