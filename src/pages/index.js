@@ -16,15 +16,24 @@ import {
   IconSparkles,
   IconRocket,
 } from '@site/src/components/Icons';
+import NEWS_DATA from '@site/src/data/news.json';
+import COMMUNITIES_DATA from '@site/src/data/communities.json';
+import { CardEditButton } from '@site/src/components/EditModal';
+import editStyles from '@site/src/components/EditModal/index.module.css';
+
+/* ── Icon map for news cards (icons stored as strings in JSON) ────────── */
+const ICON_MAP = {
+  users: IconUsers,
+  megaphone: IconMegaphone,
+  sparkles: IconSparkles,
+  rocket: IconRocket,
+};
 
 /* ============================================================
    HERO
    ============================================================ */
 function HeroSection() {
   const heroPhotoUrl = useBaseUrl('/img/hero.jpg');
-  /* `pathname://` prefix bypasses client-side routing AND the broken-link
-     checker — same pattern Docusaurus's own locale dropdown uses, since
-     locale switches are full-page navigations into a different build. */
   const haUrl = `pathname://${useBaseUrl('/ha/')}`;
   const amUrl = `pathname://${useBaseUrl('/am/')}`;
   const swUrl = `pathname://${useBaseUrl('/sw/')}`;
@@ -78,7 +87,7 @@ function HeroSection() {
 }
 
 /* ============================================================
-   STATS — thin band of headline numbers between hero and news
+   STATS
    ============================================================ */
 const STATS = [
   {value: '22+', label: 'Chapters'},
@@ -107,39 +116,6 @@ function StatsBand() {
 /* ============================================================
    NEWS
    ============================================================ */
-const NEWS = [
-  {
-    date: 'Q1 · 2026',
-    tag: 'Workshop',
-    title: 'Case-study workshop on low-resource annotation',
-    body: 'Annotators, linguists, researchers, tool developers, and legal experts convene to surface challenges and mitigation strategies for African data work.',
-    icon: IconUsers,
-  },
-  {
-    date: 'Q2 · 2026',
-    tag: 'Call for Chapters',
-    title: 'Call for Chapter Development Proposals',
-    body: 'Domain experts are invited to lead chapters across text, speech, and vision/multimodal annotation. USD $1,000 honorarium per accepted chapter.',
-    icon: IconMegaphone,
-    href: '/call-for-chapters',
-  },
-  {
-    date: 'Aug 2–7 · 2026',
-    tag: 'Indaba 2026',
-    title: 'Workshop accepted at Deep Learning Indaba 2026',
-    body: 'A 90-minute interactive showcase of the AfricaNLP Playbook and annotation platform — live demos, hands-on annotation tasks, and a community dialogue. Pan-Atlantic University, Lagos, Nigeria.',
-    icon: IconSparkles,
-    href: '/indaba-workshop',
-  },
-  {
-    date: 'Q3 · 2026',
-    tag: 'Release',
-    title: 'First playbook release with 5 translated languages',
-    body: 'A culturally contextualized, community-reviewed first version is published on Docusaurus with downloadable PDFs for offline use.',
-    icon: IconRocket,
-  },
-];
-
 function NewsSection() {
   return (
     <section className={styles.section}>
@@ -153,8 +129,8 @@ function NewsSection() {
           </Heading>
         </div>
         <div className={styles.newsGrid}>
-          {NEWS.map((item, idx) => {
-            const Icon = item.icon;
+          {NEWS_DATA.map((item, idx) => {
+            const Icon = ICON_MAP[item.icon] || IconSparkles;
             const Inner = (
               <>
                 <div className={clsx(styles.newsThumb, styles[`newsThumb${idx}`])}>
@@ -175,20 +151,47 @@ function NewsSection() {
                 </div>
               </>
             );
-            if (item.href) {
-              return (
-                <Link
-                  key={item.title}
-                  to={item.href}
-                  className={clsx(styles.newsCard, styles.newsCardLink)}>
-                  {Inner}
-                </Link>
-              );
-            }
-            return (
-              <article key={item.title} className={styles.newsCard}>
+
+            const card = item.href ? (
+              <Link
+                key={item.id}
+                to={item.href}
+                className={clsx(styles.newsCard, styles.newsCardLink)}
+              >
+                {Inner}
+              </Link>
+            ) : (
+              <article key={item.id} className={styles.newsCard}>
                 {Inner}
               </article>
+            );
+
+            return (
+              <div key={item.id} className={clsx(styles.newsCard, editStyles.cardWrap)} style={{padding: 0}}>
+                {item.href ? (
+                  <Link
+                    to={item.href}
+                    className={clsx(styles.newsCard, styles.newsCardLink)}
+                    style={{display: 'flex', flexDirection: 'column', height: '100%'}}
+                  >
+                    {Inner}
+                  </Link>
+                ) : (
+                  <article
+                    className={styles.newsCard}
+                    style={{height: '100%'}}
+                  >
+                    {Inner}
+                  </article>
+                )}
+                <CardEditButton
+                  mode="news"
+                  filePath="src/data/news.json"
+                  itemId={item.id}
+                  itemData={item}
+                  pageTitle={item.title}
+                />
+              </div>
             );
           })}
         </div>
@@ -489,9 +492,7 @@ function FeatureTool() {
 }
 
 /* ============================================================
-   FAQ — closes the most common decision-time questions before the
-   user moves on to Communities and the footer. Native <details>
-   accordion: accessible, server-renderable, no JS dependency.
+   FAQ
    ============================================================ */
 const FAQ = [
   {
@@ -609,15 +610,6 @@ function FAQSection() {
 /* ============================================================
    COMMUNITIES
    ============================================================ */
-const COMMUNITIES = [
-  {name: 'Masakhane', url: 'https://www.masakhane.io/', role: 'Long-term steward of the playbook and toolkit'},
-  {name: 'EthioNLP', url: 'https://ethionlp.github.io/', role: 'Ethiopian NLP research and language coverage'},
-  {name: 'HausaNLP', url: 'https://hausanlp.org/', role: 'Hausa NLP research and bot-based collection'},
-  {name: 'Black in AI', url: 'https://blackinai.github.io/', role: 'Outreach and community amplification'},
-  {name: 'Lanfrica', url: 'https://lanfrica.com/', role: 'Discoverability and knowledge sharing'},
-  {name: 'Zindi Africa', url: 'https://zindi.africa/', role: 'Competition-driven, incentivized annotation'},
-];
-
 function CommunitiesSection() {
   return (
     <section className={styles.section}>
@@ -636,19 +628,29 @@ function CommunitiesSection() {
           </p>
         </div>
         <div className={styles.communityGrid}>
-          {COMMUNITIES.map((c) => (
-            <a
-              key={c.name}
-              className={styles.communityCard}
-              href={c.url}
-              target="_blank"
-              rel="noreferrer noopener">
-              <h3 className={styles.communityName}>{c.name}</h3>
-              <p className={styles.communityRole}>{c.role}</p>
-              <span className={styles.communityArrow}>
-                <IconExternalLink size={18} />
-              </span>
-            </a>
+          {COMMUNITIES_DATA.map((c) => (
+            <div key={c.id} className={clsx(styles.communityCard, editStyles.cardWrap)}>
+              <a
+                className={styles.communityCard}
+                href={c.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{display: 'block'}}
+              >
+                <h3 className={styles.communityName}>{c.name}</h3>
+                <p className={styles.communityRole}>{c.role}</p>
+                <span className={styles.communityArrow}>
+                  <IconExternalLink size={18} />
+                </span>
+              </a>
+              <CardEditButton
+                mode="community"
+                filePath="src/data/communities.json"
+                itemId={c.id}
+                itemData={c}
+                pageTitle={c.name}
+              />
+            </div>
           ))}
         </div>
       </div>

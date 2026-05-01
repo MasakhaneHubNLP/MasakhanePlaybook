@@ -1,0 +1,38 @@
+[
+  {
+    "id": "workshop-2026-q1",
+    "date": "Q1 · 2026",
+    "tag": "Workshop",
+    "title": "Case-study workshop on low-resource annotation",
+    "body": "Annotators, linguists, researchers, tool developers, and legal experts convene to surface challenges and mitigation strategies for African data work.",
+    "icon": "users",
+    "href": null
+  },
+  {
+    "id": "call-for-chapters-2026-q2",
+    "date": "Q2 · 2026",
+    "tag": "Call for Chapters",
+    "title": "Call for Chapter Development Proposals",
+    "body": "Domain experts are invited to lead chapters across text, speech, and vision/multimodal annotation. USD $1,000 honorarium per accepted chapter.",
+    "icon": "megaphone",
+    "href": "/call-for-chapters"
+  },
+  {
+    "id": "indaba-2026",
+    "date": "Aug 2–7 · 2026",
+    "tag": "Indaba 2026",
+    "title": "Workshop accepted at Deep Learning Indaba 2026",
+    "body": "A 90-minute interactive showcase of the AfricaNLP Playbook and annotation platform — live demos, hands-on annotation tasks, and a community dialogue. Pan-Atlantic University, Lagos, Nigeria.",
+    "icon": "sparkles",
+    "href": "/indaba-workshop"
+  },
+  {
+    "id": "first-release-2026-q3",
+    "date": "Q3 · 2026",
+    "tag": "Release",
+    "title": "First playbook release with 5 translated languages",
+    "body": "A culturally contextualized, community-reviewed first version is published on Docusaurus with downloadable PDFs for offline use.",
+    "icon": "rocket",
+    "href": null
+  }
+]

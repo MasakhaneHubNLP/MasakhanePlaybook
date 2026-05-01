@@ -1,0 +1,38 @@
+[
+  {
+    "id": "masakhane",
+    "name": "Masakhane",
+    "url": "https://www.masakhane.io/",
+    "role": "Long-term steward of the playbook and toolkit"
+  },
+  {
+    "id": "ethionlp",
+    "name": "EthioNLP",
+    "url": "https://ethionlp.github.io/",
+    "role": "Ethiopian NLP research and language coverage"
+  },
+  {
+    "id": "hausanlp",
+    "name": "HausaNLP",
+    "url": "https://hausanlp.org/",
+    "role": "Hausa NLP research and bot-based collection"
+  },
+  {
+    "id": "blackinai",
+    "name": "Black in AI",
+    "url": "https://blackinai.github.io/",
+    "role": "Outreach and community amplification"
+  },
+  {
+    "id": "lanfrica",
+    "name": "Lanfrica",
+    "url": "https://lanfrica.com/",
+    "role": "Discoverability and knowledge sharing"
+  },
+  {
+    "id": "zindi",
+    "name": "Zindi Africa",
+    "url": "https://zindi.africa/",
+    "role": "Competition-driven, incentivized annotation"
+  }
+]

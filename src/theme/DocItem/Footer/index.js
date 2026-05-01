@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Footer from "@theme-original/DocItem/Footer";
 import Link from "@docusaurus/Link";
+import { useDoc } from "@docusaurus/plugin-content-docs/client";
+import { EditButton } from "@site/src/components/EditModal";
 
 const WORDS_PER_MINUTE = 220;
 
@@ -18,8 +20,17 @@ function useReadingTime() {
   return minutes;
 }
 
+function sourceToFilePath(source) {
+  // source is like "@site/docs/intro.md" → "docs/intro.md"
+  if (!source) return null;
+  return source.replace(/^@site\//, '');
+}
+
 export default function FooterWrapper(props) {
   const minutes = useReadingTime();
+  const { metadata } = useDoc();
+  const filePath = sourceToFilePath(metadata.source);
+
   return (
     <>
       <div className="theme-doc-meta-row">
@@ -55,6 +66,14 @@ export default function FooterWrapper(props) {
             </svg>
             {minutes} min read
           </span>
+        )}
+        {filePath && (
+          <EditButton
+            mode="markdown"
+            filePath={filePath}
+            pageTitle={metadata.title}
+            label="Suggest Edit"
+          />
         )}
       </div>
       <Footer {...props} />

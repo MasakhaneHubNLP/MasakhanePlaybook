@@ -13,6 +13,13 @@ import rehypeKatex from "rehype-katex";
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Masakhane Playbook",
+  customFields: {
+    // Optional: set GITHUB_EDIT_TOKEN in .env.local to pre-fill the token for
+    // the community edit-to-PR feature. The token needs the public_repo scope.
+    // WARNING: this value is embedded in the built JS bundle — use a
+    // limited-scope token (contents:write + pull_requests:write only).
+    GITHUB_EDIT_TOKEN: process.env.GITHUB_EDIT_TOKEN || "",
+  },
   tagline: "Democratizing machine translation for African languages",
   favicon: "img/favicon.ico",
 
@@ -91,10 +98,7 @@ const config = {
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
           // progress: false, // ADD THIS LINE TO PREVENT THE CRASH
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/",
+          // editUrl removed — "Suggest Edit" modal handles community edits instead.
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
@@ -110,8 +114,7 @@ const config = {
             title: "Masakhane Blog",
             copyright: `Copyright © ${new Date().getFullYear()} Masakhane.`,
           },
-          editUrl:
-            "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/",
+          // editUrl removed — "Suggest Edit" modal handles community edits instead.
         },
 
         theme: {

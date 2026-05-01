@@ -3,6 +3,12 @@ import BlogPostItem from "@theme-original/BlogPostItem";
 import { useBlogPost } from "@docusaurus/plugin-content-blog/client";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import { EditButton } from "@site/src/components/EditModal";
+
+function sourceToFilePath(source) {
+  if (!source) return null;
+  return source.replace(/^@site\//, '');
+}
 
 export default function BlogPostItemWrapper(props) {
   const { metadata, frontMatter, isBlogPostPage } = useBlogPost();
@@ -10,7 +16,22 @@ export default function BlogPostItemWrapper(props) {
   const resolvedImage = useBaseUrl(rawImage || "");
 
   if (isBlogPostPage) {
-    return <BlogPostItem {...props} />;
+    const filePath = sourceToFilePath(metadata.source);
+    return (
+      <>
+        <BlogPostItem {...props} />
+        {filePath && (
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid var(--ifm-color-emphasis-200)" }}>
+            <EditButton
+              mode="markdown"
+              filePath={filePath}
+              pageTitle={metadata.title}
+              label="Suggest Edit"
+            />
+          </div>
+        )}
+      </>
+    );
   }
 
   const isAbsolute = rawImage && /^https?:\/\//.test(rawImage);
