@@ -342,7 +342,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Masakhane. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Masakhane.`,
       },
       prism: {
         theme: prismThemes.github,

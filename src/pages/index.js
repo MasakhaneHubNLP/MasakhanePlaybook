@@ -58,6 +58,33 @@ function HeroSection() {
 }
 
 /* ============================================================
+   STATS — thin band of headline numbers between hero and news
+   ============================================================ */
+const STATS = [
+  {value: '22+', label: 'Chapters'},
+  {value: '6', label: 'Languages'},
+  {value: '6', label: 'Partner communities'},
+  {value: 'Apache 2.0', label: 'Open source'},
+];
+
+function StatsBand() {
+  return (
+    <section className={styles.statsBand} aria-label="By the numbers">
+      <div className="container">
+        <div className={styles.statsGrid}>
+          {STATS.map((s) => (
+            <div key={s.label} className={styles.stat}>
+              <span className={styles.statValue}>{s.value}</span>
+              <span className={styles.statLabel}>{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
    NEWS
    ============================================================ */
 const NEWS = [
@@ -156,7 +183,7 @@ function NewsSection() {
    ============================================================ */
 function FeaturePlaybook() {
   return (
-    <section className={clsx(styles.section, styles.featureRow)}>
+    <section className={clsx(styles.section, styles.altSection, styles.featureRow)}>
       <div className={clsx('container', styles.featureGrid)}>
         <div className={styles.featureCopy}>
           <span className={styles.featureEyebrow}>
@@ -179,29 +206,58 @@ function FeaturePlaybook() {
           </ul>
         </div>
         <div className={styles.featureVisual}>
-          <div className={styles.mockBrowser}>
+          <div className={styles.mockBrowser} aria-hidden="true">
             <div className={styles.mockBar}>
               <span /><span /><span />
+              <div className={styles.mockUrl}>
+                masakhane-playbook / annotation-design
+              </div>
             </div>
             <div className={styles.mockBody}>
               <div className={styles.mockSidebar}>
-                <div className={styles.mockSidebarItem} />
-                <div className={clsx(styles.mockSidebarItem, styles.mockSidebarActive)} />
-                <div className={styles.mockSidebarItem} />
-                <div className={styles.mockSidebarItem} />
-                <div className={styles.mockSidebarItem} />
+                <span className={styles.mockSidebarItem}>
+                  <span className={styles.mockSidebarNum}>1</span>Introduction
+                </span>
+                <span className={styles.mockSidebarItem}>
+                  <span className={styles.mockSidebarNum}>2</span>Data Collection
+                </span>
+                <span
+                  className={clsx(
+                    styles.mockSidebarItem,
+                    styles.mockSidebarActive,
+                  )}>
+                  <span className={styles.mockSidebarNum}>3</span>Annotation Design
+                </span>
+                <span className={styles.mockSidebarItem}>
+                  <span className={styles.mockSidebarNum}>4</span>Data Quality
+                </span>
+                <span className={styles.mockSidebarItem}>
+                  <span className={styles.mockSidebarNum}>5</span>Modality Tasks
+                </span>
+                <span className={styles.mockSidebarItem}>
+                  <span className={styles.mockSidebarNum}>6</span>Governance
+                </span>
               </div>
               <div className={styles.mockContent}>
-                <div className={styles.mockH1} />
-                <div className={styles.mockLine} />
-                <div className={styles.mockLine} />
-                <div className={clsx(styles.mockLine, styles.mockLineShort)} />
-                <div className={styles.mockH2} />
-                <div className={styles.mockLine} />
-                <div className={clsx(styles.mockLine, styles.mockLineShort)} />
+                <span className={styles.mockEyebrow}>Chapter 3</span>
+                <h3 className={styles.mockH1}>
+                  Annotation Design &amp; Workforce
+                </h3>
+                <p className={styles.mockPara}>
+                  Inter-annotator agreement measures how consistently different
+                  annotators produce the same labels — a critical signal for
+                  guideline clarity.
+                </p>
+                <h4 className={styles.mockH2}>3.2 Cohen's kappa</h4>
+                <div className={styles.mockFormula}>
+                  κ = (P<sub>o</sub> − P<sub>e</sub>) / (1 − P<sub>e</sub>)
+                </div>
                 <div className={styles.mockCallout}>
-                  <div className={styles.mockCalloutLine} />
-                  <div className={clsx(styles.mockCalloutLine, styles.mockLineShort)} />
+                  <span className={styles.mockCalloutLabel}>TIP</span>
+                  <p className={styles.mockCalloutText}>
+                    Pilot with 50–100 items first to refine guidelines before
+                    scaling annotation.
+                  </p>
                 </div>
               </div>
             </div>
@@ -217,19 +273,18 @@ function FeaturePlaybook() {
    ============================================================ */
 function FeatureTool() {
   return (
-    <section className={clsx(styles.section, styles.featureRow, styles.altSection)}>
+    <section className={clsx(styles.section, styles.featureRow, styles.showcaseSection)}>
       <div className={clsx('container', styles.featureGrid, styles.featureGridReverse)}>
         <div className={styles.featureCopy}>
           <span className={styles.featureEyebrow}>
-            <IconWrench size={14} /> The Annotation Tool
+            <IconWrench size={14} /> Masakhane Tool
           </span>
           <Heading as="h2" className={styles.featureTitle}>
             An open, mobile-first, Progressive Web App for grassroots data collection.
           </Heading>
           <p className={styles.featureLead}>
-            Adapted from Label Studio, our platform is built for the realities
-            of African contexts → patchy connectivity, multiple scripts, and
-            community-led annotation workflows.
+            Built for the realities of African contexts → patchy connectivity,
+            multiple scripts, and community-led annotation workflows.
           </p>
           <ul className={styles.featureList}>
             <li>Offline-first capture with background synchronization</li>
@@ -406,13 +461,6 @@ function FeatureTool() {
               </div>
             </div>
             </div>
-            <aside className={styles.lifecycleCaption} aria-hidden="true">
-              <span className={styles.lifecycleCaptionEyebrow}>Annotate</span>
-              <span className={styles.lifecycleCaptionText}>
-                One workspace for sentiment, NER, and LLM evaluation —
-                across African languages and scripts.
-              </span>
-            </aside>
           </div>
         </div>
       </div>
@@ -434,7 +482,7 @@ const COMMUNITIES = [
 
 function CommunitiesSection() {
   return (
-    <section className={clsx(styles.section, styles.altSection)}>
+    <section className={styles.section}>
       <div className="container">
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>
@@ -470,6 +518,41 @@ function CommunitiesSection() {
   );
 }
 
+/* ============================================================
+   FINAL CTA — closing band before the footer
+   ============================================================ */
+function FinalCTA() {
+  return (
+    <section className={styles.finalCTA}>
+      <div className="container">
+        <div className={styles.finalCTAInner}>
+          <Heading as="h2" className={styles.finalCTATitle}>
+            Ready to start?
+          </Heading>
+          <p className={styles.finalCTALead}>
+            Read the Playbook to plan your dataset, then join the community
+            on Discord to ask questions and share your work.
+          </p>
+          <div className={styles.finalCTAButtons}>
+            <Link
+              className={clsx('button', styles.finalCTAPrimary)}
+              to="/playbook/">
+              <IconBookOpen size={18} /> Read the Playbook
+            </Link>
+            <a
+              className={clsx('button', styles.finalCTASecondary)}
+              href="https://discord.gg/ChNPHV2PPS"
+              target="_blank"
+              rel="noreferrer noopener">
+              <IconUsers size={18} /> Join Discord
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -478,10 +561,12 @@ export default function Home() {
       description="A community-driven playbook and open annotation infrastructure for African language data.">
       <HeroSection />
       <main>
+        <StatsBand />
         <NewsSection />
         <FeaturePlaybook />
         <FeatureTool />
         <CommunitiesSection />
+        <FinalCTA />
       </main>
     </Layout>
   );

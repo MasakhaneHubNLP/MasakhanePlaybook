@@ -27,9 +27,9 @@ export default function Tool() {
               </span>
               <p>
                 A specialized Progressive Web Application (PWA) for African
-                language NLP data collection, adapted from Label Studio. The
-                tool will support offline-first capture, mobile-friendly
-                workflows, and African language localization.
+                language NLP data collection. The tool will support
+                offline-first capture, mobile-friendly workflows, and African
+                language localization.
               </p>
               <p>
                 Documentation and live access will be linked here once the
