@@ -233,8 +233,12 @@ button[aria-label="Toggle navigation bar"],
   }
 }
 
-/* "Cite this page" link rendered above the doc footer area */
-.theme-doc-cite-this-page {
+/* "Cite this page" + reading time, rendered above the doc footer area */
+.theme-doc-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
   margin-top: 1.5rem;
   font-size: 0.95rem;
 }
@@ -251,6 +255,13 @@ button[aria-label="Toggle navigation bar"],
 .theme-doc-cite-this-page__link:hover {
   border-bottom-color: var(--ifm-color-primary);
   color: var(--ifm-color-primary);
+}
+
+.theme-doc-reading-time {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.9rem;
 }
 
 /* Navbar Discord button (icon + label pill) */
@@ -317,6 +328,40 @@ main[itemtype="https://schema.org/Blog"] {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   align-items: stretch;
+}
+
+/* Featured (most recent) post spans 2 columns and shows a "FEATURED" pill */
+@media (min-width: 700px) {
+  main[itemtype="https://schema.org/Blog"] > .blog-card:first-child,
+  main[itemtype="https://schema.org/Blog"] > article:first-child {
+    grid-column: span 2;
+  }
+}
+
+main[itemtype="https://schema.org/Blog"] > .blog-card:first-child .blog-card-thumbnail,
+main[itemtype="https://schema.org/Blog"] > article:first-child .blog-card-thumbnail {
+  aspect-ratio: 21 / 9;
+}
+
+main[itemtype="https://schema.org/Blog"] > .blog-card:first-child header h2,
+main[itemtype="https://schema.org/Blog"] > article:first-child header h2 {
+  font-size: 1.55rem;
+  line-height: 1.25;
+}
+
+main[itemtype="https://schema.org/Blog"] > .blog-card:first-child .blog-card-body::before,
+main[itemtype="https://schema.org/Blog"] > article:first-child > header::before {
+  content: "Featured";
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+  background: rgba(46, 133, 85, 0.1);
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  margin-bottom: 0.7rem;
 }
 
 main[itemtype="https://schema.org/Blog"] > .blog-card > article {

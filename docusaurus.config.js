@@ -320,6 +320,18 @@ const config = {
             title: "More",
             items: [
               {
+                label: "About",
+                to: "/about",
+              },
+              {
+                label: "Roadmap",
+                to: "/roadmap",
+              },
+              {
+                label: "Glossary",
+                to: "/playbook/glossary",
+              },
+              {
                 label: "Cite this Playbook",
                 to: "/cite",
               },

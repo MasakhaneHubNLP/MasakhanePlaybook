@@ -24,22 +24,19 @@ import {
    HERO
    ============================================================ */
 function HeroSection() {
-  const logo = useBaseUrl('/img/logo.svg');
   return (
     <header className={styles.hero}>
       <div className="container">
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>
-              <IconSparkles size={14} /> AfricaNLP · Masakhane Hub
-            </span>
             <Heading as="h1" className={styles.heroTitle}>
-              Build African language datasets,<br />
+              Build African language datasets,
+              {' '}
               <span className={styles.heroTitleAccent}>the right way.</span>
             </Heading>
             <p className={styles.heroTagline}>
               An open playbook and annotation platform for grassroots NLP data
-              collection  →  designed with communities, for communities, across
+              collection — designed with communities, for communities, across
               the continent.
             </p>
             <div className={styles.heroButtons}>
@@ -50,37 +47,8 @@ function HeroSection() {
                 <IconWrench size={18} /> Explore the Tool
               </Link>
             </div>
-            <div className={styles.heroStats}>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>5+</span>
-                <span className={styles.statLabel}>African languages</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>4</span>
-                <span className={styles.statLabel}>Data modalities</span>
-              </div>
-              <div className={styles.stat}>
-                <span className={styles.statNumber}>100%</span>
-                <span className={styles.statLabel}>Open source</span>
-              </div>
-            </div>
           </div>
-          <div className={styles.heroVisual} aria-hidden="true">
-            <div className={styles.heroOrb} />
-            <div className={styles.heroBlob} />
-            <div className={styles.heroLogoCircle}>
-              <img src={logo} alt="" className={styles.heroLogo} />
-            </div>
-            <div className={clsx(styles.floatTag, styles.floatTagOne)}>
-              <span className={styles.tagDot} /> Hausa · Amharic · Swahili
-            </div>
-            <div className={clsx(styles.floatTag, styles.floatTagTwo)}>
-              <span className={styles.tagDot} /> Voice · Text · Image
-            </div>
-            <div className={clsx(styles.floatTag, styles.floatTagThree)}>
-              <span className={styles.tagDot} /> Apache 2.0
-            </div>
-          </div>
+          <div className={styles.heroPhoto} aria-hidden="true" />
         </div>
       </div>
     </header>
@@ -207,9 +175,6 @@ function FeaturePlaybook() {
             <li>Templates for consent, licensing, and governance toolkits</li>
             <li>Translated into 5 African languages with community review</li>
           </ul>
-          <Link className={clsx('button', styles.primaryButton)} to="/playbook/">
-            <IconBookOpen size={18} /> Read the Playbook
-          </Link>
         </div>
         <div className={styles.featureVisual}>
           <div className={styles.mockBrowser}>
@@ -271,32 +236,143 @@ function FeatureTool() {
             <li>African-language localization and virtual keyboards</li>
             <li>Apache 2.0 licensed with a clear contributor agreement</li>
           </ul>
-          <Link className={clsx('button', styles.primaryButton)} to="/tool">
-            <IconWrench size={18} /> Explore the Tool
-          </Link>
         </div>
         <div className={styles.featureVisual}>
-          <div className={styles.mockPhone}>
-            <div className={styles.mockPhoneNotch} />
-            <div className={styles.mockPhoneScreen}>
-              <div className={styles.mockPhoneHeader}>
-                <div className={styles.mockPhoneTitle} />
-                <div className={styles.mockPhoneAvatar} />
-              </div>
-              <div className={styles.mockTask}>
-                <div className={styles.mockTaskLabel} />
-                <div className={styles.mockWaveform}>
-                  {Array.from({length: 28}).map((_, i) => (
-                    <span key={i} style={{height: `${15 + ((i * 13) % 70)}%`}} />
-                  ))}
+          <div className={styles.mockStack} aria-hidden="true">
+            {/* Back card — FLORES-200 MT review (Amharic ↔ English) */}
+            <div className={clsx(styles.mockPhone, styles.mockPhoneBack)}>
+              <div className={styles.mockPhoneNotch} />
+              <div className={styles.mockPhoneScreen}>
+                <div className={styles.mockPhoneHeader}>
+                  <div className={styles.mockPhoneBrand}>
+                    <span className={styles.mockPhoneLogo}>𝓐</span>
+                    <span className={styles.mockPhoneTitle}>MasakhaneTool</span>
+                  </div>
+                  <span className={styles.mockPhoneLangBadge}>AM↔EN</span>
+                </div>
+                <div className={styles.mockPhoneMeta}>
+                  <span className={styles.mockMetaLabel}>
+                    <span className={styles.mockMetaDot} /> FLORES-200 · MT review
+                  </span>
+                  <span className={styles.mockMetaProgress}>89 / 500</span>
+                </div>
+                <div className={styles.mockTransPair}>
+                  <div className={styles.mockTransRow}>
+                    <span className={styles.mockTransLang}>AM</span>
+                    <span lang="am" className={styles.mockTransText}>
+                      ይህ መጽሐፍ በጣም ጠቃሚ ነው።
+                    </span>
+                  </div>
+                  <div className={styles.mockTransRow}>
+                    <span className={styles.mockTransLang}>EN</span>
+                    <span className={styles.mockTransText}>
+                      This book is very useful.
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.mockSentimentLabel}>Adequacy</div>
+                <div className={styles.mockChips}>
+                  <span className={styles.mockChip}>Bad</span>
+                  <span className={styles.mockChip}>OK</span>
+                  <span className={clsx(styles.mockChip, styles.mockChipActive)}>
+                    Good
+                  </span>
                 </div>
               </div>
-              <div className={styles.mockChips}>
-                <span className={styles.mockChip}>positive</span>
-                <span className={clsx(styles.mockChip, styles.mockChipActive)}>neutral</span>
-                <span className={styles.mockChip}>negative</span>
+            </div>
+
+            {/* Middle card — MasakhaNER NER tagging (Swahili) */}
+            <div className={clsx(styles.mockPhone, styles.mockPhoneMid)}>
+              <div className={styles.mockPhoneNotch} />
+              <div className={styles.mockPhoneScreen}>
+                <div className={styles.mockPhoneHeader}>
+                  <div className={styles.mockPhoneBrand}>
+                    <span className={styles.mockPhoneLogo}>𝓐</span>
+                    <span className={styles.mockPhoneTitle}>MasakhaneTool</span>
+                  </div>
+                  <span className={styles.mockPhoneLangBadge}>SW</span>
+                </div>
+                <div className={styles.mockPhoneMeta}>
+                  <span className={styles.mockMetaLabel}>
+                    <span className={styles.mockMetaDot} /> MasakhaNER · NER
+                  </span>
+                  <span className={styles.mockMetaProgress}>132 / 500</span>
+                </div>
+                <div className={styles.mockNerCard}>
+                  <p className={styles.mockNerText} lang="sw">
+                    Rais{' '}
+                    <mark className={clsx(styles.mockNerTag, styles.mockNerPer)}>
+                      Samia Suluhu Hassan
+                      <span className={styles.mockNerTagLabel}>PER</span>
+                    </mark>{' '}
+                    aliongea katika{' '}
+                    <mark className={clsx(styles.mockNerTag, styles.mockNerLoc)}>
+                      Dodoma
+                      <span className={styles.mockNerTagLabel}>LOC</span>
+                    </mark>
+                    .
+                  </p>
+                </div>
+                <div className={styles.mockSentimentLabel}>Entity type</div>
+                <div className={styles.mockChips}>
+                  <span className={clsx(styles.mockChip, styles.mockChipActive)}>
+                    <span className={styles.mockChipCheck}>✓</span> Person
+                  </span>
+                  <span className={styles.mockChip}>Location</span>
+                  <span className={styles.mockChip}>Org</span>
+                  <span className={styles.mockChip}>Date</span>
+                </div>
               </div>
-              <div className={styles.mockSubmit}>Submit</div>
+            </div>
+
+            {/* Front card — AfriSenti sentiment (Hausa) */}
+            <div className={clsx(styles.mockPhone, styles.mockPhoneFront)}>
+              <div className={styles.mockPhoneNotch} />
+              <div className={styles.mockPhoneScreen}>
+                <div className={styles.mockPhoneHeader}>
+                  <div className={styles.mockPhoneBrand}>
+                    <span className={styles.mockPhoneLogo}>𝓐</span>
+                    <span className={styles.mockPhoneTitle}>MasakhaneTool</span>
+                  </div>
+                  <span className={styles.mockPhoneLangBadge}>HA</span>
+                </div>
+
+                <div className={styles.mockPhoneMeta}>
+                  <span className={styles.mockMetaLabel}>
+                    <span className={styles.mockMetaDot} /> AfriSenti · Sentiment
+                  </span>
+                  <span className={styles.mockMetaProgress}>47 / 500</span>
+                </div>
+
+                <article className={styles.mockTweetCard}>
+                  <header className={styles.mockTweetHeader}>
+                    <span className={styles.mockTweetAvatar}>A</span>
+                    <span className={styles.mockTweetHandle}>@aiAfrika</span>
+                    <span className={styles.mockTweetTime}>· 2h</span>
+                  </header>
+                  <p className={styles.mockTweetText} lang="ha">
+                    Wannan littafin yana da matukar amfani! Ina ba da shawara
+                    ga kowa ya karanta.
+                  </p>
+                  <p className={styles.mockTweetGloss}>
+                    "This book is genuinely useful — I recommend it to everyone."
+                  </p>
+                </article>
+
+                <div className={styles.mockSentimentLabel}>Sentiment</div>
+                <div className={styles.mockChips}>
+                  <span className={clsx(styles.mockChip, styles.mockChipActive)}>
+                    <span className={styles.mockChipCheck}>✓</span> positive
+                  </span>
+                  <span className={styles.mockChip}>neutral</span>
+                  <span className={styles.mockChip}>negative</span>
+                </div>
+
+                <div className={styles.mockBottomBar}>
+                  <span className={styles.mockSkip}>Skip</span>
+                  <span className={styles.mockSubmit}>Submit →</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -466,33 +542,6 @@ function WhoWeAreSection() {
   );
 }
 
-/* ============================================================
-   CTA BANNER
-   ============================================================ */
-function CTABanner() {
-  return (
-    <section className={styles.cta}>
-      <div className={clsx('container', styles.ctaInner)}>
-        <Heading as="h2" className={styles.ctaTitle}>
-          Ready to dive in?
-        </Heading>
-        <p className={styles.ctaText}>
-          Start with the playbook to learn the methodology, or jump to the
-          annotation tool to see what we are building together.
-        </p>
-        <div className={styles.heroButtons}>
-          <Link className={clsx('button', styles.primaryButton)} to="/playbook/">
-            <IconBookOpen size={18} /> Read the Playbook
-          </Link>
-          <Link className={clsx('button', styles.secondaryButton)} to="/tool">
-            <IconWrench size={18} /> Explore the Tool
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -507,7 +556,6 @@ export default function Home() {
         <AnnouncementsSection />
         <CommunitiesSection />
         <WhoWeAreSection />
-        <CTABanner />
       </main>
     </Layout>
   );

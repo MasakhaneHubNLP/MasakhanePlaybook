@@ -108,24 +108,14 @@
    ============================================================ */
 .hero {
   position: relative;
-  padding: 6rem 0 5rem;
+  padding: 6.5rem 0 5.5rem;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at top right, rgba(46, 133, 85, 0.13), transparent 55%),
-    radial-gradient(ellipse at bottom left, rgba(46, 133, 85, 0.08), transparent 60%),
-    var(--ifm-background-color);
-}
-
-[data-theme='dark'] .hero {
-  background:
-    radial-gradient(ellipse at top right, rgba(37, 194, 160, 0.16), transparent 55%),
-    radial-gradient(ellipse at bottom left, rgba(37, 194, 160, 0.08), transparent 60%),
-    var(--ifm-background-color);
+  background: var(--ifm-background-color);
 }
 
 .heroGrid {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: 1.25fr 1fr;
   gap: 4rem;
   align-items: center;
 }
@@ -133,34 +123,22 @@
 @media (max-width: 996px) {
   .heroGrid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
   }
   .hero {
-    padding: 4rem 0;
+    padding: 4rem 0 3.5rem;
   }
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ifm-color-primary);
-  margin-bottom: 1.4rem;
-  padding: 0.45rem 0.95rem;
-  border: 1px solid var(--ifm-color-primary-lightest);
-  border-radius: 999px;
-  background: rgba(46, 133, 85, 0.06);
+.heroCopy {
+  max-width: 640px;
 }
 
 .heroTitle {
-  font-size: clamp(2.6rem, 5.5vw, 4.6rem);
-  line-height: 1.05;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  line-height: 1.08;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
 }
 
@@ -169,142 +147,53 @@
 }
 
 .heroTagline {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1.65;
   color: var(--ifm-color-emphasis-700);
-  margin-bottom: 2.2rem;
-  max-width: 580px;
+  margin-bottom: 2.5rem;
+  max-width: 560px;
 }
 
 .heroButtons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
 }
 
-.heroStats {
-  display: flex;
-  gap: 2.75rem;
-  flex-wrap: wrap;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-
-.statNumber {
-  font-size: 2.4rem;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--ifm-color-emphasis-1000);
-  letter-spacing: -0.02em;
-}
-
-.statLabel {
-  font-size: 0.92rem;
-  color: var(--ifm-color-emphasis-700);
-  margin-top: 0.45rem;
-  font-weight: 500;
-}
-
-/* Hero visual */
-.heroVisual {
+/* Single B/W community photo on the right of the hero.
+   Replace with a real Masakhane community photo by saving it to
+   static/img/hero.jpg and changing the URL to /MasakhanePlaybook/img/hero.jpg */
+.heroPhoto {
   position: relative;
-  height: 480px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 460px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #2a2a2a;
+  background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1000&h=1200&q=80');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: luminosity;
+}
+
+.heroPhoto::after {
+  /* very subtle vignette so the image reads as deliberate, not floating */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.25) 100%);
+  pointer-events: none;
 }
 
 @media (max-width: 996px) {
-  .heroVisual {
-    height: 360px;
+  .heroPhoto {
+    height: 320px;
   }
 }
 
-.heroOrb {
-  position: absolute;
-  top: 5%;
-  right: 5%;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(46, 133, 85, 0.5), rgba(46, 133, 85, 0.12) 60%, transparent 80%);
-  filter: blur(8px);
-}
-
-.heroBlob {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 70% 70%, rgba(53, 153, 98, 0.35), rgba(53, 153, 98, 0.08) 60%, transparent 80%);
-  filter: blur(12px);
-}
-
-.heroLogoCircle {
-  position: relative;
-  z-index: 2;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.18);
-}
-
-[data-theme='dark'] .heroLogoCircle {
-  background: var(--ifm-color-emphasis-200);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5);
-}
-
-.heroLogo {
-  width: 110px;
-  height: 110px;
-}
-
-.floatTag {
-  position: absolute;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.05rem;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 999px;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--ifm-color-emphasis-900);
-  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.15);
-}
-
-[data-theme='dark'] .floatTag {
-  background: var(--ifm-color-emphasis-200);
-}
-
-.tagDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--ifm-color-primary);
-}
-
-.floatTagOne { top: 12%; left: 6%; }
-.floatTagTwo { top: 50%; right: 0%; }
-.floatTagThree { bottom: 12%; left: 18%; }
-
-@media (max-width: 996px) {
-  .floatTagOne { top: 4%; left: 0%; }
-  .floatTagTwo { top: 45%; right: 0%; }
-  .floatTagThree { bottom: 6%; left: 8%; }
+@media (max-width: 600px) {
+  .heroPhoto {
+    height: 240px;
+  }
 }
 
 /* ============================================================
@@ -344,6 +233,14 @@
   cursor: pointer;
 }
 
+/* ----------------------------------------------------------------
+   News card thumbnails — B/W cover photography (per brand book).
+   To swap in real Masakhane community photos: drop a JPEG into
+   static/img/news/{0,1,2,3}.jpg and replace the URL on each
+   .newsThumb{N} below. The luminosity blend desaturates colour
+   images automatically; the dark overlay handles text contrast.
+   ---------------------------------------------------------------- */
+
 .newsThumb {
   height: 170px;
   display: flex;
@@ -351,20 +248,41 @@
   padding: 1.1rem 1.3rem;
   position: relative;
   overflow: hidden;
+  background-color: #2a2a2a;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: luminosity;
 }
 
 .newsThumb::before {
+  /* darkening gradient — keeps label readable against any photo */
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.18) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.55) 100%);
   pointer-events: none;
 }
 
-.newsThumb0 { background: linear-gradient(135deg, #2e8555, #3cad6e); }
-.newsThumb1 { background: linear-gradient(135deg, #205d3b, #29784c); }
-.newsThumb2 { background: linear-gradient(135deg, #277148, #359962); }
-.newsThumb3 { background: linear-gradient(135deg, #33925d, #4fddbf); }
+/* Q1 · Workshop — collaborative discussion */
+.newsThumb0 {
+  background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=900&h=520&q=80');
+}
+
+/* Q2 · Call for Chapters — focused writing / authoring */
+.newsThumb1 {
+  background-image: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&h=520&q=80');
+}
+
+/* Indaba 2026 — community gathering / conference */
+.newsThumb2 {
+  background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&h=520&q=80');
+}
+
+/* Q3 · Release — collaborative work */
+.newsThumb3 {
+  background-image: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&h=520&q=80');
+}
 
 .newsThumbIcon {
   position: absolute;
@@ -1607,6 +1525,29 @@
 .featureVisual {
   display: flex;
   justify-content: center;
+  align-items: center;
+  /* extra padding so the cascading mockStack's translated cards don't overflow */
+  padding: 1rem 0;
+}
+
+.featureVisual:has(.mockStack) {
+  /* room for offset back/middle cards on the left side of the stack */
+  padding-left: 110px;
+  padding-top: 30px;
+}
+
+@media (max-width: 996px) {
+  .featureVisual:has(.mockStack) {
+    padding-left: 60px;
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .featureVisual:has(.mockStack) {
+    padding-left: 0;
+    padding-top: 0;
+  }
 }
 
 /* Mock browser */
@@ -1706,14 +1647,135 @@
   opacity: 0.5;
 }
 
-/* Mock phone */
+/* ============================================================
+   MasakhaneTool — annotation mock (3-card cascade)
+   Front: AfriSenti sentiment (Hausa)
+   Middle: MasakhaNER NER (Swahili)
+   Back: FLORES-200 MT review (Amharic ↔ English)
+   ============================================================ */
+
+.mockStack {
+  position: relative;
+  width: 290px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+.mockStack .mockPhone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: mockCardCycle 12s ease-in-out infinite;
+  /* Hardware-acceleration hint so the rotate/scale stays smooth. */
+  will-change: transform, filter;
+}
+
+/* Stagger: each card starts at a different point in the cycle so all three
+   positions are always occupied. Negative delays put each card mid-cycle
+   on first paint. */
+.mockPhoneFront { animation-delay: 0s; }
+.mockPhoneMid { animation-delay: -4s; }
+.mockPhoneBack { animation-delay: -8s; }
+
+/* Pause-on-hover so visitors can actually read the front card */
+.mockStack:hover .mockPhone {
+  animation-play-state: paused;
+}
+
+@keyframes mockCardCycle {
+  /* ~3s at front (focal) */
+  0%, 25% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    z-index: 3;
+    filter: brightness(1) saturate(1);
+  }
+  /* ~3s in middle (partial) */
+  33%, 58% {
+    transform: translate(-50px, 30px) rotate(-4.5deg) scale(0.93);
+    z-index: 2;
+    filter: brightness(0.9) saturate(0.95);
+  }
+  /* ~3s in back (atmospheric) */
+  66%, 91% {
+    transform: translate(-90px, 60px) rotate(-9deg) scale(0.86);
+    z-index: 1;
+    filter: brightness(0.78) saturate(0.85);
+  }
+  /* loop home */
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    z-index: 3;
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* Reduced-motion fallback: static cascade, no animation */
+@media (prefers-reduced-motion: reduce) {
+  .mockStack .mockPhone {
+    animation: none;
+  }
+  .mockPhoneFront {
+    z-index: 3;
+  }
+  .mockPhoneMid {
+    transform: translate(-50px, 30px) rotate(-4.5deg) scale(0.93);
+    z-index: 2;
+    filter: brightness(0.9);
+  }
+  .mockPhoneBack {
+    transform: translate(-90px, 60px) rotate(-9deg) scale(0.86);
+    z-index: 1;
+    filter: brightness(0.78) saturate(0.85);
+  }
+}
+
+@media (max-width: 996px) {
+  /* Tighter cascade on tablet — still animated */
+  @keyframes mockCardCycle {
+    0%, 25% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      z-index: 3;
+      filter: brightness(1) saturate(1);
+    }
+    33%, 58% {
+      transform: translate(-25px, 20px) rotate(-3.5deg) scale(0.93);
+      z-index: 2;
+      filter: brightness(0.9);
+    }
+    66%, 91% {
+      transform: translate(-50px, 40px) rotate(-7deg) scale(0.86);
+      z-index: 1;
+      filter: brightness(0.78) saturate(0.85);
+    }
+    100% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      z-index: 3;
+      filter: brightness(1) saturate(1);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  /* Mobile: cascade can't fit; show only the front card, no animation */
+  .mockPhoneBack,
+  .mockPhoneMid {
+    display: none;
+  }
+  .mockStack .mockPhoneFront {
+    animation: none;
+    transform: none;
+    z-index: 3;
+  }
+}
+
 .mockPhone {
-  width: 270px;
-  height: 540px;
+  width: 290px;
+  height: 600px;
   background: #111;
-  border-radius: 38px;
+  border-radius: 42px;
   padding: 12px;
-  box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(255,255,255,0.05);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.06);
   position: relative;
 }
 
@@ -1733,61 +1795,153 @@
   width: 100%;
   height: 100%;
   background: var(--ifm-background-color);
-  border-radius: 28px;
-  padding: 38px 18px 18px;
+  border-radius: 30px;
+  padding: 38px 16px 16px;
   display: flex;
   flex-direction: column;
 }
 
+/* Header — brand + language badge */
 .mockPhoneHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.mockPhoneBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.mockPhoneLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 .mockPhoneTitle {
-  width: 60%;
-  height: 14px;
-  background: var(--ifm-color-emphasis-700);
-  border-radius: 3px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ifm-color-emphasis-1000);
+  letter-spacing: -0.01em;
 }
 
-.mockPhoneAvatar {
-  width: 28px;
-  height: 28px;
+.mockPhoneLangBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.22rem 0.5rem;
+  border-radius: 6px;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+}
+
+/* Project / progress meta row */
+.mockPhoneMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.mockMetaLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-700);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mockMetaDot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--ifm-color-primary);
 }
 
-.mockTask {
+.mockMetaProgress {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-800);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tweet card — the text being annotated */
+.mockTweetCard {
   background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 14px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 0.85rem 0.95rem;
+  margin-bottom: 1.1rem;
 }
 
-.mockTaskLabel {
-  height: 10px;
-  width: 50%;
-  background: var(--ifm-color-emphasis-400);
-  border-radius: 3px;
-  margin-bottom: 0.85rem;
-}
-
-.mockWaveform {
+.mockTweetHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2px;
-  height: 64px;
+  gap: 0.4rem;
+  margin-bottom: 0.55rem;
 }
 
-.mockWaveform span {
-  flex: 1;
-  background: var(--ifm-color-primary);
-  border-radius: 2px;
-  opacity: 0.85;
+.mockTweetAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mockTweetHandle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-1000);
+}
+
+.mockTweetTime {
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.mockTweetText {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--ifm-color-emphasis-1000);
+  margin: 0 0 0.4rem;
+}
+
+.mockTweetGloss {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+}
+
+/* Sentiment label + chips */
+.mockSentimentLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.5rem;
 }
 
 .mockChips {
@@ -1798,22 +1952,58 @@
 }
 
 .mockChip {
-  padding: 0.4rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.42rem 0.75rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--ifm-color-emphasis-700);
+  background: var(--ifm-background-color);
 }
 
 .mockChipActive {
   background: var(--ifm-color-primary);
   color: #fff;
   border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 10px -3px rgba(46, 133, 85, 0.45);
+}
+
+.mockChipCheck {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+/* Bottom bar — skip + submit */
+.mockBottomBar {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mockSkip {
+  flex: 0 0 auto;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-700);
+  text-align: center;
 }
 
 .mockSubmit {
-  margin-top: auto;
+  flex: 1;
   background: var(--ifm-color-primary);
   color: #fff;
   text-align: center;
@@ -1821,6 +2011,96 @@
   border-radius: 12px;
   font-weight: 700;
   font-size: 0.95rem;
+}
+
+/* ----- MasakhaNER NER tagging card (middle) ----- */
+.mockNerCard {
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 14px;
+  padding: 0.95rem;
+  margin-bottom: 1.1rem;
+}
+
+.mockNerText {
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: var(--ifm-color-emphasis-1000);
+  margin: 0;
+}
+
+.mockNerTag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 5px;
+  font-weight: 600;
+  background: transparent;
+  color: inherit;
+}
+
+.mockNerPer {
+  background: rgba(46, 133, 85, 0.18);
+  border: 1px dashed rgba(46, 133, 85, 0.55);
+}
+
+.mockNerLoc {
+  background: rgba(241, 175, 30, 0.22);
+  border: 1px dashed rgba(241, 175, 30, 0.6);
+}
+
+.mockNerTagLabel {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.05rem 0.32rem;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  vertical-align: super;
+  line-height: 1;
+}
+
+/* ----- FLORES MT translation-pair card (back) ----- */
+.mockTransPair {
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 14px;
+  padding: 0.85rem 0.95rem;
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.mockTransRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.mockTransRow + .mockTransRow {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.mockTransLang {
+  flex: 0 0 auto;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.18rem 0.4rem;
+  border-radius: 4px;
+  background: var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-900);
+  margin-top: 0.1rem;
+}
+
+.mockTransText {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ifm-color-emphasis-1000);
 }
 
 /* ============================================================
@@ -1995,58 +2275,3 @@
   margin: 0;
 }
 
-/* ============================================================
-   CTA BANNER
-   ============================================================ */
-.cta {
-  padding: 5.5rem 0;
-  background: linear-gradient(135deg, #205d3b 0%, #2e8555 50%, #33925d 100%);
-  color: #fff;
-  text-align: center;
-}
-
-.ctaInner { max-width: 740px; }
-
-.ctaTitle {
-  font-size: clamp(2.1rem, 4vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.ctaText {
-  font-size: 1.18rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.92);
-  margin-bottom: 2.2rem;
-}
-
-.cta .heroButtons {
-  justify-content: center;
-  margin-bottom: 0;
-}
-
-.cta .primaryButton {
-  background: #fff;
-  color: var(--ifm-color-primary-darkest);
-  border-color: #fff;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
-}
-
-.cta .primaryButton:hover {
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--ifm-color-primary-darkest);
-}
-
-.cta .secondaryButton {
-  background: transparent;
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.cta .secondaryButton:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  border-color: #fff;
-}
