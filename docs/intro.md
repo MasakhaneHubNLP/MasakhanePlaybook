@@ -7,6 +7,10 @@ slug: /
 
 A comprehensive guide to dataset design, annotation, and task formulation for building reliable and responsible language AI systems.
 
+:::info[📚 Citing this Playbook]
+Using this resource in research, teaching, or a project? **[Jump to the citation block](#how-to-cite-this-playbook)** at the bottom of this page for BibTeX, APA, and other formats. The full citation page lives at [`/cite`](/cite).
+:::
+
 ## Welcome to the dataset design and annotation playbook!
 
 This playbook will help you plan and develop **training and evaluation datasets**, define **annotation schemas**, and design **AI tasks** across different languages, domains, and modalities. It provides guidance on dataset structuring, labeling strategies, and ethical considerations for language technologies.
