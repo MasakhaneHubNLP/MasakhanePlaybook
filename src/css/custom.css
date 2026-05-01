@@ -233,6 +233,26 @@ button[aria-label="Toggle navigation bar"],
   }
 }
 
+/* "Cite this page" link rendered above the doc footer area */
+.theme-doc-cite-this-page {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.theme-doc-cite-this-page__link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.15s ease;
+}
+
+.theme-doc-cite-this-page__link:hover {
+  border-bottom-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
 /* Navbar Discord button (icon + label pill) */
 .navbar-discord {
   display: inline-flex;
