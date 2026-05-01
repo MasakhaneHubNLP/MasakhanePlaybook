@@ -160,16 +160,12 @@
   flex-wrap: wrap;
 }
 
-/* Single B/W community photo on the right of the hero.
-   Replace with a real Masakhane community photo by saving it to
-   static/img/hero.jpg and changing the URL to /MasakhanePlaybook/img/hero.jpg */
 .heroPhoto {
   position: relative;
   height: 460px;
   border-radius: 16px;
   overflow: hidden;
   background-color: #2a2a2a;
-  background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1000&h=1200&q=80');
   background-size: cover;
   background-position: center;
   background-blend-mode: luminosity;
@@ -296,6 +292,7 @@
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.18);
   color: #fff;
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -310,6 +307,7 @@
   background: rgba(0, 0, 0, 0.25);
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
@@ -1648,11 +1646,135 @@
 }
 
 /* ============================================================
-   MasakhaneTool — annotation mock (3-card cascade)
-   Front: AfriSenti sentiment (Hausa)
-   Middle: MasakhaNER NER (Swahili)
-   Back: FLORES-200 MT review (Amharic ↔ English)
+   MasakhaneTool — annotation mock (3-card cascade) inside a
+   "dataset lifecycle" frame:  Collect → [Annotate] → Validate
    ============================================================ */
+
+.toolLifecycle {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Lifecycle stages — pill row above the mock stack */
+.lifecycleStages {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 2.4rem;
+  flex-wrap: nowrap;
+}
+
+.lifecycleStage {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.85rem 0.42rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-emphasis-700);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  white-space: nowrap;
+}
+
+.lifecycleStageNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.74rem;
+  line-height: 1;
+}
+
+.lifecycleStageActive {
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 6px 18px -8px rgba(46, 133, 85, 0.55);
+}
+
+.lifecycleStageActive .lifecycleStageNum {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.lifecycleConnector {
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--ifm-color-emphasis-300);
+}
+
+/* Caption pointing at the active stage / central UI */
+.lifecycleCaption {
+  position: relative;
+  margin-top: 2.5rem;
+  padding: 0.85rem 1.1rem;
+  max-width: 360px;
+  text-align: center;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lifecycleCaption::before {
+  /* small triangle pointer pointing UP toward the mock stack */
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: var(--ifm-background-color);
+  border-left: 1px solid var(--ifm-color-emphasis-200);
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.lifecycleCaptionEyebrow {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+}
+
+.lifecycleCaptionText {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ifm-color-emphasis-800);
+}
+
+@media (max-width: 600px) {
+  .lifecycleStages {
+    gap: 0.35rem;
+    margin-bottom: 1.6rem;
+  }
+  .lifecycleStage {
+    font-size: 0.7rem;
+    padding: 0.32rem 0.65rem 0.32rem 0.32rem;
+  }
+  .lifecycleConnector {
+    width: 12px;
+  }
+  .lifecycleCaption {
+    margin-top: 1.6rem;
+    font-size: 0.88rem;
+  }
+}
 
 .mockStack {
   position: relative;
@@ -2172,62 +2294,6 @@
 }
 
 /* ============================================================
-   ANNOUNCEMENTS
-   ============================================================ */
-.announcementGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-@media (max-width: 996px) {
-  .announcementGrid { grid-template-columns: 1fr; }
-}
-
-.announcementCard {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.1rem;
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 14px;
-  padding: 1.6rem;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.announcementCard:hover {
-  border-color: var(--ifm-color-primary-lighter);
-  transform: translateY(-2px);
-}
-
-.announcementBadge {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(46, 133, 85, 0.1);
-  color: var(--ifm-color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.announcementTitle {
-  font-size: 1.12rem;
-  font-weight: 700;
-  margin-bottom: 0.45rem;
-  color: var(--ifm-color-emphasis-1000);
-  letter-spacing: -0.01em;
-}
-
-.announcementBody {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--ifm-color-emphasis-700);
-  margin: 0;
-}
-
-/* ============================================================
    COMMUNITIES
    ============================================================ */
 .communityGrid {
@@ -2289,57 +2355,5 @@
 
 .communityCard:hover .communityArrow {
   transform: translate(2px, -2px);
-}
-
-/* ============================================================
-   PILLARS
-   ============================================================ */
-.pillarGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .pillarGrid { grid-template-columns: 1fr; }
-}
-
-.pillarCard {
-  background: var(--ifm-color-emphasis-100);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 14px;
-  padding: 1.85rem;
-  transition: border-color 0.2s ease;
-}
-
-.pillarCard:hover {
-  border-color: var(--ifm-color-primary-lighter);
-}
-
-.pillarIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: var(--ifm-color-primary);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.1rem;
-}
-
-.pillarTitle {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 0.7rem;
-  color: var(--ifm-color-emphasis-1000);
-  letter-spacing: -0.01em;
-}
-
-.pillarBody {
-  font-size: 1.02rem;
-  line-height: 1.7;
-  color: var(--ifm-color-emphasis-800);
-  margin: 0;
 }
 

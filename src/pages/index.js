@@ -10,13 +10,10 @@ import {
   IconWrench,
   IconMegaphone,
   IconUsers,
-  IconMail,
   IconArrowRight,
   IconExternalLink,
   IconNewspaper,
   IconSparkles,
-  IconShieldCheck,
-  IconHeart,
   IconRocket,
 } from '@site/src/components/Icons';
 
@@ -24,6 +21,7 @@ import {
    HERO
    ============================================================ */
 function HeroSection() {
+  const heroPhotoUrl = useBaseUrl('/img/hero.jpg');
   return (
     <header className={styles.hero}>
       <div className="container">
@@ -48,7 +46,11 @@ function HeroSection() {
               </Link>
             </div>
           </div>
-          <div className={styles.heroPhoto} aria-hidden="true" />
+          <div
+            className={styles.heroPhoto}
+            style={{backgroundImage: `url(${heroPhotoUrl})`}}
+            aria-hidden="true"
+          />
         </div>
       </div>
     </header>
@@ -238,7 +240,26 @@ function FeatureTool() {
           </ul>
         </div>
         <div className={styles.featureVisual}>
-          <div className={styles.mockStack} aria-hidden="true">
+          <div className={styles.toolLifecycle}>
+            <div className={styles.lifecycleStages} aria-hidden="true">
+              <span className={styles.lifecycleStage}>
+                <span className={styles.lifecycleStageNum}>1</span> Collect
+              </span>
+              <span className={styles.lifecycleConnector} />
+              <span
+                className={clsx(
+                  styles.lifecycleStage,
+                  styles.lifecycleStageActive,
+                )}>
+                <span className={styles.lifecycleStageNum}>2</span> Annotate
+              </span>
+              <span className={styles.lifecycleConnector} />
+              <span className={styles.lifecycleStage}>
+                <span className={styles.lifecycleStageNum}>3</span> Validate
+              </span>
+            </div>
+
+            <div className={styles.mockStack} aria-hidden="true">
             {/* Back card — LLM Evaluation (Amharic) */}
             <div className={clsx(styles.mockPhone, styles.mockPhoneBack)}>
               <div className={styles.mockPhoneNotch} />
@@ -384,58 +405,15 @@ function FeatureTool() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   ANNOUNCEMENTS
-   ============================================================ */
-const ANNOUNCEMENTS = [
-  {
-    icon: IconMail,
-    title: 'Monthly AfricaNLP Newsletter',
-    body: 'Subscribe for updates on best practices, milestones, and contributor opportunities across the African NLP community.',
-  },
-  {
-    icon: IconRocket,
-    title: 'Pilot deployments',
-    body: 'The annotation platform will first roll out at Bayero University and Bahir Dar University (ICT4D) for testing and validation before broader release.',
-  },
-  {
-    icon: IconHeart,
-    title: 'Open feedback channel',
-    body: 'Built-in feedback mechanisms live inside the playbook so the community can shape its evolution release after release.',
-  },
-];
-
-function AnnouncementsSection() {
-  return (
-    <section className={styles.section}>
-      <div className="container">
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>
-            <IconMegaphone size={14} /> Announcements
-          </span>
-          <Heading as="h2" className={styles.sectionTitle}>
-            Stay in the loop
-          </Heading>
-        </div>
-        <div className={styles.announcementGrid}>
-          {ANNOUNCEMENTS.map((item) => (
-            <div key={item.title} className={styles.announcementCard}>
-              <div className={styles.announcementBadge}>
-                <item.icon size={20} />
-              </div>
-              <div>
-                <h3 className={styles.announcementTitle}>{item.title}</h3>
-                <p className={styles.announcementBody}>{item.body}</p>
-              </div>
             </div>
-          ))}
+            <aside className={styles.lifecycleCaption} aria-hidden="true">
+              <span className={styles.lifecycleCaptionEyebrow}>Annotate</span>
+              <span className={styles.lifecycleCaptionText}>
+                One workspace for sentiment, NER, and LLM evaluation —
+                across African languages and scripts.
+              </span>
+            </aside>
+          </div>
         </div>
       </div>
     </section>
@@ -492,66 +470,6 @@ function CommunitiesSection() {
   );
 }
 
-/* ============================================================
-   WHO WE ARE
-   ============================================================ */
-const PILLARS = [
-  {
-    icon: IconUsers,
-    title: 'Multidisciplinary team',
-    body: 'Researchers, tool developers, linguists, and legal experts with deep experience in African NLP → including authors of AfriSenti, NaijaSenti, AfriHate, BRIGHTER, and AmhEn.',
-  },
-  {
-    icon: IconWrench,
-    title: 'Proven open-source track record',
-    body: 'The team builds and maintains widely used annotation tools → WebAnno (top-rated in a major systematic review), CodeAnno, ActiveAnno, Label Studio and Potato annotation tool platforms.',
-  },
-  {
-    icon: IconHeart,
-    title: 'Gender-balanced leadership',
-    body: 'Nearly 40% of collaborators are women, many holding PhDs in NLP and Data Science, with intentional design for inclusive recruitment, training, and governance.',
-  },
-  {
-    icon: IconShieldCheck,
-    title: 'Institutional anchors',
-    body: 'Anchored at Bayero University, Bahir Dar University (ICT4D), and partner research networks → ensuring real-world deployment and long-term stewardship.',
-  },
-];
-
-function WhoWeAreSection() {
-  return (
-    <section className={styles.section}>
-      <div className="container">
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>
-            <IconSparkles size={14} /> Who we are
-          </span>
-          <Heading as="h2" className={styles.sectionTitle}>
-            A coalition for African language AI
-          </Heading>
-          <p className={styles.sectionLead}>
-            We are a multidisciplinary team building open infrastructure so
-            that African languages are first-class citizens of modern AI →
-            from grassroots data collection through to responsible model
-            evaluation.
-          </p>
-        </div>
-        <div className={styles.pillarGrid}>
-          {PILLARS.map((p) => (
-            <div key={p.title} className={styles.pillarCard}>
-              <div className={styles.pillarIcon}>
-                <p.icon size={24} />
-              </div>
-              <h3 className={styles.pillarTitle}>{p.title}</h3>
-              <p className={styles.pillarBody}>{p.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -563,9 +481,7 @@ export default function Home() {
         <NewsSection />
         <FeaturePlaybook />
         <FeatureTool />
-        <AnnouncementsSection />
         <CommunitiesSection />
-        <WhoWeAreSection />
       </main>
     </Layout>
   );
