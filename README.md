@@ -11,11 +11,11 @@ This is a living resource maintained by the [Masakhane](https://www.masakhane.io
 ## Table of contents
 
 - [What's in the playbook](#whats-in-the-playbook)
+- [Install and run locally](#install-and-run-locally)
 - [Ways to contribute](#ways-to-contribute)
 - [How to contribute a chapter](#how-to-contribute-a-chapter)
 - [How to translate](#how-to-translate)
 - [How to write a blog post](#how-to-write-a-blog-post)
-- [Local setup](#local-setup)
 - [Reporting issues](#reporting-issues)
 - [How to cite](#how-to-cite)
 - [Code of conduct](#code-of-conduct)
@@ -39,6 +39,55 @@ The chapters are organized by phase of the dataset/model lifecycle:
 10. **Community and Collaboration** — `docs/community-collaboration/`
 
 The site is also available in **6 languages**: English, Hausa, Amharic, Swahili, French, and Portuguese (UI translated; chapter content awaits native-speaker translation).
+
+---
+
+## Install and run locally
+
+The Playbook is a [Docusaurus 3](https://docusaurus.io) site. To install and preview it on your own machine:
+
+### Requirements
+
+- Node.js ≥ 20 ([download](https://nodejs.org))
+- Yarn 1.x — install with `npm install -g yarn` if you don't have it (do **not** use npm for this project; the lockfile is yarn-managed)
+
+### Clone, install, and run
+
+```bash
+git clone https://github.com/MasakhaneHubNLP/MasakhanePlaybook.git
+cd MasakhanePlaybook
+yarn install --frozen-lockfile
+yarn start
+```
+
+Open <http://localhost:3000/MasakhanePlaybook/> — the site reloads automatically as you edit files.
+
+### Other useful commands
+
+```bash
+yarn start --locale fr       # preview a specific locale (en, ha, am, sw, fr, pt)
+yarn build                   # full production build (all locales)
+yarn build --locale en       # build a single locale (much faster)
+yarn clear                   # clear the .docusaurus cache (run if you hit module-not-found errors)
+yarn pdf                     # generate the downloadable PDF
+yarn serve                   # serve the production build at http://localhost:3000/
+```
+
+### Repo layout (high level)
+
+```text
+docs/                        chapter content (markdown), grouped by section folder
+blog/                        blog posts and announcements
+i18n/<locale>/               translated UI strings + per-locale chapter content
+src/pages/                   custom pages (home, /tool, /about, /roadmap, /cite, ...)
+src/components/              shared React components
+src/css/custom.css           global styles + theme tokens
+static/                      static assets served at site root (images, manifest, ...)
+docusaurus.config.js         site configuration (navbar, footer, plugins, i18n)
+sidebars.js                  documentation sidebar configuration
+```
+
+For deeper contributor-side details (every plugin, repo conventions, gotchas), see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -256,24 +305,6 @@ Blog posts go in `blog/` (separate from chapters). Use them for announcements, c
 3. To add yourself as an author, edit `blog/authors.yml` and add an entry with your name, GitHub URL, and image (the simplest is `https://github.com/<your-username>.png`).
 4. Drop a thumbnail at `static/img/blog/your-thumbnail.png` (recommended size: 1200×675).
 5. Preview, commit, push, PR (same flow as chapters).
-
----
-
-## Local setup
-
-If you just want a copy of the steps for working locally:
-
-```bash
-git clone https://github.com/MasakhaneHubNLP/MasakhanePlaybook.git
-cd MasakhanePlaybook
-yarn install --frozen-lockfile
-yarn start                   # http://localhost:3000/MasakhanePlaybook/
-yarn start --locale fr       # preview a specific locale
-yarn build                   # full production build (all locales)
-yarn pdf                     # generate the downloadable PDF
-```
-
-For deeper details (every plugin, gotchas, repo layout), see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 

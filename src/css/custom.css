@@ -37,7 +37,48 @@ html {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   font-size: 17px;
   transition: font-size 0.15s ease;
+  /* Prevent iOS Safari from auto-enlarging text on rotation.
+     Both prefixes are needed: -webkit- for Safari/iOS, unprefixed for
+     Chrome/Edge/Samsung Internet. Firefox doesn't need either. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
+
+/* Mobile-first interactivity: kill the 300ms tap delay everywhere it matters,
+   and add tactile feedback so taps feel responsive on lower-end Android. */
+.button,
+button,
+[role='button'],
+.navbar-discord,
+.navbar-gh-stars,
+.navbar-font-btn,
+.theme-doc-cite-this-page__link,
+.menu__link,
+.navbar__link,
+.pagination-nav__link,
+a.card,
+.footer__link-item {
+  touch-action: manipulation;
+}
+
+.button:active:not(:disabled),
+button:active:not(:disabled),
+[role='button']:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* On phones, footer link rows are tighter than the 44px tap-target minimum.
+   Padding gives thumbs room without changing visual layout much. */
+@media (max-width: 768px) {
+  .footer__link-item {
+    display: inline-block;
+    padding: 0.35rem 0;
+  }
+  .footer__col {
+    margin-bottom: 1.5rem;
+  }
+}
+
 
 html[data-font-scale="0"] { font-size: 14px; }
 html[data-font-scale="1"] { font-size: 15.5px; }
