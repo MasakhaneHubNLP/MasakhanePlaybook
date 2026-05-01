@@ -94,7 +94,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/docs/",
+            "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/",
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
@@ -111,7 +111,7 @@ const config = {
             copyright: `Copyright © ${new Date().getFullYear()} Masakhane.`,
           },
           editUrl:
-            "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/blog/",
+            "https://github.com/MasakhaneHubNLP/MasakhanePlaybook/edit/main/",
         },
 
         theme: {
