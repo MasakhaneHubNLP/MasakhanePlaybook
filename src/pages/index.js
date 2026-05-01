@@ -239,7 +239,7 @@ function FeatureTool() {
         </div>
         <div className={styles.featureVisual}>
           <div className={styles.mockStack} aria-hidden="true">
-            {/* Back card — FLORES-200 MT review (Amharic ↔ English) */}
+            {/* Back card — LLM Evaluation (Amharic) */}
             <div className={clsx(styles.mockPhone, styles.mockPhoneBack)}>
               <div className={styles.mockPhoneNotch} />
               <div className={styles.mockPhoneScreen}>
@@ -248,40 +248,50 @@ function FeatureTool() {
                     <span className={styles.mockPhoneLogo}>𝓐</span>
                     <span className={styles.mockPhoneTitle}>MasakhaneTool</span>
                   </div>
-                  <span className={styles.mockPhoneLangBadge}>AM↔EN</span>
+                  <span className={styles.mockPhoneLangBadge}>AM</span>
                 </div>
                 <div className={styles.mockPhoneMeta}>
                   <span className={styles.mockMetaLabel}>
-                    <span className={styles.mockMetaDot} /> FLORES-200 · MT review
+                    <span className={styles.mockMetaDot} /> LLM Evaluation
                   </span>
-                  <span className={styles.mockMetaProgress}>89 / 500</span>
+                  <span className={styles.mockMetaProgress}>12 / 300</span>
                 </div>
-                <div className={styles.mockTransPair}>
-                  <div className={styles.mockTransRow}>
-                    <span className={styles.mockTransLang}>AM</span>
-                    <span lang="am" className={styles.mockTransText}>
-                      ይህ መጽሐፍ በጣም ጠቃሚ ነው።
-                    </span>
-                  </div>
-                  <div className={styles.mockTransRow}>
-                    <span className={styles.mockTransLang}>EN</span>
-                    <span className={styles.mockTransText}>
-                      This book is very useful.
-                    </span>
-                  </div>
+                <div className={styles.mockChatBubble}>
+                  <span className={styles.mockChatRole}>Prompt</span>
+                  <p className={styles.mockChatText} lang="am">
+                    ስለ ኢትዮጵያ በአማርኛ ጻፍ።
+                  </p>
                 </div>
-                <div className={styles.mockSentimentLabel}>Adequacy</div>
+                <div
+                  className={clsx(
+                    styles.mockChatBubble,
+                    styles.mockChatBubbleModel,
+                  )}>
+                  <span className={styles.mockChatRole}>Model · gpt-4</span>
+                  <p className={styles.mockChatText} lang="am">
+                    ኢትዮጵያ በምስራቅ አፍሪካ የምትገኝ ጥንታዊ ሀገር ናት።
+                  </p>
+                </div>
+                <div className={styles.mockSentimentLabel}>Quality</div>
                 <div className={styles.mockChips}>
-                  <span className={styles.mockChip}>Bad</span>
-                  <span className={styles.mockChip}>OK</span>
                   <span className={clsx(styles.mockChip, styles.mockChipActive)}>
-                    Good
+                    <span className={styles.mockChipCheck}>✓</span> Accurate
                   </span>
+                  <span className={styles.mockChip}>Fluent</span>
+                  <span className={styles.mockChip}>Safe</span>
+                </div>
+                <div className={styles.mockStars}>
+                  <span className={styles.mockStarFilled}>★</span>
+                  <span className={styles.mockStarFilled}>★</span>
+                  <span className={styles.mockStarFilled}>★</span>
+                  <span className={styles.mockStarFilled}>★</span>
+                  <span className={styles.mockStarEmpty}>★</span>
+                  <span className={styles.mockStarsLabel}>4 / 5</span>
                 </div>
               </div>
             </div>
 
-            {/* Middle card — MasakhaNER NER tagging (Swahili) */}
+            {/* Middle card — Named Entity Annotation (Swahili) */}
             <div className={clsx(styles.mockPhone, styles.mockPhoneMid)}>
               <div className={styles.mockPhoneNotch} />
               <div className={styles.mockPhoneScreen}>
@@ -294,7 +304,7 @@ function FeatureTool() {
                 </div>
                 <div className={styles.mockPhoneMeta}>
                   <span className={styles.mockMetaLabel}>
-                    <span className={styles.mockMetaDot} /> MasakhaNER · NER
+                    <span className={styles.mockMetaDot} /> Named Entity Annotation
                   </span>
                   <span className={styles.mockMetaProgress}>132 / 500</span>
                 </div>
@@ -339,7 +349,7 @@ function FeatureTool() {
 
                 <div className={styles.mockPhoneMeta}>
                   <span className={styles.mockMetaLabel}>
-                    <span className={styles.mockMetaDot} /> AfriSenti · Sentiment
+                    <span className={styles.mockMetaDot} /> Sentiment Annotation
                   </span>
                   <span className={styles.mockMetaProgress}>47 / 500</span>
                 </div>

@@ -1665,17 +1665,20 @@
   position: absolute;
   top: 0;
   left: 0;
-  animation: mockCardCycle 12s ease-in-out infinite;
+  animation-name: mockCardCycle;
+  animation-duration: 9s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-iteration-count: infinite;
   /* Hardware-acceleration hint so the rotate/scale stays smooth. */
   will-change: transform, filter;
 }
 
 /* Stagger: each card starts at a different point in the cycle so all three
    positions are always occupied. Negative delays put each card mid-cycle
-   on first paint. */
-.mockPhoneFront { animation-delay: 0s; }
-.mockPhoneMid { animation-delay: -4s; }
-.mockPhoneBack { animation-delay: -8s; }
+   on first paint. Selectors specificity matched to .mockStack .mockPhone. */
+.mockStack .mockPhoneFront { animation-delay: 0s; }
+.mockStack .mockPhoneMid { animation-delay: -3s; }
+.mockStack .mockPhoneBack { animation-delay: -6s; }
 
 /* Pause-on-hover so visitors can actually read the front card */
 .mockStack:hover .mockPhone {
@@ -1683,20 +1686,20 @@
 }
 
 @keyframes mockCardCycle {
-  /* ~3s at front (focal) */
-  0%, 25% {
+  /* ~2s at front (focal) */
+  0%, 22% {
     transform: translate(0, 0) rotate(0deg) scale(1);
     z-index: 3;
     filter: brightness(1) saturate(1);
   }
-  /* ~3s in middle (partial) */
-  33%, 58% {
+  /* ~2s in middle (partial) */
+  33%, 55% {
     transform: translate(-50px, 30px) rotate(-4.5deg) scale(0.93);
     z-index: 2;
-    filter: brightness(0.9) saturate(0.95);
+    filter: brightness(0.92) saturate(0.95);
   }
-  /* ~3s in back (atmospheric) */
-  66%, 91% {
+  /* ~2s in back (atmospheric) */
+  66%, 88% {
     transform: translate(-90px, 60px) rotate(-9deg) scale(0.86);
     z-index: 1;
     filter: brightness(0.78) saturate(0.85);
@@ -2101,6 +2104,71 @@
   font-size: 0.82rem;
   line-height: 1.45;
   color: var(--ifm-color-emphasis-1000);
+}
+
+/* ----- LLM Evaluation card (back) ----- */
+.mockChatBubble {
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.mockChatBubbleModel {
+  background: rgba(46, 133, 85, 0.08);
+  border-color: rgba(46, 133, 85, 0.25);
+  margin-bottom: 0.85rem;
+}
+
+.mockChatRole {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.25rem;
+}
+
+.mockChatBubbleModel .mockChatRole {
+  color: var(--ifm-color-primary);
+}
+
+.mockChatText {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ifm-color-emphasis-1000);
+  margin: 0;
+}
+
+.mockStars {
+  display: flex;
+  align-items: center;
+  gap: 0.18rem;
+  margin-top: 0.4rem;
+}
+
+.mockStarFilled,
+.mockStarEmpty {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.mockStarFilled {
+  color: #f1af1e;
+}
+
+.mockStarEmpty {
+  color: var(--ifm-color-emphasis-300);
+}
+
+.mockStarsLabel {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-700);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
