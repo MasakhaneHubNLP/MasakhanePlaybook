@@ -28,7 +28,7 @@ The playbook is organised end-to-end through the dataset lifecycle, but you don'
 - **You're working with a specific modality** (speech, multimodal, low-resource scripts). Skip to **chapter 5 (Modality-Specific Task Design)**.
 - **You're using LLMs to generate or augment data.** Read **chapter 7 (LLM-Assisted and Synthetic Data Generation)** for the trade-offs and safeguards.
 - **You're preparing a dataset for release or publication.** Read **chapter 6 (Documentation, Data Release, and Governance)** and **chapter 9 (Dataset Lifecycle Management and Release Checklist)**.
-- **You're a coordinator onboarding a team or community group.** See [Onboarding a Team](./onboarding) and [Running a Playbook Workshop](./running-workshops).
+- **You're a coordinator onboarding a team or community group.** See [Onboarding a Team](./onboarding.md) and [Running a Playbook Workshop](./running-workshops.md).
 - **You're reading offline or on a slow connection.** Use **Download PDF** in the navbar — the entire playbook bundles into a single file, regenerated automatically on every release.
 - **You'd rather read in Hausa, Amharic, Swahili, French, or Portuguese.** Use the language switcher in the top-right of the navbar. Translations are community-maintained and grow over time.
 
