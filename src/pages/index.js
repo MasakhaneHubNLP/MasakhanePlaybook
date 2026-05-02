@@ -87,33 +87,6 @@ function HeroSection() {
 }
 
 /* ============================================================
-   STATS
-   ============================================================ */
-const STATS = [
-  {value: '22+', label: 'Chapters'},
-  {value: '6', label: 'Languages'},
-  {value: '6', label: 'Partner communities'},
-  {value: 'Apache 2.0', label: 'Open source'},
-];
-
-function StatsBand() {
-  return (
-    <section className={styles.statsBand} aria-label="By the numbers">
-      <div className="container">
-        <div className={styles.statsGrid}>
-          {STATS.map((s) => (
-            <div key={s.label} className={styles.stat}>
-              <span className={styles.statValue}>{s.value}</span>
-              <span className={styles.statLabel}>{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
    NEWS
    ============================================================ */
 function NewsSection() {
@@ -492,127 +465,11 @@ function FeatureTool() {
 }
 
 /* ============================================================
-   FAQ
-   ============================================================ */
-const FAQ = [
-  {
-    q: 'Is the Playbook free to use?',
-    a: (
-      <>
-        Yes — entirely. The Playbook content is community-maintained and
-        openly licensed, and the Masakhane Tool annotation platform is
-        Apache 2.0. There is no closed version, no paid tier, no commercial
-        fork.
-      </>
-    ),
-  },
-  {
-    q: 'Can I contribute a chapter?',
-    a: (
-      <>
-        Yes, contributions are very welcome. The recommended flow is to open
-        an issue with a chapter outline first, then write and submit a pull
-        request. See the{' '}
-        <a
-          href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook/blob/main/README.md#how-to-contribute-a-chapter"
-          target="_blank"
-          rel="noreferrer noopener">
-          step-by-step guide
-        </a>{' '}
-        in the README.
-      </>
-    ),
-  },
-  {
-    q: 'How do I cite the Playbook?',
-    a: (
-      <>
-        Every chapter page has a "Cite this page" link. The{' '}
-        <Link to="/cite">citation page</Link> provides BibTeX, APA, MLA,
-        Chicago, and a machine-readable <code>CITATION.cff</code>. If you
-        cite a specific chapter, please include the chapter title and URL.
-      </>
-    ),
-  },
-  {
-    q: 'Is the Masakhane Tool deployable on-prem?',
-    a: (
-      <>
-        Yes. The Tool is Apache 2.0 licensed and ships as a Progressive Web
-        App, so you can self-host on any machine that serves static files
-        and a backend, install it on a phone for offline use, or deploy it
-        inside an institutional network. Pilot deployments are running at
-        Bayero University and Bahir Dar University ICT4D.
-      </>
-    ),
-  },
-  {
-    q: 'Which African languages are supported?',
-    a: (
-      <>
-        The site UI is translated into 6 languages — English, Hausa,
-        Amharic, Swahili, French, and Portuguese — with chapter content
-        gradually following. The Tool itself supports any African language
-        through Unicode, with virtual keyboards and localised UI strings.
-      </>
-    ),
-  },
-  {
-    q: 'How can I get involved?',
-    a: (
-      <>
-        Join the conversation on{' '}
-        <a
-          href="https://discord.gg/ChNPHV2PPS"
-          target="_blank"
-          rel="noreferrer noopener">
-          Discord
-        </a>
-        , subscribe to the{' '}
-        <Link to="/newsletter">AfricaNLP Newsletter</Link>, or open an issue
-        or pull request on{' '}
-        <a
-          href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook"
-          target="_blank"
-          rel="noreferrer noopener">
-          GitHub
-        </a>
-        . If you'd like to lead a chapter, see the open Call for Chapter
-        Development Proposals.
-      </>
-    ),
-  },
-];
-
-function FAQSection() {
-  return (
-    <section className={clsx(styles.section, styles.altSection)}>
-      <div className="container">
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>FAQ</span>
-          <Heading as="h2" className={styles.sectionTitle}>
-            Frequently asked
-          </Heading>
-        </div>
-        <div className={styles.faqList}>
-          {FAQ.map(({q, a}) => (
-            <details key={q} className={styles.faqItem}>
-              <summary className={styles.faqQuestion}>{q}</summary>
-              <p className={styles.faqAnswer}>{a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
    COMMUNITIES
    ============================================================ */
 function CommunitiesSection() {
   return (
-    <section className={styles.section}>
+    <section className={clsx(styles.section, styles.altSection)}>
       <div className="container">
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>
@@ -666,11 +523,9 @@ export default function Home() {
       description="A community-driven playbook and open annotation infrastructure for African language data.">
       <HeroSection />
       <main>
-        <StatsBand />
-        <NewsSection />
         <FeaturePlaybook />
         <FeatureTool />
-        <FAQSection />
+        <NewsSection />
         <CommunitiesSection />
       </main>
     </Layout>
