@@ -367,42 +367,8 @@ button[aria-label="Toggle navigation bar"],
 main[itemtype="https://schema.org/Blog"] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 1.25rem;
   align-items: stretch;
-}
-
-/* Featured (most recent) post spans 2 columns and shows a "FEATURED" pill */
-@media (min-width: 700px) {
-  main[itemtype="https://schema.org/Blog"] > .blog-card:first-child,
-  main[itemtype="https://schema.org/Blog"] > article:first-child {
-    grid-column: span 2;
-  }
-}
-
-main[itemtype="https://schema.org/Blog"] > .blog-card:first-child .blog-card-thumbnail,
-main[itemtype="https://schema.org/Blog"] > article:first-child .blog-card-thumbnail {
-  aspect-ratio: 21 / 9;
-}
-
-main[itemtype="https://schema.org/Blog"] > .blog-card:first-child header h2,
-main[itemtype="https://schema.org/Blog"] > article:first-child header h2 {
-  font-size: 1.55rem;
-  line-height: 1.25;
-}
-
-main[itemtype="https://schema.org/Blog"] > .blog-card:first-child .blog-card-body::before,
-main[itemtype="https://schema.org/Blog"] > article:first-child > header::before {
-  content: "Featured";
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ifm-color-primary);
-  background: rgba(46, 133, 85, 0.1);
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  margin-bottom: 0.7rem;
 }
 
 main[itemtype="https://schema.org/Blog"] > .blog-card > article {
@@ -455,7 +421,7 @@ main[itemtype="https://schema.org/Blog"] > article:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1rem 1.1rem 0.9rem;
 }
 
 .blog-card-body > article {
@@ -469,13 +435,14 @@ main[itemtype="https://schema.org/Blog"] > article:hover {
 }
 
 main[itemtype="https://schema.org/Blog"] > article:not(.blog-card *) {
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1rem 1.1rem 0.9rem;
 }
 
 main[itemtype="https://schema.org/Blog"] header h2 {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   line-height: 1.3;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.45rem;
+  font-weight: 700;
 }
 
 main[itemtype="https://schema.org/Blog"] header h2 a {
@@ -488,20 +455,22 @@ main[itemtype="https://schema.org/Blog"] header h2 a:hover {
 }
 
 main[itemtype="https://schema.org/Blog"] .markdown {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
   color: var(--ifm-color-emphasis-700);
   flex-grow: 1;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 main[itemtype="https://schema.org/Blog"] article > footer {
   margin-top: auto;
   padding-top: 0.5rem;
   border-top: 1px solid var(--ifm-color-emphasis-100);
+  font-size: 0.85rem;
 }
 
 @media (max-width: 600px) {

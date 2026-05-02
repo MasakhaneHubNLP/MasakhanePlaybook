@@ -2525,4 +2525,183 @@
   transform: translate(2px, -2px);
 }
 
+/* ============================================================
+   FROM THE BLOG — homepage teaser. Title + view-all on the
+   left/right of a single header row, then a 3-card grid.
+   ============================================================ */
+.blogTeaserHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
 
+.blogTeaserHeading {
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.blogTeaserViewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.15rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-900);
+  text-decoration: none !important;
+  white-space: nowrap;
+  background: var(--ifm-background-color);
+  transition: border-color 0.15s ease, background 0.15s ease,
+    color 0.15s ease, transform 0.15s ease;
+}
+
+.blogTeaserViewAll:hover {
+  border-color: var(--ifm-color-primary);
+  background: rgba(46, 133, 85, 0.08);
+  color: var(--ifm-color-primary);
+  transform: translateY(-1px);
+}
+
+.blogTeaserGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.5rem;
+}
+
+.blogTeaserCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit;
+  transition: transform 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.blogTeaserCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--ifm-color-primary-lighter);
+  box-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.18);
+}
+
+.blogTeaserThumb {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.blogTeaserThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.blogTeaserCard:hover .blogTeaserThumb img {
+  transform: scale(1.04);
+}
+
+.blogTeaserBody {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.1rem 1.2rem 1.1rem;
+}
+
+.blogTeaserTag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ifm-color-primary);
+  text-transform: capitalize;
+  margin-bottom: 0.4rem;
+}
+
+.blogTeaserCardTitle {
+  font-size: 1.15rem;
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  color: var(--ifm-color-emphasis-1000);
+  letter-spacing: -0.01em;
+}
+
+.blogTeaserCard:hover .blogTeaserCardTitle {
+  color: var(--ifm-color-primary);
+}
+
+.blogTeaserExcerpt {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0 0 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blogTeaserAuthor {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: auto;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--ifm-color-emphasis-100);
+}
+
+.blogTeaserAuthorAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.blogTeaserAuthorMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.blogTeaserAuthorName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blogTeaserDate {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+@media (max-width: 768px) {
+  .blogTeaserHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+  }
+  .blogTeaserGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
