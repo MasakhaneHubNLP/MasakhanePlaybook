@@ -11,6 +11,10 @@ A comprehensive guide to dataset design, annotation, and task formulation for bu
 Using this resource in research, teaching, or a project? **[Jump to the citation block](#how-to-cite-this-playbook)** at the bottom of this page for BibTeX, APA, and other formats. The full citation page lives at [`/cite`](/cite).
 :::
 
+:::tip[🤝 Help build the Playbook]
+This is a **community-driven** resource. If you spot a gap, want to write a chapter, translate a page, or suggest an improvement — contributions from researchers, practitioners, students, and language experts are very welcome. See the [**contribution guide**](https://github.com/MasakhaneHubNLP/MasakhanePlaybook/blob/main/README.md#ways-to-contribute) to get started, or join the conversation on [Discord](https://discord.gg/ChNPHV2PPS).
+:::
+
 ## Welcome to the dataset design and annotation playbook!
 
 This playbook will help you plan and develop **training and evaluation datasets**, define **annotation schemas**, and design **AI tasks** across different languages, domains, and modalities. It provides guidance on dataset structuring, labeling strategies, and ethical considerations for language technologies.

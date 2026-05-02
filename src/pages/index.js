@@ -54,15 +54,11 @@ function HeroSection() {
               the continent.
             </p>
             <p className={styles.heroLangs}>
-              <span className={styles.heroLangsLabel}>Read this in:</span>{' '}
+              <span className={styles.heroLangsLabel}>Read the Playbook in:</span>{' '}
               <Link className={styles.heroLangLink} to={haUrl} hrefLang="ha">Hausa</Link>
-              <span className={styles.heroLangSep} aria-hidden="true"> · </span>
               <Link className={styles.heroLangLink} to={amUrl} hrefLang="am">Amharic</Link>
-              <span className={styles.heroLangSep} aria-hidden="true"> · </span>
               <Link className={styles.heroLangLink} to={swUrl} hrefLang="sw">Swahili</Link>
-              <span className={styles.heroLangSep} aria-hidden="true"> · </span>
               <Link className={styles.heroLangLink} to={frUrl} hrefLang="fr">Français</Link>
-              <span className={styles.heroLangSep} aria-hidden="true"> · </span>
               <Link className={styles.heroLangLink} to={ptUrl} hrefLang="pt">Português</Link>
             </p>
             <div className={styles.heroButtons}>
