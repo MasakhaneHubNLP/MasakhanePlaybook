@@ -3,6 +3,7 @@ import Footer from "@theme-original/DocItem/Footer";
 import Link from "@docusaurus/Link";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
 import { EditButton } from "@site/src/components/EditModal";
+import StructureEditor from "@site/src/components/StructureEditor";
 
 const WORDS_PER_MINUTE = 220;
 
@@ -75,6 +76,7 @@ export default function FooterWrapper(props) {
             label="Suggest Edit"
           />
         )}
+        <StructureEditor label="Edit Structure" />
       </div>
       <Footer {...props} />
     </>
