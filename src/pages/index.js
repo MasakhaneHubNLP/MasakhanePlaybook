@@ -12,13 +12,11 @@ import {
   IconMegaphone,
   IconUsers,
   IconArrowRight,
-  IconExternalLink,
   IconNewspaper,
   IconSparkles,
   IconRocket,
 } from '@site/src/components/Icons';
 import NEWS_DATA from '@site/src/data/news.json';
-import COMMUNITIES_DATA from '@site/src/data/communities.json';
 import { CardEditButton } from '@site/src/components/EditModal';
 import editStyles from '@site/src/components/EditModal/index.module.css';
 
@@ -564,50 +562,74 @@ function BlogTeaserSection() {
 }
 
 /* ============================================================
-   COMMUNITIES
+   GET INVOLVED — closing contributor on-ramp. Honest framing
+   ("here's how YOU can join") rather than claiming external
+   partnerships on the marquee surface.
    ============================================================ */
-function CommunitiesSection() {
+const GET_INVOLVED = [
+  {
+    icon: IconBookOpen,
+    title: 'Write a chapter',
+    body: 'Fill a gap in the Playbook — propose a chapter, write it, open a PR.',
+    href: 'https://github.com/MasakhaneHubNLP/MasakhanePlaybook/blob/main/README.md#how-to-contribute-a-chapter',
+  },
+  {
+    icon: IconSparkles,
+    title: 'Translate a page',
+    body: 'Adapt an existing chapter into Hausa, Amharic, Swahili, French, or Portuguese.',
+    href: 'https://github.com/MasakhaneHubNLP/MasakhanePlaybook/blob/main/README.md#how-to-translate',
+  },
+  {
+    icon: IconUsers,
+    title: 'Join Discord',
+    body: 'Discuss approaches, share your work, and meet other contributors.',
+    href: 'https://discord.gg/ChNPHV2PPS',
+  },
+  {
+    icon: IconRocket,
+    title: 'Star on GitHub',
+    body: 'Help the project gain visibility — every star widens its reach.',
+    href: 'https://github.com/MasakhaneHubNLP/MasakhanePlaybook',
+  },
+];
+
+function GetInvolvedSection() {
   return (
     <section className={styles.section}>
       <div className="container">
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>
-            <IconUsers size={14} /> Communities
+            <IconSparkles size={14} /> Get Involved
           </span>
           <Heading as="h2" className={styles.sectionTitle}>
-            Built with grassroots networks across Africa
+            Help build the Playbook
           </Heading>
           <p className={styles.sectionLead}>
-            Our work is grounded in long-running community collaborations.
-            These networks shape the content, validate the methods, and
-            sustain the resources beyond any single grant cycle.
+            We welcome researchers, practitioners, students, and language
+            experts. Pick whichever fits — every contribution counts.
           </p>
         </div>
-        <div className={styles.communityGrid}>
-          {COMMUNITIES_DATA.map((c) => (
-            <div key={c.id} className={clsx(styles.communityCard, editStyles.cardWrap)}>
+        <div className={styles.getInvolvedGrid}>
+          {GET_INVOLVED.map((item) => {
+            const Icon = item.icon;
+            return (
               <a
-                className={styles.communityCard}
-                href={c.url}
+                key={item.title}
+                href={item.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                style={{display: 'block'}}
-              >
-                <h3 className={styles.communityName}>{c.name}</h3>
-                <p className={styles.communityRole}>{c.role}</p>
-                <span className={styles.communityArrow}>
-                  <IconExternalLink size={18} />
+                className={styles.getInvolvedCard}>
+                <div className={styles.getInvolvedIcon}>
+                  <Icon size={22} />
+                </div>
+                <h3 className={styles.getInvolvedTitle}>{item.title}</h3>
+                <p className={styles.getInvolvedBody}>{item.body}</p>
+                <span className={styles.getInvolvedArrow}>
+                  <IconArrowRight size={16} />
                 </span>
               </a>
-              <CardEditButton
-                mode="community"
-                filePath="src/data/communities.json"
-                itemId={c.id}
-                itemData={c}
-                pageTitle={c.name}
-              />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -626,7 +648,7 @@ export default function Home() {
         <FeatureTool />
         <NewsSection />
         <BlogTeaserSection />
-        <CommunitiesSection />
+        <GetInvolvedSection />
       </main>
     </Layout>
   );
