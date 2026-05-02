@@ -781,8 +781,8 @@ export default function Home() {
       <main>
         <FeaturePlaybook />
         <FeatureTool />
-        <NewsSection />
         <TestimonialsSection />
+        <NewsSection />
         <BlogTeaserSection />
         <GetInvolvedSection />
       </main>
