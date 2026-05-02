@@ -479,3 +479,242 @@ main[itemtype="https://schema.org/Blog"] article > footer {
     gap: 1rem;
   }
 }
+
+/* ==========================================================================
+   FAQ page — compact list-style accordions.
+   Pattern reference: Stripe / Linear / Tailwind FAQs.
+
+   Docusaurus auto-wraps raw <details> with its Details theme component,
+   which adds: an `alert` class (colored left border), an arrow ::before,
+   padding, and an info-blue background. We defeat all of that within
+   .faq-list and re-apply our own clean list styling.
+   ========================================================================== */
+.faq-list {
+  counter-reset: faq-counter;
+  max-width: 760px;
+  margin: 1.5rem 0 2rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Strip Docusaurus's Details/alert chrome inside the FAQ scope.
+   !important is needed to defeat the inline-priority alert styles. */
+.faq-list details,
+.faq-list details.alert {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  transition: background 0.15s ease;
+}
+
+.faq-list details[open] {
+  background: rgba(46, 133, 85, 0.025) !important;
+}
+
+/* Reset summary positioning — Docusaurus sets position:relative + padding-left
+   to make room for its own arrow. We don't need either. */
+.faq-list details > summary {
+  display: flex !important;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0.25rem !important;
+  cursor: pointer;
+  list-style: none !important;
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-1000);
+  background: transparent !important;
+  position: static !important;
+  transition: color 0.15s ease;
+}
+
+/* Kill all native + Docusaurus disclosure markers. */
+.faq-list details > summary::-webkit-details-marker {
+  display: none;
+}
+.faq-list details > summary::marker {
+  content: '';
+  display: none;
+}
+
+/* Numbering ::before — overrides Docusaurus's arrow ::before by content +
+   inline reset. The position: static + zeroed border/width defeats the
+   absolutely-positioned triangle. */
+.faq-list details > summary::before {
+  counter-increment: faq-counter;
+  content: counter(faq-counter, decimal-leading-zero) !important;
+  position: static !important;
+  transform: none !important;
+  border: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+  min-width: 1.9rem;
+  width: auto !important;
+  height: auto !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-500);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  background: transparent !important;
+  display: inline-block;
+  text-align: left;
+  transition: color 0.15s ease;
+}
+
+/* Plus → minus toggle on the right (linear-gradient cross + remove vertical) */
+.faq-list details > summary::after {
+  content: '';
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background:
+    linear-gradient(currentColor, currentColor) center / 14px 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.5px 14px no-repeat;
+  color: var(--ifm-color-emphasis-700);
+  transition: color 0.15s ease, transform 0.2s ease;
+}
+
+.faq-list details[open] > summary::after {
+  background: linear-gradient(currentColor, currentColor) center / 14px 1.5px no-repeat;
+  color: var(--ifm-color-primary);
+  transform: rotate(180deg);
+}
+
+.faq-list details > summary:hover {
+  color: var(--ifm-color-primary);
+}
+
+.faq-list details > summary:hover::before,
+.faq-list details > summary:hover::after {
+  color: var(--ifm-color-primary);
+}
+
+.faq-list details[open] > summary {
+  color: var(--ifm-color-primary);
+}
+
+/* Docusaurus's Details component renders the body inside two <div> wrappers:
+     <details>
+       <summary>...</summary>
+       <div>                              ← outer wrapper
+         <div class="collapsibleContent">  ← inner wrapper
+           <p>actual text</p>
+         </div>
+       </div>
+     </details>
+   We zero-out both wrappers' background/border, put the indent on the outer
+   wrapper, and style the actual content elements (p/ul/ol) inside. */
+.faq-list details > div,
+.faq-list details > div > div {
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.faq-list details > div {
+  padding: 0 0.25rem 1rem 2.9rem !important;
+}
+
+.faq-list details > div > div {
+  padding: 0 !important;
+}
+
+.faq-list details p,
+.faq-list details ul,
+.faq-list details ol {
+  margin: 0 0 0.6rem;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.faq-list details ul,
+.faq-list details ol {
+  padding-left: 1.2rem;
+}
+
+.faq-list details li {
+  margin-bottom: 0.35rem;
+  line-height: 1.6;
+}
+
+/* Last element in the answer — no bottom margin (the wrapper's padding-bottom
+   handles the spacing to the next FAQ row). */
+.faq-list details > div > div > *:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .faq-list details > summary {
+    gap: 0.7rem;
+    font-size: 0.97rem;
+  }
+  .faq-list details > summary::before {
+    min-width: 1.6rem;
+  }
+  .faq-list details > div {
+    padding-left: 2.3rem !important;
+  }
+  .faq-list details p,
+  .faq-list details ul,
+  .faq-list details ol {
+    font-size: 0.94rem;
+  }
+}
+
+/* ==========================================================================
+   Footer "Follow" social-icon row.
+   Pattern: small 36 px rounded squares, subtle hover-lift + brand-color.
+   Same look as Vercel / Linear / Hugging Face footers.
+   ========================================================================== */
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.4rem;
+}
+
+.footer-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  color: var(--ifm-footer-link-color);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-decoration: none !important;
+  transition: color 0.15s ease, background 0.15s ease,
+    border-color 0.15s ease, transform 0.15s ease;
+}
+
+.footer-social-icon:hover {
+  color: #fff;
+  background: rgba(46, 133, 85, 0.22);
+  border-color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+}
+
+.footer-social-icon svg {
+  display: block;
+}
+
+/* Subtle visual hint that placeholder accounts aren't live yet — mute opacity
+   until the URL is confirmed (then drop "(placeholder)" from aria-label). */
+.footer-social-icon[aria-label*="placeholder"] {
+  opacity: 0.55;
+}
+
+.footer-social-icon[aria-label*="placeholder"]:hover {
+  opacity: 1;
+}
+

@@ -16,6 +16,7 @@ This is a living resource maintained by the [Masakhane](https://www.masakhane.io
 - [How to contribute a chapter](#how-to-contribute-a-chapter)
 - [How to translate](#how-to-translate)
 - [How to write a blog post](#how-to-write-a-blog-post)
+- [FAQ](#faq)
 - [Reporting issues](#reporting-issues)
 - [How to cite](#how-to-cite)
 - [Code of conduct](#code-of-conduct)
@@ -305,6 +306,42 @@ Blog posts go in `blog/` (separate from chapters). Use them for announcements, c
 3. To add yourself as an author, edit `blog/authors.yml` and add an entry with your name, GitHub URL, and image (the simplest is `https://github.com/<your-username>.png`).
 4. Drop a thumbnail at `static/img/blog/your-thumbnail.png` (recommended size: 1200×675).
 5. Preview, commit, push, PR (same flow as chapters).
+
+---
+
+## FAQ
+
+Quick answers to the questions we hear most. The full version with more detail lives at [**masakhanehubnlp.github.io/MasakhanePlaybook/faq**](https://masakhanehubnlp.github.io/MasakhanePlaybook/faq).
+
+### Is the Playbook free to use?
+
+Yes — entirely. Playbook content is community-maintained and openly licensed; the Masakhane Tool annotation platform is **Apache 2.0**. No closed version, no paid tier, no commercial fork.
+
+### Can I contribute a chapter?
+
+Yes. Open an issue with a brief outline first, then write your chapter and open a PR. See [How to contribute a chapter](#how-to-contribute-a-chapter) above for the step-by-step.
+
+### How do I cite the Playbook?
+
+Every chapter page has a "Cite this page" link. The dedicated [`/cite`](https://masakhanehubnlp.github.io/MasakhanePlaybook/cite) page provides BibTeX, APA, MLA, Chicago, and a machine-readable [`CITATION.cff`](CITATION.cff). See also [How to cite](#how-to-cite) below.
+
+### Is the Masakhane Tool deployable on-prem?
+
+Yes. Apache 2.0 licensed, ships as a Progressive Web App. Self-host on any server, install on a phone for offline-first work, or deploy inside an institutional network. Pilots are running at Bayero University and Bahir Dar University ICT4D.
+
+### Which African languages are supported?
+
+The site UI is translated into 6 languages (English, Hausa, Amharic, Swahili, French, Portuguese) with chapter content gradually following. The Tool supports any African language and script through Unicode, with virtual keyboards and RTL handling where applicable.
+
+### How can I get involved?
+
+5 minutes: star the repo or join Discord. 30 minutes: fix a typo via "Edit this page". A few hours: write a [blog post case study](#how-to-write-a-blog-post). A few weeks: lead a chapter — see the open [Call for Chapter Development Proposals](https://masakhanehubnlp.github.io/MasakhanePlaybook/blog/call-for-chapters-masakhane-playbook).
+
+### What's the difference between the Playbook and the Masakhane Tool?
+
+They're complementary, not competing. The Playbook is a **guide** you read; the Tool is a **piece of software** you run. Both are open from day one and were designed together.
+
+For more questions and longer answers, see the [full FAQ page](https://masakhanehubnlp.github.io/MasakhanePlaybook/faq).
 
 ---
 
