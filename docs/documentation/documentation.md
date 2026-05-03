@@ -1,3 +1,7 @@
+---
+sidebar_position: 7
+---
+
 # Documentation and Reporting
 - Datasheets for datasets
 - Standard reporting and reproducibility
