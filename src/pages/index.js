@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -29,6 +30,61 @@ const ICON_MAP = {
 };
 
 /* ============================================================
+   SLIDE NAVIGATION
+   ============================================================ */
+const SLIDES = [
+  { id: 'hero',         label: 'Home' },
+  { id: 'playbook',     label: 'The Playbook' },
+  { id: 'tool',         label: 'The Tool' },
+  { id: 'testimonials', label: 'Researchers say' },
+  { id: 'news',         label: 'News' },
+  { id: 'blog',         label: 'From the Blog' },
+  { id: 'join',         label: 'Get Involved' },
+];
+
+function SlideDots({ activeId }) {
+  const activeIndex = SLIDES.findIndex((s) => s.id === activeId);
+  const scrollTo = (id) => {
+    document
+      .querySelector(`[data-snap-section="${id}"]`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  return (
+    <nav className={styles.slideDotsNav} aria-label="Page sections">
+      {SLIDES.map(({ id, label }) => (
+        <button
+          key={id}
+          type="button"
+          className={clsx(styles.slideDot, activeId === id && styles.slideDotActive)}
+          onClick={() => scrollTo(id)}
+          aria-label={`Go to ${label}`}
+          title={label}
+        />
+      ))}
+      <div className={styles.slideCounter}>
+        <span key={activeId} className={styles.slideCounterNum}>
+          {String(activeIndex + 1).padStart(2, '0')}
+        </span>
+        <span className={styles.slideCounterTotal}>
+          /{String(SLIDES.length).padStart(2, '0')}
+        </span>
+      </div>
+    </nav>
+  );
+}
+
+function ScrollHint() {
+  return (
+    <div className={styles.scrollHint} aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+  );
+}
+
+/* ============================================================
    HERO
    ============================================================ */
 function HeroSection() {
@@ -39,7 +95,7 @@ function HeroSection() {
   const frUrl = `pathname://${useBaseUrl('/fr/')}`;
   const ptUrl = `pathname://${useBaseUrl('/pt/')}`;
   return (
-    <header className={styles.hero}>
+    <header className={clsx(styles.hero, styles.snapSection)} data-snap-section="hero" data-visible="">
       <div className="container">
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
@@ -77,6 +133,7 @@ function HeroSection() {
           />
         </div>
       </div>
+      <ScrollHint />
     </header>
   );
 }
@@ -86,7 +143,7 @@ function HeroSection() {
    ============================================================ */
 function NewsSection() {
   return (
-    <section className={styles.section}>
+    <section className={clsx(styles.section, styles.snapSection)} data-snap-section="news">
       <div className="container">
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>
@@ -171,7 +228,7 @@ function NewsSection() {
    ============================================================ */
 function FeaturePlaybook() {
   return (
-    <section className={clsx(styles.section, styles.altSection, styles.featureRow)}>
+    <section className={clsx(styles.section, styles.altSection, styles.featureRow, styles.snapSection)} data-snap-section="playbook">
       <div className={clsx('container', styles.featureGrid)}>
         <div className={styles.featureCopy}>
           <span className={styles.featureEyebrow}>
@@ -261,7 +318,7 @@ function FeaturePlaybook() {
    ============================================================ */
 function FeatureTool() {
   return (
-    <section className={clsx(styles.section, styles.featureRow, styles.showcaseSection)}>
+    <section className={clsx(styles.section, styles.featureRow, styles.showcaseSection, styles.snapSection)} data-snap-section="tool">
       <div className={clsx('container', styles.featureGrid, styles.featureGridReverse)}>
         <div className={styles.featureCopy}>
           <span className={styles.featureEyebrow}>
@@ -473,7 +530,7 @@ function BlogTeaserSection() {
   };
 
   return (
-    <section className={clsx(styles.section, styles.altSection)}>
+    <section className={clsx(styles.section, styles.altSection, styles.snapSection)} data-snap-section="blog">
       <div className="container">
         <div className={styles.blogTeaserHeader}>
           <Heading as="h2" className={styles.blogTeaserHeading}>
@@ -684,7 +741,7 @@ const TESTIMONIALS = [
 
 function TestimonialsSection() {
   return (
-    <section className={styles.testimonialsSection}>
+    <section className={clsx(styles.testimonialsSection, styles.snapSection)} data-snap-section="testimonials">
       <div className="container">
         <div className={styles.testimonialsHeader}>
           <span className={styles.testimonialsEyebrow}>
@@ -729,7 +786,7 @@ function TestimonialsSection() {
 
 function GetInvolvedSection() {
   return (
-    <section className={styles.section}>
+    <section className={clsx(styles.section, styles.snapSection)} data-snap-section="join">
       <div className="container">
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>
@@ -772,10 +829,64 @@ function GetInvolvedSection() {
 
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
+  const [activeSlide, setActiveSlide] = useState('hero');
+  const [transitioning, setTransitioning] = useState(false);
+  const transitionTimer = useRef(null);
+
+  const activeIndex = SLIDES.findIndex((s) => s.id === activeSlide);
+  const progress = ((activeIndex + 1) / SLIDES.length) * 100;
+
+  useEffect(() => {
+    const html = document.documentElement;
+    html.classList.add('homeSnapScroll');
+    return () => html.classList.remove('homeSnapScroll');
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setTransitioning(true);
+      clearTimeout(transitionTimer.current);
+      transitionTimer.current = setTimeout(() => setTransitioning(false), 700);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(transitionTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('[data-snap-section]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.setAttribute('data-visible', '');
+            setActiveSlide(entry.target.dataset.snapSection);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Layout
       title={`${siteConfig.title} — ${siteConfig.tagline}`}
       description="A community-driven playbook and open annotation infrastructure for African language data.">
+      {/* progress bar */}
+      <div
+        className={styles.slideProgressBar}
+        style={{ width: `${progress}%` }}
+        aria-hidden="true"
+      />
+      {/* flash overlay */}
+      <div
+        className={clsx(styles.slideOverlay, transitioning && styles.slideOverlayActive)}
+        aria-hidden="true"
+      />
       <HeroSection />
       <main>
         <FeaturePlaybook />
@@ -785,6 +896,7 @@ export default function Home() {
         <BlogTeaserSection />
         <GetInvolvedSection />
       </main>
+      <SlideDots activeId={activeSlide} />
     </Layout>
   );
 }
