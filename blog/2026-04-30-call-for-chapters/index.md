@@ -1,6 +1,7 @@
 ---
 slug: call-for-chapters-masakhane-playbook
 title: "Call for Chapters: Masakhane Playbook"
+description: We're inviting researchers and language experts to lead chapters in the Playbook. USD $1,000 honorarium per accepted chapter, open through 30 June 2026.
 authors: [shamsuddeen]
 tags: [call-for-chapters, playbook, announcement]
 image: /img/social-card.png

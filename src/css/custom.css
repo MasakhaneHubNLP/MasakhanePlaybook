@@ -375,30 +375,23 @@ main[itemtype="https://schema.org/Blog"] {
   align-items: stretch;
 }
 
-main[itemtype="https://schema.org/Blog"] > .blog-card > article {
-  border: none;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-}
-
-main[itemtype="https://schema.org/Blog"] .blog-card,
-main[itemtype="https://schema.org/Blog"] > article {
+/* Blog card structure — Label Studio pattern: thumbnail, tag, title,
+   short description, author row at bottom. Each section is independent
+   so the writer controls the description text via frontmatter. */
+main[itemtype="https://schema.org/Blog"] .blog-card {
   display: flex;
   flex-direction: column;
   background: var(--ifm-background-surface-color);
   border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 12px;
-  margin: 0;
+  border-radius: 14px;
   overflow: hidden;
   transition: transform 0.15s ease, box-shadow 0.15s ease,
     border-color 0.15s ease;
 }
 
-main[itemtype="https://schema.org/Blog"] .blog-card:hover,
-main[itemtype="https://schema.org/Blog"] > article:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+main[itemtype="https://schema.org/Blog"] .blog-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.18);
   border-color: var(--ifm-color-primary-lighter);
 }
 
@@ -414,7 +407,7 @@ main[itemtype="https://schema.org/Blog"] > article:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 .blog-card:hover .blog-card-thumbnail img {
@@ -425,56 +418,83 @@ main[itemtype="https://schema.org/Blog"] > article:hover {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 1rem 1.1rem 0.9rem;
+  padding: 1.1rem 1.2rem 1.1rem;
 }
 
-.blog-card-body > article {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  border: none;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-}
-
-main[itemtype="https://schema.org/Blog"] > article:not(.blog-card *) {
-  padding: 1rem 1.1rem 0.9rem;
-}
-
-main[itemtype="https://schema.org/Blog"] header h2 {
-  font-size: 1.15rem;
-  line-height: 1.3;
-  margin-bottom: 0.45rem;
+.blog-card-tag {
+  display: inline-block;
+  font-size: 0.78rem;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ifm-color-primary);
+  text-transform: capitalize;
+  margin-bottom: 0.45rem;
 }
 
-main[itemtype="https://schema.org/Blog"] header h2 a {
-  color: var(--ifm-heading-color);
+.blog-card-title {
+  font-size: 1.18rem;
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.blog-card-title a {
+  color: var(--ifm-color-emphasis-1000);
   text-decoration: none;
 }
 
-main[itemtype="https://schema.org/Blog"] header h2 a:hover {
+.blog-card:hover .blog-card-title a {
   color: var(--ifm-color-primary);
 }
 
-main[itemtype="https://schema.org/Blog"] .markdown {
-  font-size: 0.92rem;
+.blog-card-description {
+  font-size: 0.95rem;
   line-height: 1.55;
   color: var(--ifm-color-emphasis-700);
-  flex-grow: 1;
-  overflow: hidden;
+  margin: 0 0 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  margin-bottom: 0.75rem;
+  overflow: hidden;
 }
 
-main[itemtype="https://schema.org/Blog"] article > footer {
+.blog-card-author {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 0.7rem;
   border-top: 1px solid var(--ifm-color-emphasis-100);
+}
+
+.blog-card-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.blog-card-author-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.blog-card-author-name {
   font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blog-card-date {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
 }
 
 @media (max-width: 600px) {

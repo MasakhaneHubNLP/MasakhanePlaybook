@@ -1,6 +1,7 @@
 ---
 slug: welcome-to-the-masakhane-blog
 title: "Welcome to the Masakhane Blog"
+description: A space for community updates, calls for contribution, project milestones, and stories from teams building NLP for African languages.
 authors: [shamsuddeen]
 tags: [announcement, playbook]
 image: /img/blog/sample-post.svg
