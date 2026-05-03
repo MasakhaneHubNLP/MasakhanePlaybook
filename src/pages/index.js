@@ -90,7 +90,7 @@ function NewsSection() {
       <div className="container">
         <div className={styles.sectionHeader}>
           <span className={styles.sectionEyebrow}>
-            <IconNewspaper size={14} /> Latest News
+            <IconNewspaper size={14} /> From the Blog
           </span>
         </div>
         <div className={styles.newsGrid}>
