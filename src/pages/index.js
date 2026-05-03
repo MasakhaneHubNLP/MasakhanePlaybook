@@ -876,12 +876,6 @@ export default function Home() {
     <Layout
       title={`${siteConfig.title} — ${siteConfig.tagline}`}
       description="A community-driven playbook and open annotation infrastructure for African language data.">
-      {/* progress bar */}
-      <div
-        className={styles.slideProgressBar}
-        style={{ width: `${progress}%` }}
-        aria-hidden="true"
-      />
       {/* flash overlay */}
       <div
         className={clsx(styles.slideOverlay, transitioning && styles.slideOverlayActive)}
