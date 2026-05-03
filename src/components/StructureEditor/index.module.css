@@ -16,14 +16,14 @@
   background: var(--ifm-background-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 12px;
-  width: 100%;
-  max-width: 1120px;
-  height: 88vh;
-  max-height: 780px;
+  /* width and height controlled via inline style; these are fallback defaults */
+  width: min(1120px, calc(100vw - 2rem));
+  height: min(780px, calc(100vh - 2rem));
   display: flex;
   flex-direction: column;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
   overflow: hidden;
+  position: relative;
 }
 
 /* ── Header ──────────────────────────────────────────────────────────── */
@@ -84,7 +84,7 @@
 
 .editorLayout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  /* grid-template-columns set via inline style: `${leftWidth}px 4px 1fr` */
   height: 100%;
   overflow: hidden;
 }
@@ -733,4 +733,66 @@
 .openBtnIcon {
   font-size: 1.05em;
   line-height: 1;
+}
+
+/* ── Panel splitter ──────────────────────────────────────────────────── */
+
+.splitter {
+  width: 4px;
+  background: var(--ifm-color-emphasis-200);
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  position: relative;
+}
+.splitter:hover,
+.splitter:active {
+  background: var(--ifm-color-primary);
+}
+.splitter::after {
+  content: '';
+  position: absolute;
+  inset: 0 -4px;
+}
+
+/* ── Dialog resize handle (bottom-right corner) ──────────────────────── */
+
+.resizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  z-index: 10;
+  background: transparent;
+}
+.resizeHandle::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 10px;
+  height: 10px;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 40%,
+      var(--ifm-color-emphasis-400) 40%,
+      var(--ifm-color-emphasis-400) 50%,
+      transparent 50%,
+      transparent 60%,
+      var(--ifm-color-emphasis-400) 60%,
+      var(--ifm-color-emphasis-400) 70%,
+      transparent 70%,
+      transparent 80%,
+      var(--ifm-color-emphasis-400) 80%,
+      var(--ifm-color-emphasis-400) 90%,
+      transparent 90%
+    );
+  opacity: 0.6;
+}
+.resizeHandle:hover::after {
+  opacity: 1;
 }

@@ -280,6 +280,54 @@ export function StructureEditorContent({ onClose }) {
   // Right panel: null | { path, htmlContent, frontmatter, fetching, dirty }
   const [rightPanel, setRightPanel] = useState(null);
 
+  // Resizable dialog and panel splitter
+  const [modalSize, setModalSize] = useState({ width: 1120, height: 780 });
+  const [leftWidth, setLeftWidth] = useState(320);
+
+  function handleSplitterMouseDown(e) {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = leftWidth;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      const next = Math.max(180, Math.min(560, startWidth + ev.clientX - startX));
+      setLeftWidth(next);
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
+  function handleDialogResizeMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = modalSize.width;
+    const startH = modalSize.height;
+    document.body.style.cursor = 'nwse-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      const w = Math.max(600, Math.min(window.innerWidth - 32, startW + ev.clientX - startX));
+      const h = Math.max(400, Math.min(window.innerHeight - 32, startH + ev.clientY - startY));
+      setModalSize({ width: w, height: h });
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
   const tree = useMemo(() => computeDocsTree(gitFiles, catData, changes), [gitFiles, catData, changes]);
 
   useEffect(() => {
@@ -526,7 +574,13 @@ export function StructureEditorContent({ onClose }) {
       className={styles.overlay}
       onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className={styles.modal} role="dialog" aria-modal="true" aria-label="Contribute to the Playbook">
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Contribute to the Playbook"
+        style={{ width: modalSize.width, height: modalSize.height }}
+      >
         {/* Header */}
         <div className={styles.modalHeader}>
           <div className={styles.headerLeft}>
@@ -537,7 +591,7 @@ export function StructureEditorContent({ onClose }) {
         </div>
 
         {/* Body */}
-        <div className={styles.modalBody}>
+        <div className={styles.modalBody} style={{ position: 'relative' }}>
           {success ? (
             <div className={styles.successBox}>
               <div className={styles.successIcon}>✓</div>
@@ -549,7 +603,7 @@ export function StructureEditorContent({ onClose }) {
               <button className={styles.closeSuccessBtn} onClick={onClose}>Close</button>
             </div>
           ) : (
-            <div className={styles.editorLayout}>
+            <div className={styles.editorLayout} style={{ gridTemplateColumns: `${leftWidth}px 4px 1fr` }}>
 
               {/* ── Left panel: tree + controls ── */}
               <div className={styles.leftPanel}>
@@ -680,6 +734,13 @@ export function StructureEditorContent({ onClose }) {
                 </div>
               </div>
 
+              {/* ── Panel splitter ── */}
+              <div
+                className={styles.splitter}
+                onMouseDown={handleSplitterMouseDown}
+                title="Drag to resize panels"
+              />
+
               {/* ── Right panel: content editor ── */}
               <div className={styles.rightPanel}>
                 {rightPanel ? (
@@ -733,6 +794,12 @@ export function StructureEditorContent({ onClose }) {
             </div>
           )}
         </div>
+        {/* Dialog resize handle (bottom-right corner) */}
+        <div
+          className={styles.resizeHandle}
+          onMouseDown={handleDialogResizeMouseDown}
+          title="Drag to resize"
+        />
       </div>
     </div>
   );
