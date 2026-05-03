@@ -690,7 +690,9 @@ function TestimonialsSection() {
     <section className={styles.testimonialsSection}>
       <div className="container">
         <div className={styles.testimonialsHeader}>
-          <span className={styles.testimonialsEyebrow}>Testimonials</span>
+          <span className={styles.testimonialsEyebrow}>
+            What AfricaNLP researchers are saying
+          </span>
         </div>
         <div className={styles.testimonialsGrid}>
           {TESTIMONIALS.map((t) => (
