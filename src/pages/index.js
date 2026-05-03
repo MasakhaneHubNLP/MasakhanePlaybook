@@ -92,9 +92,6 @@ function NewsSection() {
           <span className={styles.sectionEyebrow}>
             <IconNewspaper size={14} /> Latest News
           </span>
-          <Heading as="h2" className={styles.sectionTitle}>
-            What's happening in the project
-          </Heading>
         </div>
         <div className={styles.newsGrid}>
           {NEWS_DATA.map((item, idx) => {
