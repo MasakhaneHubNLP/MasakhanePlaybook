@@ -188,7 +188,7 @@ function ToolBtn({ title, onAction, children }) {
   );
 }
 
-function WysiwygEditor({ initialHtml, onChange }) {
+export function WysiwygEditor({ initialHtml, onChange }) {
   const editorRef = useRef(null);
   const colorRef = useRef(null);
   const initialized = useRef(false);
@@ -311,7 +311,7 @@ function FormField({ label, value, onChange, multiline }) {
 
 /* ── Main Modal ──────────────────────────────────────────────────────── */
 
-function ModalContent({ onClose, mode, filePath, itemId, itemData, pageTitle }) {
+function ModalContent({ onClose, mode, filePath, itemId, itemData, pageTitle, initialMd }) {
   const { siteConfig } = useDocusaurusContext();
   const buildToken = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
 
@@ -331,6 +331,12 @@ function ModalContent({ onClose, mode, filePath, itemId, itemData, pageTitle }) 
 
   useEffect(() => {
     if (mode === 'markdown' && filePath) {
+      if (initialMd !== undefined) {
+        const { frontmatter: fm, content } = splitFrontmatter(initialMd);
+        setFrontmatter(fm);
+        setHtmlContent(mdToHtml(content));
+        return;
+      }
       setFetching(true);
       setError('');
       fetchRawFile(filePath)
@@ -344,7 +350,7 @@ function ModalContent({ onClose, mode, filePath, itemId, itemData, pageTitle }) 
     } else if (itemData) {
       setFormData({ ...itemData });
     }
-  }, [mode, filePath, itemData]);
+  }, [mode, filePath, itemData, initialMd]);
 
   const handleTokenChange = (val) => {
     setToken(val);

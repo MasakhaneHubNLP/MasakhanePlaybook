@@ -2,7 +2,13 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import ReactDOM from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { fetchDocsTree, computeDocsTree, createStructurePR, fetchRawFile } from '@site/src/utils/github';
+import { WysiwygEditor, mdToHtml, htmlToMd } from '@site/src/components/EditModal';
 import styles from './index.module.css';
+
+function splitFrontmatter(md) {
+  const m = String(md).match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  return m ? { frontmatter: `---\n${m[1]}\n---\n`, content: m[2] } : { frontmatter: '', content: md };
+}
 
 /* ── Helpers ─────────────────────────────────────────────────────────── */
 
@@ -95,6 +101,8 @@ function TreeRow({
   onMoveUp,
   onMoveDown,
   onDelete,
+  onEditPage,
+  editingPath,
   loadingPaths,
 }) {
   const idx = siblings.indexOf(node);
@@ -103,12 +111,16 @@ function TreeRow({
   const isExpanded = expanded.has(node.path);
   const isLoading = loadingPaths.has(node.path);
   const formKey = `${node.path}:`;
+  const isEditing = editingPath === node.path;
 
   const indent = depth * 20;
 
   return (
     <>
-      <div className={styles.treeRow} style={{ paddingLeft: indent + 8 }}>
+      <div
+        className={`${styles.treeRow} ${isEditing ? styles.treeRowActive : ''}`}
+        style={{ paddingLeft: indent + 8 }}
+      >
         {/* Expand toggle for sections */}
         {node.type === 'section' ? (
           <button className={styles.expandBtn} onClick={() => onToggle(node.path)} type="button" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
@@ -120,12 +132,28 @@ function TreeRow({
 
         {/* Icon + label */}
         <span className={styles.nodeIcon}>{node.type === 'section' ? '📁' : '📄'}</span>
-        <span className={styles.nodeLabel} title={node.path}>{node.label}</span>
+        <span
+          className={`${styles.nodeLabel} ${node.type === 'page' ? styles.nodeLabelClickable : ''}`}
+          title={node.path}
+          onClick={node.type === 'page' ? () => onEditPage(node) : undefined}
+        >
+          {node.label}
+        </span>
 
         {isLoading && <span className={styles.loadingDot} title="Loading…">⋯</span>}
 
         {/* Action buttons */}
         <div className={styles.nodeActions}>
+          {node.type === 'page' && (
+            <button
+              className={`${styles.actionBtn} ${styles.editPageBtn}`}
+              title="Edit page content"
+              onClick={() => onEditPage(node)}
+              type="button"
+            >
+              ✎
+            </button>
+          )}
           {node.type === 'section' && (
             <button
               className={styles.actionBtn}
@@ -143,7 +171,7 @@ function TreeRow({
               onClick={() => onSetActiveForm(`${formKey}add-subpage`)}
               type="button"
             >
-              + Sub-page
+              + Sub
             </button>
           )}
           <button
@@ -217,6 +245,8 @@ function TreeRow({
           onMoveUp={onMoveUp}
           onMoveDown={onMoveDown}
           onDelete={onDelete}
+          onEditPage={onEditPage}
+          editingPath={editingPath}
           loadingPaths={loadingPaths}
         />
       ))}
@@ -226,14 +256,14 @@ function TreeRow({
 
 /* ── Modal content ───────────────────────────────────────────────────── */
 
-function StructureEditorContent({ onClose }) {
+export function StructureEditorContent({ onClose }) {
   const { siteConfig } = useDocusaurusContext();
   const buildToken = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
 
   const [gitFiles, setGitFiles] = useState([]);
   const [catData, setCatData] = useState({});
-  const [changes, setChanges] = useState({});   // path -> { op, content? }
-  const [pageCache, setPageCache] = useState({}); // path -> raw content
+  const [changes, setChanges] = useState({});
+  const [pageCache, setPageCache] = useState({});
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -246,6 +276,9 @@ function StructureEditorContent({ onClose }) {
 
   const [expanded, setExpanded] = useState(new Set());
   const [activeForm, setActiveForm] = useState(null);
+
+  // Right panel: null | { path, htmlContent, frontmatter, fetching, dirty }
+  const [rightPanel, setRightPanel] = useState(null);
 
   const tree = useMemo(() => computeDocsTree(gitFiles, catData, changes), [gitFiles, catData, changes]);
 
@@ -286,6 +319,7 @@ function StructureEditorContent({ onClose }) {
 
   function undoChange(path) {
     setChanges(prev => { const n = { ...prev }; delete n[path]; return n; });
+    if (rightPanel?.path === path) setRightPanel(null);
   }
 
   async function getPageContent(path) {
@@ -302,6 +336,28 @@ function StructureEditorContent({ onClose }) {
       on ? n.add(path) : n.delete(path);
       return n;
     });
+  }
+
+  /* ── Right panel ─────────────────────────────────────────────────────── */
+
+  async function handleEditPage(node) {
+    if (rightPanel?.path === node.path && !rightPanel.fetching) return;
+    setRightPanel({ path: node.path, htmlContent: null, frontmatter: '', fetching: true, dirty: false });
+    try {
+      const md = await getPageContent(node.path);
+      const { frontmatter, content } = splitFrontmatter(md);
+      setRightPanel({ path: node.path, htmlContent: mdToHtml(content), frontmatter, fetching: false, dirty: false });
+    } catch (e) {
+      setError(`Could not load page: ${e.message}`);
+      setRightPanel(null);
+    }
+  }
+
+  function saveRightPanel() {
+    if (!rightPanel || rightPanel.fetching) return;
+    const md = htmlToMd(rightPanel.htmlContent);
+    upsert(rightPanel.path, (rightPanel.frontmatter || '') + md + '\n');
+    setRightPanel(prev => ({ ...prev, dirty: false }));
   }
 
   /* ── Operations ─────────────────────────────────────────────────────── */
@@ -331,7 +387,12 @@ function StructureEditorContent({ onClose }) {
   function addPage(sectionNode, label) {
     const slug = slugify(label);
     const position = sectionNode.children.length + 1;
-    upsert(`${sectionNode.path}/${slug}.md`, starterPage(label, position));
+    const path = `${sectionNode.path}/${slug}.md`;
+    upsert(path, starterPage(label, position));
+    // Auto-open the new page in the right panel
+    const md = starterPage(label, position);
+    const { frontmatter, content } = splitFrontmatter(md);
+    setRightPanel({ path, htmlContent: mdToHtml(content), frontmatter, fetching: false, dirty: false });
   }
 
   async function addSubPage(pageNode, label) {
@@ -344,13 +405,12 @@ function StructureEditorContent({ onClose }) {
       const origContent = await getPageContent(pageNode.path);
       const newSlug = slugify(label);
 
-      // Create directory structure
       upsert(`${newDirPath}/_category_.json`, starterCategory(pageNode.label, pageNode.position != null && isFinite(pageNode.position) ? pageNode.position : 99));
       upsert(`${newDirPath}/index.md`, origContent);
       upsert(`${newDirPath}/${newSlug}.md`, starterPage(label, 2));
 
-      // Delete original page file
       del(pageNode.path);
+      if (rightPanel?.path === pageNode.path) setRightPanel(null);
 
       setExpanded(prev => new Set([...prev, newDirPath]));
     } catch (e) {
@@ -423,6 +483,7 @@ function StructureEditorContent({ onClose }) {
   function deleteNode(node) {
     if (!window.confirm(`Delete "${node.label}"? This cannot be undone until the PR is cancelled.`)) return;
     del(node.path);
+    if (rightPanel?.path === node.path) setRightPanel(null);
   }
 
   /* ── Submit ─────────────────────────────────────────────────────────── */
@@ -438,14 +499,14 @@ function StructureEditorContent({ onClose }) {
       const pr = await createStructurePR({
         token,
         changes: changeList,
-        prTitle: `Structure: edit playbook tree (${changeList.length} file${changeList.length > 1 ? 's' : ''})`,
+        prTitle: `Contribute: playbook edits (${changeList.length} file${changeList.length > 1 ? 's' : ''})`,
         prBody: [
-          'Community-suggested playbook structure changes.',
+          'Community-suggested playbook changes.',
           '',
           '**Files changed:**',
-          changeList.map(c => `- \`${c.op === 'delete' ? '–' : c.op === 'upsert' ? '+' : '~'} ${c.path}\``).join('\n'),
+          changeList.map(c => `- \`${c.op === 'delete' ? '–' : '+'} ${c.path}\``).join('\n'),
           '',
-          '_Submitted via the Structure Editor._',
+          '_Submitted via the Contribute editor._',
         ].join('\n'),
       });
       setSuccess(pr);
@@ -465,12 +526,12 @@ function StructureEditorContent({ onClose }) {
       className={styles.overlay}
       onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className={styles.modal} role="dialog" aria-modal="true" aria-label="Edit Playbook Structure">
+      <div className={styles.modal} role="dialog" aria-modal="true" aria-label="Contribute to the Playbook">
         {/* Header */}
         <div className={styles.modalHeader}>
           <div className={styles.headerLeft}>
-            <span className={styles.headerIcon}>🌳</span>
-            <h2 className={styles.modalTitle}>Edit Playbook Structure</h2>
+            <span className={styles.headerIcon}>✦</span>
+            <h2 className={styles.modalTitle}>Contribute to the Playbook</h2>
           </div>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">✕</button>
         </div>
@@ -489,8 +550,9 @@ function StructureEditorContent({ onClose }) {
             </div>
           ) : (
             <div className={styles.editorLayout}>
-              {/* Tree panel */}
-              <div className={styles.treePanel}>
+
+              {/* ── Left panel: tree + controls ── */}
+              <div className={styles.leftPanel}>
                 <div className={styles.treePanelHeader}>
                   <span className={styles.treePanelTitle}>Playbook pages</span>
                   <button
@@ -498,7 +560,7 @@ function StructureEditorContent({ onClose }) {
                     onClick={() => setActiveForm('root:add-section')}
                     type="button"
                   >
-                    + New Section
+                    + Section
                   </button>
                 </div>
 
@@ -529,6 +591,8 @@ function StructureEditorContent({ onClose }) {
                         onMoveUp={n => moveNode(n, 'up')}
                         onMoveDown={n => moveNode(n, 'down')}
                         onDelete={deleteNode}
+                        onEditPage={handleEditPage}
+                        editingPath={rightPanel?.path}
                         loadingPaths={loadingPaths}
                       />
                     ))}
@@ -544,78 +608,128 @@ function StructureEditorContent({ onClose }) {
                     )}
                   </div>
                 )}
-              </div>
 
-              {/* Changes panel */}
-              <div className={styles.changesPanel}>
-                <div className={styles.changesPanelTitle}>
-                  Pending changes
-                  <span className={styles.changeCount}>{pendingList.length}</span>
-                </div>
-                {pendingList.length === 0 ? (
-                  <p className={styles.noChanges}>No changes yet. Use the tree to add, rename, reorder, or delete pages.</p>
-                ) : (
-                  <ul className={styles.changeList}>
-                    {pendingList.map(c => (
-                      <li key={c.path} className={styles.changeItem}>
-                        <span className={`${styles.changeOp} ${c.op === 'delete' ? styles.opDelete : styles.opUpsert}`}>
-                          {c.op === 'delete' ? '–' : '+'}
-                        </span>
-                        <span className={styles.changePath} title={c.path}>
-                          {c.path.replace('docs/', '')}
-                        </span>
-                        <button
-                          className={styles.undoBtn}
-                          onClick={() => undoChange(c.path)}
-                          title="Undo this change"
-                          type="button"
-                        >
-                          ↩
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {/* Footer: pending changes + token + submit */}
+                <div className={styles.leftPanelFooter}>
+                  {pendingList.length > 0 && (
+                    <div className={styles.pendingSection}>
+                      <div className={styles.pendingSectionTitle}>
+                        Pending changes
+                        <span className={styles.changeCount}>{pendingList.length}</span>
+                      </div>
+                      <ul className={styles.changeList}>
+                        {pendingList.map(c => (
+                          <li key={c.path} className={styles.changeItem}>
+                            <span className={`${styles.changeOp} ${c.op === 'delete' ? styles.opDelete : styles.opUpsert}`}>
+                              {c.op === 'delete' ? '–' : '+'}
+                            </span>
+                            <span className={styles.changePath} title={c.path}>
+                              {c.path.replace('docs/', '')}
+                            </span>
+                            <button
+                              className={styles.undoBtn}
+                              onClick={() => undoChange(c.path)}
+                              title="Undo this change"
+                              type="button"
+                            >
+                              ↩
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                {/* Token */}
-                <div className={styles.tokenSection}>
-                  <div className={styles.tokenRow}>
-                    <label htmlFor="se-token" className={styles.tokenLabel}>GitHub Token</label>
-                    <a
-                      href="https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook+Edit"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className={styles.tokenCreateLink}
-                    >
-                      Create →
-                    </a>
+                  <div className={styles.tokenSection}>
+                    <div className={styles.tokenRow}>
+                      <label htmlFor="se-token" className={styles.tokenLabel}>GitHub Token</label>
+                      <a
+                        href="https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook+Edit"
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className={styles.tokenCreateLink}
+                      >
+                        Create →
+                      </a>
+                    </div>
+                    <input
+                      id="se-token"
+                      type="password"
+                      className={styles.tokenInput}
+                      value={token}
+                      onChange={e => handleTokenChange(e.target.value)}
+                      placeholder="ghp_xxxxxxxxxxxx"
+                      autoComplete="off"
+                    />
+                    <p className={styles.tokenHint}>Needs <code>public_repo</code> scope.</p>
                   </div>
-                  <input
-                    id="se-token"
-                    type="password"
-                    className={styles.tokenInput}
-                    value={token}
-                    onChange={e => handleTokenChange(e.target.value)}
-                    placeholder="ghp_xxxxxxxxxxxx"
-                    autoComplete="off"
-                  />
-                  <p className={styles.tokenHint}>Needs <code>public_repo</code> scope.</p>
-                </div>
 
-                {submitError && <div className={styles.errorBox}>{submitError}</div>}
+                  {submitError && <div className={styles.errorBox}>{submitError}</div>}
 
-                <div className={styles.submitRow}>
-                  <button className={styles.cancelBtn} onClick={onClose} type="button">Cancel</button>
-                  <button
-                    className={styles.submitBtn}
-                    onClick={handleSubmit}
-                    disabled={submitting || pendingList.length === 0}
-                    type="button"
-                  >
-                    {submitting ? 'Creating PR…' : `Submit ${pendingList.length > 0 ? `(${pendingList.length})` : ''} as PR`}
-                  </button>
+                  <div className={styles.submitRow}>
+                    <button className={styles.cancelBtn} onClick={onClose} type="button">Cancel</button>
+                    <button
+                      className={styles.submitBtn}
+                      onClick={handleSubmit}
+                      disabled={submitting || pendingList.length === 0}
+                      type="button"
+                    >
+                      {submitting ? 'Creating PR…' : `Submit${pendingList.length > 0 ? ` (${pendingList.length})` : ''} as PR`}
+                    </button>
+                  </div>
                 </div>
               </div>
+
+              {/* ── Right panel: content editor ── */}
+              <div className={styles.rightPanel}>
+                {rightPanel ? (
+                  rightPanel.fetching ? (
+                    <div className={styles.rightPanelPlaceholder}>
+                      <span className={styles.rightPanelPlaceholderIcon}>⋯</span>
+                      <p>Loading page content…</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={styles.rightPanelHeader}>
+                        <span className={styles.rightPanelPath} title={rightPanel.path}>
+                          ✎ {rightPanel.path.replace(/^docs\//, '')}
+                        </span>
+                        <div className={styles.rightPanelActions}>
+                          <button
+                            className={styles.rightPanelSaveBtn}
+                            type="button"
+                            onClick={saveRightPanel}
+                          >
+                            ✓ Save to changes
+                          </button>
+                          <button
+                            className={styles.rightPanelCloseBtn}
+                            type="button"
+                            onClick={() => setRightPanel(null)}
+                            title="Close editor"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                      <div className={styles.rightPanelBody}>
+                        <WysiwygEditor
+                          key={rightPanel.path}
+                          initialHtml={rightPanel.htmlContent}
+                          onChange={html => setRightPanel(prev => ({ ...prev, htmlContent: html, dirty: true }))}
+                        />
+                      </div>
+                    </>
+                  )
+                ) : (
+                  <div className={styles.rightPanelPlaceholder}>
+                    <span className={styles.rightPanelPlaceholderIcon}>📄</span>
+                    <p>Click <strong>✎</strong> next to any page in the tree to edit its content here.</p>
+                    <p className={styles.rightPanelPlaceholderHint}>Use the tree on the left to add sections, rename pages, and reorder items.</p>
+                  </div>
+                )}
+              </div>
+
             </div>
           )}
         </div>

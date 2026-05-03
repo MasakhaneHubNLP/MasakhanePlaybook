@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "@theme-original/DocItem/Footer";
 import Link from "@docusaurus/Link";
 import { useDoc } from "@docusaurus/plugin-content-docs/client";
-import { EditButton } from "@site/src/components/EditModal";
-import StructureEditor from "@site/src/components/StructureEditor";
+import ContributeButton from "@site/src/components/ContributeButton";
 
 const WORDS_PER_MINUTE = 220;
 
@@ -68,15 +67,10 @@ export default function FooterWrapper(props) {
             {minutes} min read
           </span>
         )}
-        {filePath && (
-          <EditButton
-            mode="markdown"
-            filePath={filePath}
-            pageTitle={metadata.title}
-            label="Suggest Edit"
-          />
-        )}
-        <StructureEditor label="Edit Structure" />
+        <ContributeButton
+          filePath={filePath}
+          pageTitle={metadata.title}
+        />
       </div>
       <Footer {...props} />
     </>
