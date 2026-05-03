@@ -40,6 +40,110 @@ async function ghFetch(path, token, opts = {}) {
   return res.json();
 }
 
+/**
+ * Open a GitHub OAuth popup and resolve with an access token.
+ *
+ * @param {string} clientId   - GitHub OAuth App client_id (safe to expose)
+ * @param {string} proxyUrl   - Cloudflare Worker URL that exchanges code → token
+ * @param {string} callbackUrl - Full URL to /oauth-callback on the same origin
+ */
+/**
+ * GitHub Device Flow — no client_secret required.
+ * The proxy only needs to forward requests and add CORS headers.
+ *
+ * Step 1: call startDeviceFlow → get user_code to show in UI
+ * Step 2: call pollDeviceFlow → resolves with access_token when user authorises
+ */
+export async function startDeviceFlow(clientId, proxyUrl) {
+  const resp = await fetch(`${proxyUrl}/device-code`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ client_id: clientId, scope: 'public_repo' }),
+  });
+  if (!resp.ok) throw new Error(`Device flow init failed: ${resp.status}`);
+  return resp.json();
+  // → { device_code, user_code, verification_uri, expires_in, interval }
+}
+
+export async function pollDeviceFlow(clientId, deviceCode, proxyUrl, intervalSecs, signal) {
+  let wait = intervalSecs;
+  while (true) {
+    await new Promise(r => setTimeout(r, wait * 1000));
+    if (signal?.aborted) throw new Error('cancelled');
+
+    const resp = await fetch(`${proxyUrl}/device-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: clientId,
+        device_code: deviceCode,
+        grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
+      }),
+    });
+    const data = await resp.json();
+    if (data.access_token) return data.access_token;
+    if (data.error === 'authorization_pending') continue;
+    if (data.error === 'slow_down') { wait += 5; continue; }
+    if (data.error === 'expired_token') throw new Error('Code expired — please try again.');
+    if (data.error === 'access_denied') throw new Error('Access denied on GitHub.');
+    throw new Error(data.error_description || data.error || 'Device flow failed.');
+  }
+}
+
+export async function loginWithGitHub(clientId, proxyUrl, callbackUrl) {
+  const authUrl =
+    `https://github.com/login/oauth/authorize` +
+    `?client_id=${encodeURIComponent(clientId)}` +
+    `&scope=public_repo` +
+    `&redirect_uri=${encodeURIComponent(callbackUrl)}`;
+
+  const popup = window.open(authUrl, 'github-oauth', 'width=620,height=720,left=200,top=100');
+  if (!popup) throw new Error('Popup was blocked. Please allow popups for this site.');
+
+  // Wait for the callback page to post the code back
+  const code = await new Promise((resolve, reject) => {
+    function onMessage(e) {
+      if (e.origin !== window.location.origin) return;
+      if (e.data?.type !== 'github-oauth-callback') return;
+      window.removeEventListener('message', onMessage);
+      clearInterval(closedCheck);
+      if (e.data.error) reject(new Error(e.data.errorDesc || e.data.error));
+      else resolve(e.data.code);
+    }
+    window.addEventListener('message', onMessage);
+
+    // Detect if user closed the popup without completing
+    const closedCheck = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(closedCheck);
+        window.removeEventListener('message', onMessage);
+        reject(new Error('cancelled'));
+      }
+    }, 500);
+  });
+
+  // Exchange code for token via the proxy (client_secret stays on the proxy)
+  const resp = await fetch(proxyUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code }),
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error_description || err.error || `Exchange failed: ${resp.status}`);
+  }
+
+  const { access_token } = await resp.json();
+  if (!access_token) throw new Error('No access token returned from proxy.');
+  return access_token;
+}
+
+export async function verifyGitHubToken(token) {
+  const user = await ghFetch('/user', token);
+  return { username: user.login, avatarUrl: user.avatar_url, name: user.name || user.login };
+}
+
 export async function fetchRawFile(filePath) {
   const res = await fetch(`${RAW}/${filePath}`);
   if (!res.ok) throw new Error(`Cannot fetch ${filePath}: ${res.status}`);

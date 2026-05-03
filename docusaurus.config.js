@@ -14,11 +14,17 @@ import rehypeKatex from "rehype-katex";
 const config = {
   title: "Masakhane Playbook",
   customFields: {
-    // Optional: set GITHUB_EDIT_TOKEN in .env.local to pre-fill the token for
-    // the community edit-to-PR feature. The token needs the public_repo scope.
-    // WARNING: this value is embedded in the built JS bundle — use a
-    // limited-scope token (contents:write + pull_requests:write only).
+    // Optional: pre-fill a PAT for the contribute feature (fallback if OAuth not configured).
+    // WARNING: embedded in the built JS bundle — use a limited-scope token only.
     GITHUB_EDIT_TOKEN: process.env.GITHUB_EDIT_TOKEN || "",
+
+    // GitHub OAuth App for the "Connect GitHub" popup login in the Contribute dialog.
+    // Register an OAuth App at https://github.com/settings/developers, then:
+    //   - Set Authorization callback URL to: <your-site-url>/oauth-callback
+    //   - Add GITHUB_OAUTH_CLIENT_ID to .env.local (safe to expose; it's public)
+    //   - Deploy proposal/github-oauth-worker.js to Cloudflare Workers and add its URL below
+    GITHUB_OAUTH_CLIENT_ID: process.env.GITHUB_OAUTH_CLIENT_ID || "",
+    GITHUB_OAUTH_PROXY_URL: process.env.GITHUB_OAUTH_PROXY_URL || "",
   },
   tagline: "Democratizing machine translation for African languages",
   favicon: "img/favicon.ico",

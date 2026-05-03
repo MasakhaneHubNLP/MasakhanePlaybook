@@ -16,14 +16,14 @@
   background: var(--ifm-background-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 12px;
-  width: 100%;
-  max-width: 1120px;
-  height: 88vh;
-  max-height: 780px;
+  /* width and height controlled via inline style; these are fallback defaults */
+  width: min(1120px, calc(100vw - 2rem));
+  height: min(780px, calc(100vh - 2rem));
   display: flex;
   flex-direction: column;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
   overflow: hidden;
+  position: relative;
 }
 
 /* ── Header ──────────────────────────────────────────────────────────── */
@@ -84,7 +84,7 @@
 
 .editorLayout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  /* grid-template-columns set via inline style: `${leftWidth}px 4px 1fr` */
   height: 100%;
   overflow: hidden;
 }
@@ -172,7 +172,31 @@
   color: var(--ifm-color-content-secondary);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.35rem;
+}
+
+.clearAllBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.68rem;
+  color: var(--ifm-color-content-secondary);
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  padding: 0.1rem 0.25rem;
+  border-radius: 3px;
+  transition: background 0.1s, color 0.1s;
+}
+.clearAllBtn:hover {
+  background: #fff0f0;
+  color: #c0392b;
+}
+[data-theme='dark'] .clearAllBtn:hover {
+  background: #3a1010;
+  color: #f08080;
 }
 
 .changeCount {
@@ -540,61 +564,206 @@
   color: var(--ifm-color-content-secondary) !important;
 }
 
-/* ── Token section ───────────────────────────────────────────────────── */
+/* ── Auth panel ──────────────────────────────────────────────────────── */
 
-.tokenSection {
-  padding: 0.6rem;
+.authBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+/* "Sign in with GitHub" — styled to match Giscus */
+.authGitHubBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  padding: 0.55rem 1rem;
+  background: #2da44e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  transition: background 0.15s, transform 0.1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.authGitHubBtn:hover:not(:disabled) {
+  background: #2c974b;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}
+.authGitHubBtn:active { transform: translateY(0); }
+.authGitHubBtn:disabled { opacity: 0.7; cursor: wait; }
+
+/* Device flow — code display */
+.authDeviceBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.6rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.authDevicePrompt {
+  font-size: 0.75rem;
+  color: var(--ifm-color-content-secondary);
+  margin: 0;
+}
+
+.authDeviceCode {
+  font-family: var(--ifm-font-family-monospace), monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ifm-color-content);
+  background: var(--ifm-background-color);
+  border: 2px solid var(--ifm-color-primary);
+  border-radius: 6px;
+  padding: 0.3rem 0.9rem;
+  user-select: all;
+}
+
+.authDeviceHint {
+  font-size: 0.7rem;
+  color: var(--ifm-color-content-secondary);
+  margin: 0;
+}
+
+/* Waiting state — shown after GitHub opens, before token is pasted */
+.authWaiting {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.55rem 0.6rem;
   background: var(--ifm-color-emphasis-100);
   border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 6px;
 }
 
-.tokenRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.3rem;
-}
-
-.tokenLabel {
+.authWaitingMsg {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--ifm-color-content);
+  color: var(--ifm-color-content-secondary);
+  margin: 0;
+  line-height: 1.4;
 }
 
-.tokenCreateLink {
-  font-size: 0.7rem;
-  color: var(--ifm-color-primary);
+.authCancelSmall {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.72rem;
+  color: var(--ifm-color-content-secondary);
+  padding: 0;
+  font-family: inherit;
+  align-self: flex-start;
+  transition: color 0.1s;
+}
+.authCancelSmall:hover { color: var(--ifm-color-content); }
+
+.authPatRow {
+  display: flex;
+  gap: 4px;
 }
 
-.tokenInput {
-  width: 100%;
+.authTokenInput {
+  flex: 1;
   font-family: var(--ifm-font-family-monospace), monospace;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   padding: 0.35rem 0.5rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 4px;
   background: var(--ifm-background-color);
   color: var(--ifm-color-content);
-  box-sizing: border-box;
+  min-width: 0;
   transition: border-color 0.15s;
 }
-.tokenInput:focus {
+.authTokenInput:focus {
   outline: none;
   border-color: var(--ifm-color-primary);
 }
 
-.tokenHint {
-  font-size: 0.68rem;
+.authConnectBtn {
+  padding: 0.35rem 0.7rem;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: inherit;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.authConnectBtn:hover:not(:disabled) { opacity: 0.88; }
+.authConnectBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.authCreateTokenLink {
+  font-size: 0.72rem;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  align-self: flex-start;
+}
+.authCreateTokenLink:hover { text-decoration: underline; }
+
+/* Connected state */
+.authConnected {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+}
+
+.authAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.authUsername {
+  flex: 1;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-content);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.authSignOutBtn {
+  background: none;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  padding: 0.18rem 0.45rem;
   color: var(--ifm-color-content-secondary);
-  margin: 0.25rem 0 0;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: background 0.1s;
 }
-.tokenHint code {
-  font-size: 0.68rem;
-  background: var(--ifm-code-background);
-  padding: 0.05em 0.3em;
-  border-radius: 3px;
+.authSignOutBtn:hover { background: var(--ifm-color-emphasis-200); }
+
+.authError {
+  font-size: 0.72rem;
+  color: #c0392b;
+  margin: 0;
 }
+[data-theme='dark'] .authError { color: #f08080; }
 
 /* ── Error / Success ─────────────────────────────────────────────────── */
 
@@ -733,4 +902,66 @@
 .openBtnIcon {
   font-size: 1.05em;
   line-height: 1;
+}
+
+/* ── Panel splitter ──────────────────────────────────────────────────── */
+
+.splitter {
+  width: 4px;
+  background: var(--ifm-color-emphasis-200);
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  position: relative;
+}
+.splitter:hover,
+.splitter:active {
+  background: var(--ifm-color-primary);
+}
+.splitter::after {
+  content: '';
+  position: absolute;
+  inset: 0 -4px;
+}
+
+/* ── Dialog resize handle (bottom-right corner) ──────────────────────── */
+
+.resizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  cursor: nwse-resize;
+  z-index: 10;
+  background: transparent;
+}
+.resizeHandle::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 10px;
+  height: 10px;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 40%,
+      var(--ifm-color-emphasis-400) 40%,
+      var(--ifm-color-emphasis-400) 50%,
+      transparent 50%,
+      transparent 60%,
+      var(--ifm-color-emphasis-400) 60%,
+      var(--ifm-color-emphasis-400) 70%,
+      transparent 70%,
+      transparent 80%,
+      var(--ifm-color-emphasis-400) 80%,
+      var(--ifm-color-emphasis-400) 90%,
+      transparent 90%
+    );
+  opacity: 0.6;
+}
+.resizeHandle:hover::after {
+  opacity: 1;
 }

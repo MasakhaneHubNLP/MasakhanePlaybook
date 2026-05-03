@@ -1,9 +1,21 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import { fetchDocsTree, computeDocsTree, createStructurePR, fetchRawFile } from '@site/src/utils/github';
+import {
+  fetchDocsTree,
+  computeDocsTree,
+  createStructurePR,
+  fetchRawFile,
+  verifyGitHubToken,
+  loginWithGitHub,
+  startDeviceFlow,
+  pollDeviceFlow,
+} from '@site/src/utils/github';
 import { WysiwygEditor, mdToHtml, htmlToMd } from '@site/src/components/EditModal';
 import styles from './index.module.css';
+
+const AUTH_KEY = 'masakhane_pb_auth';
+const CHANGES_KEY = 'masakhane_pb_changes';
 
 function splitFrontmatter(md) {
   const m = String(md).match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
@@ -14,10 +26,6 @@ function splitFrontmatter(md) {
 
 function slugify(str) {
   return String(str).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50);
-}
-
-function titleCase(slug) {
-  return slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function setFrontmatterField(content, key, value) {
@@ -84,6 +92,143 @@ function InlineForm({ placeholder, initialValue = '', onConfirm, onCancel }) {
   );
 }
 
+/* ── GitHub auth panel ───────────────────────────────────────────────── */
+
+const GH_MARK = (
+  <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style={{ flexShrink: 0 }}>
+    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+  </svg>
+);
+
+function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconnect }) {
+  // phases: 'idle' | 'device-pending' | 'loading' | 'waiting'
+  const [phase, setPhase] = useState('idle');
+  const [deviceInfo, setDeviceInfo] = useState(null); // { user_code, verification_uri }
+  const [error, setError]   = useState('');
+  const [draft, setDraft]   = useState('');
+  const abortRef = useRef(null);
+
+  const configured = !!(clientId && proxyUrl);
+
+  // ── Device Flow ───────────────────────────────────────────────────────
+  async function handleDeviceFlow() {
+    setPhase('loading');
+    setError('');
+    try {
+      const info = await startDeviceFlow(clientId, proxyUrl);
+      setDeviceInfo(info);
+      window.open(info.verification_uri, '_blank', 'noopener,noreferrer');
+      setPhase('device-pending');
+
+      const ctrl = new AbortController();
+      abortRef.current = ctrl;
+      const token = await pollDeviceFlow(clientId, info.device_code, proxyUrl, info.interval || 5, ctrl.signal);
+      await onConnect(token);
+    } catch (e) {
+      if (e.message === 'cancelled') { setPhase('idle'); return; }
+      setError(e.message || 'GitHub login failed.');
+      setPhase('idle');
+    }
+  }
+
+  function cancelDevice() {
+    abortRef.current?.abort();
+    setPhase('idle');
+    setDeviceInfo(null);
+    setError('');
+  }
+
+  // ── Fallback (no config): open token page then paste ─────────────────
+  function handleFallbackSignIn() {
+    window.open(
+      'https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook+Contribute',
+      '_blank', 'noopener,noreferrer',
+    );
+    setPhase('waiting');
+  }
+
+  async function handlePaste() {
+    if (!draft.trim()) return;
+    setPhase('loading');
+    setError('');
+    try {
+      await onConnect(draft.trim());
+    } catch (e) {
+      setError(e.message || 'Invalid token or missing public_repo permission.');
+      setPhase('waiting');
+    }
+  }
+
+  // ── Connected ─────────────────────────────────────────────────────────
+  if (auth) {
+    return (
+      <div className={styles.authConnected}>
+        <img src={auth.avatarUrl} alt={auth.username} className={styles.authAvatar} />
+        <span className={styles.authUsername}>@{auth.username}</span>
+        <button className={styles.authSignOutBtn} onClick={onDisconnect} type="button">Sign out</button>
+      </div>
+    );
+  }
+
+  // ── Device flow pending: show the code ────────────────────────────────
+  if (phase === 'device-pending' && deviceInfo) {
+    return (
+      <div className={styles.authDeviceBox}>
+        <p className={styles.authDevicePrompt}>
+          GitHub opened — enter this code to authorize:
+        </p>
+        <div className={styles.authDeviceCode}>{deviceInfo.user_code}</div>
+        <p className={styles.authDeviceHint}>Waiting for you to authorize on GitHub…</p>
+        <button className={styles.authCancelSmall} onClick={cancelDevice} type="button">Cancel</button>
+      </div>
+    );
+  }
+
+  // ── Paste panel (fallback, after GitHub tab was opened) ───────────────
+  if (phase === 'waiting') {
+    return (
+      <div className={styles.authWaiting}>
+        <p className={styles.authWaitingMsg}>Copy the generated token from the GitHub tab:</p>
+        <div className={styles.authPatRow}>
+          <input
+            type="password"
+            className={styles.authTokenInput}
+            value={draft}
+            onChange={e => setDraft(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handlePaste()}
+            placeholder="ghp_xxxxxxxxxxxx"
+            autoComplete="off"
+            autoFocus
+          />
+          <button className={styles.authConnectBtn} onClick={handlePaste} disabled={!draft.trim()} type="button">
+            Connect
+          </button>
+        </div>
+        <button className={styles.authCancelSmall} onClick={() => { setPhase('idle'); setDraft(''); setError(''); }} type="button">
+          ← Back
+        </button>
+        {error && <p className={styles.authError}>{error}</p>}
+      </div>
+    );
+  }
+
+  // ── Default: sign-in button ───────────────────────────────────────────
+  return (
+    <div className={styles.authBlock}>
+      <button
+        className={styles.authGitHubBtn}
+        onClick={configured ? handleDeviceFlow : handleFallbackSignIn}
+        disabled={phase === 'loading'}
+        type="button"
+      >
+        {GH_MARK}
+        {phase === 'loading' ? 'Connecting…' : 'Sign in with GitHub'}
+      </button>
+      {error && <p className={styles.authError}>{error}</p>}
+    </div>
+  );
+}
+
 /* ── Single tree row ─────────────────────────────────────────────────── */
 
 function TreeRow({
@@ -121,7 +266,6 @@ function TreeRow({
         className={`${styles.treeRow} ${isEditing ? styles.treeRowActive : ''}`}
         style={{ paddingLeft: indent + 8 }}
       >
-        {/* Expand toggle for sections */}
         {node.type === 'section' ? (
           <button className={styles.expandBtn} onClick={() => onToggle(node.path)} type="button" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
             {isExpanded ? '▾' : '▸'}
@@ -130,7 +274,6 @@ function TreeRow({
           <span className={styles.expandSpacer} />
         )}
 
-        {/* Icon + label */}
         <span className={styles.nodeIcon}>{node.type === 'section' ? '📁' : '📄'}</span>
         <span
           className={`${styles.nodeLabel} ${node.type === 'page' ? styles.nodeLabelClickable : ''}`}
@@ -142,7 +285,6 @@ function TreeRow({
 
         {isLoading && <span className={styles.loadingDot} title="Loading…">⋯</span>}
 
-        {/* Action buttons */}
         <div className={styles.nodeActions}>
           {node.type === 'page' && (
             <button
@@ -167,7 +309,7 @@ function TreeRow({
           {node.type === 'page' && (
             <button
               className={styles.actionBtn}
-              title="Add a sub-page (converts this page into a section)"
+              title="Add a sub-page"
               onClick={() => onSetActiveForm(`${formKey}add-subpage`)}
               type="button"
             >
@@ -197,7 +339,6 @@ function TreeRow({
         </div>
       </div>
 
-      {/* Inline forms */}
       {activeForm === `${formKey}add-page` && (
         <div style={{ paddingLeft: indent + 36 }}>
           <InlineForm
@@ -227,7 +368,6 @@ function TreeRow({
         </div>
       )}
 
-      {/* Recurse into children */}
       {node.type === 'section' && isExpanded && node.children.map(child => (
         <TreeRow
           key={child.path}
@@ -258,39 +398,77 @@ function TreeRow({
 
 export function StructureEditorContent({ onClose }) {
   const { siteConfig } = useDocusaurusContext();
-  const buildToken = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
+  const buildToken   = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
+  const oauthClientId = siteConfig.customFields?.GITHUB_OAUTH_CLIENT_ID || '';
+  const oauthProxyUrl = siteConfig.customFields?.GITHUB_OAUTH_PROXY_URL || '';
+  const oauthCallbackUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}${siteConfig.baseUrl}oauth-callback`
+    : '';
 
+  // Auth: persisted in localStorage
+  const [auth, setAuth] = useState(null); // { token, username, avatarUrl, name }
+
+  // Tree data
   const [gitFiles, setGitFiles] = useState([]);
   const [catData, setCatData] = useState({});
-  const [changes, setChanges] = useState({});
   const [pageCache, setPageCache] = useState({});
+
+  // Changes: persisted in localStorage
+  const [changes, setChanges] = useState({});
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [loadingPaths, setLoadingPaths] = useState(new Set());
 
-  const [token, setToken] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(null);
   const [submitError, setSubmitError] = useState('');
 
   const [expanded, setExpanded] = useState(new Set());
   const [activeForm, setActiveForm] = useState(null);
-
-  // Right panel: null | { path, htmlContent, frontmatter, fetching, dirty }
   const [rightPanel, setRightPanel] = useState(null);
+
+  // Resizable dialog and splitter
+  const [modalSize, setModalSize] = useState({ width: 1120, height: 780 });
+  const [leftWidth, setLeftWidth] = useState(320);
 
   const tree = useMemo(() => computeDocsTree(gitFiles, catData, changes), [gitFiles, catData, changes]);
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem('gh_edit_token');
-    setToken(stored || buildToken);
-  }, [buildToken]);
+  /* ── Bootstrap: load auth + changes from localStorage ── */
 
   useEffect(() => {
-    const stored = sessionStorage.getItem('gh_edit_token');
-    const tok = stored || buildToken;
-    fetchDocsTree(tok || null)
+    // Load saved pending changes
+    try {
+      const raw = localStorage.getItem(CHANGES_KEY);
+      if (raw) setChanges(JSON.parse(raw));
+    } catch {}
+
+    // Load saved auth from localStorage
+    try {
+      const raw = localStorage.getItem(AUTH_KEY);
+      if (raw) { setAuth(JSON.parse(raw)); return; }
+    } catch {}
+
+    // Auto-login with the build token (maintainer mode) when no user session exists
+    if (buildToken) {
+      verifyGitHubToken(buildToken)
+        .then(info => setAuth({ token: buildToken, ...info }))
+        .catch(() => {});
+    }
+  }, []);
+
+  // Persist changes to localStorage whenever they change
+  useEffect(() => {
+    if (Object.keys(changes).length === 0) {
+      localStorage.removeItem(CHANGES_KEY);
+    } else {
+      localStorage.setItem(CHANGES_KEY, JSON.stringify(changes));
+    }
+  }, [changes]);
+
+  // Fetch tree (public, no token needed for read)
+  useEffect(() => {
+    fetchDocsTree(null)
       .then(({ files, cats }) => {
         setGitFiles(files);
         setCatData(cats);
@@ -299,12 +477,66 @@ export function StructureEditorContent({ onClose }) {
       })
       .catch(e => setError(`Failed to load playbook tree: ${e.message}`))
       .finally(() => setLoading(false));
-  }, [buildToken]);
+  }, []);
 
-  function handleTokenChange(val) {
-    setToken(val);
-    if (val) sessionStorage.setItem('gh_edit_token', val);
-    else sessionStorage.removeItem('gh_edit_token');
+  /* ── Auth ─────────────────────────────────────────────────────────────── */
+
+  async function handleConnect(token) {
+    const info = await verifyGitHubToken(token);
+    const authData = { token, ...info };
+    setAuth(authData);
+    localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+  }
+
+  function handleDisconnect() {
+    setAuth(null);
+    localStorage.removeItem(AUTH_KEY);
+  }
+
+  /* ── Resize handlers ──────────────────────────────────────────────────── */
+
+  function handleSplitterMouseDown(e) {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = leftWidth;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      setLeftWidth(Math.max(180, Math.min(560, startWidth + ev.clientX - startX)));
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
+  function handleDialogResizeMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = modalSize.width;
+    const startH = modalSize.height;
+    document.body.style.cursor = 'nwse-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      setModalSize({
+        width: Math.max(600, Math.min(window.innerWidth - 32, startW + ev.clientX - startX)),
+        height: Math.max(400, Math.min(window.innerHeight - 32, startH + ev.clientY - startY)),
+      });
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
   }
 
   /* ── Change helpers ─────────────────────────────────────────────────── */
@@ -320,6 +552,12 @@ export function StructureEditorContent({ onClose }) {
   function undoChange(path) {
     setChanges(prev => { const n = { ...prev }; delete n[path]; return n; });
     if (rightPanel?.path === path) setRightPanel(null);
+  }
+
+  function clearAllChanges() {
+    if (!window.confirm('Discard all pending changes?')) return;
+    setChanges({});
+    setRightPanel(null);
   }
 
   async function getPageContent(path) {
@@ -389,7 +627,6 @@ export function StructureEditorContent({ onClose }) {
     const position = sectionNode.children.length + 1;
     const path = `${sectionNode.path}/${slug}.md`;
     upsert(path, starterPage(label, position));
-    // Auto-open the new page in the right panel
     const md = starterPage(label, position);
     const { frontmatter, content } = splitFrontmatter(md);
     setRightPanel({ path, htmlContent: mdToHtml(content), frontmatter, fetching: false, dirty: false });
@@ -408,10 +645,8 @@ export function StructureEditorContent({ onClose }) {
       upsert(`${newDirPath}/_category_.json`, starterCategory(pageNode.label, pageNode.position != null && isFinite(pageNode.position) ? pageNode.position : 99));
       upsert(`${newDirPath}/index.md`, origContent);
       upsert(`${newDirPath}/${newSlug}.md`, starterPage(label, 2));
-
       del(pageNode.path);
       if (rightPanel?.path === pageNode.path) setRightPanel(null);
-
       setExpanded(prev => new Set([...prev, newDirPath]));
     } catch (e) {
       setError(`Could not load page content: ${e.message}`);
@@ -465,19 +700,13 @@ export function StructureEditorContent({ onClose }) {
     const siblings = findSiblings(node.path);
     const idx = siblings.findIndex(s => s.path === node.path);
     if (idx < 0) return;
-
     const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
     if (swapIdx < 0 || swapIdx >= siblings.length) return;
-
     const sibling = siblings[swapIdx];
-    const posA = idx + 1;
-    const posB = swapIdx + 1;
-
-    if (node.type === 'section') moveSectionPosition(node, posB);
-    else await movePagePosition(node, posB);
-
-    if (sibling.type === 'section') moveSectionPosition(sibling, posA);
-    else await movePagePosition(sibling, posA);
+    if (node.type === 'section') moveSectionPosition(node, swapIdx + 1);
+    else await movePagePosition(node, swapIdx + 1);
+    if (sibling.type === 'section') moveSectionPosition(sibling, idx + 1);
+    else await movePagePosition(sibling, idx + 1);
   }
 
   function deleteNode(node) {
@@ -489,7 +718,7 @@ export function StructureEditorContent({ onClose }) {
   /* ── Submit ─────────────────────────────────────────────────────────── */
 
   async function handleSubmit() {
-    if (!token.trim()) { setSubmitError('A GitHub personal access token is required.'); return; }
+    if (!auth?.token) { setSubmitError('Connect your GitHub account first.'); return; }
     const changeList = Object.entries(changes).map(([path, c]) => ({ path, ...c }));
     if (changeList.length === 0) { setSubmitError('No changes to submit.'); return; }
 
@@ -497,11 +726,11 @@ export function StructureEditorContent({ onClose }) {
     setSubmitError('');
     try {
       const pr = await createStructurePR({
-        token,
+        token: auth.token,
         changes: changeList,
         prTitle: `Contribute: playbook edits (${changeList.length} file${changeList.length > 1 ? 's' : ''})`,
         prBody: [
-          'Community-suggested playbook changes.',
+          `Community-suggested playbook changes by @${auth.username}.`,
           '',
           '**Files changed:**',
           changeList.map(c => `- \`${c.op === 'delete' ? '–' : '+'} ${c.path}\``).join('\n'),
@@ -510,6 +739,8 @@ export function StructureEditorContent({ onClose }) {
         ].join('\n'),
       });
       setSuccess(pr);
+      // Clear persisted changes after successful PR
+      setChanges({});
     } catch (e) {
       setSubmitError(e.message);
     } finally {
@@ -526,7 +757,13 @@ export function StructureEditorContent({ onClose }) {
       className={styles.overlay}
       onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className={styles.modal} role="dialog" aria-modal="true" aria-label="Contribute to the Playbook">
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Contribute to the Playbook"
+        style={{ width: modalSize.width, height: modalSize.height }}
+      >
         {/* Header */}
         <div className={styles.modalHeader}>
           <div className={styles.headerLeft}>
@@ -537,7 +774,7 @@ export function StructureEditorContent({ onClose }) {
         </div>
 
         {/* Body */}
-        <div className={styles.modalBody}>
+        <div className={styles.modalBody} style={{ position: 'relative' }}>
           {success ? (
             <div className={styles.successBox}>
               <div className={styles.successIcon}>✓</div>
@@ -549,9 +786,9 @@ export function StructureEditorContent({ onClose }) {
               <button className={styles.closeSuccessBtn} onClick={onClose}>Close</button>
             </div>
           ) : (
-            <div className={styles.editorLayout}>
+            <div className={styles.editorLayout} style={{ gridTemplateColumns: `${leftWidth}px 4px 1fr` }}>
 
-              {/* ── Left panel: tree + controls ── */}
+              {/* ── Left panel ── */}
               <div className={styles.leftPanel}>
                 <div className={styles.treePanelHeader}>
                   <span className={styles.treePanelTitle}>Playbook pages</span>
@@ -609,13 +846,23 @@ export function StructureEditorContent({ onClose }) {
                   </div>
                 )}
 
-                {/* Footer: pending changes + token + submit */}
+                {/* Footer: pending + auth + submit */}
                 <div className={styles.leftPanelFooter}>
                   {pendingList.length > 0 && (
                     <div className={styles.pendingSection}>
                       <div className={styles.pendingSectionTitle}>
-                        Pending changes
-                        <span className={styles.changeCount}>{pendingList.length}</span>
+                        <span>
+                          Pending changes
+                          <span className={styles.changeCount}>{pendingList.length}</span>
+                        </span>
+                        <button
+                          className={styles.clearAllBtn}
+                          onClick={clearAllChanges}
+                          type="button"
+                          title="Discard all changes"
+                        >
+                          Clear all
+                        </button>
                       </div>
                       <ul className={styles.changeList}>
                         {pendingList.map(c => (
@@ -629,7 +876,7 @@ export function StructureEditorContent({ onClose }) {
                             <button
                               className={styles.undoBtn}
                               onClick={() => undoChange(c.path)}
-                              title="Undo this change"
+                              title="Undo"
                               type="button"
                             >
                               ↩
@@ -640,38 +887,24 @@ export function StructureEditorContent({ onClose }) {
                     </div>
                   )}
 
-                  <div className={styles.tokenSection}>
-                    <div className={styles.tokenRow}>
-                      <label htmlFor="se-token" className={styles.tokenLabel}>GitHub Token</label>
-                      <a
-                        href="https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook+Edit"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className={styles.tokenCreateLink}
-                      >
-                        Create →
-                      </a>
-                    </div>
-                    <input
-                      id="se-token"
-                      type="password"
-                      className={styles.tokenInput}
-                      value={token}
-                      onChange={e => handleTokenChange(e.target.value)}
-                      placeholder="ghp_xxxxxxxxxxxx"
-                      autoComplete="off"
-                    />
-                    <p className={styles.tokenHint}>Needs <code>public_repo</code> scope.</p>
-                  </div>
+                  <AuthPanel
+                    auth={auth}
+                    clientId={oauthClientId}
+                    proxyUrl={oauthProxyUrl}
+                    callbackUrl={oauthCallbackUrl}
+                    onConnect={handleConnect}
+                    onDisconnect={handleDisconnect}
+                  />
 
                   {submitError && <div className={styles.errorBox}>{submitError}</div>}
 
                   <div className={styles.submitRow}>
-                    <button className={styles.cancelBtn} onClick={onClose} type="button">Cancel</button>
+                    <button className={styles.cancelBtn} onClick={onClose} type="button">Close</button>
                     <button
                       className={styles.submitBtn}
                       onClick={handleSubmit}
-                      disabled={submitting || pendingList.length === 0}
+                      disabled={submitting || pendingList.length === 0 || !auth}
+                      title={!auth ? 'Connect GitHub first' : pendingList.length === 0 ? 'No changes to submit' : ''}
                       type="button"
                     >
                       {submitting ? 'Creating PR…' : `Submit${pendingList.length > 0 ? ` (${pendingList.length})` : ''} as PR`}
@@ -680,7 +913,14 @@ export function StructureEditorContent({ onClose }) {
                 </div>
               </div>
 
-              {/* ── Right panel: content editor ── */}
+              {/* ── Panel splitter ── */}
+              <div
+                className={styles.splitter}
+                onMouseDown={handleSplitterMouseDown}
+                title="Drag to resize panels"
+              />
+
+              {/* ── Right panel ── */}
               <div className={styles.rightPanel}>
                 {rightPanel ? (
                   rightPanel.fetching ? (
@@ -724,14 +964,23 @@ export function StructureEditorContent({ onClose }) {
                 ) : (
                   <div className={styles.rightPanelPlaceholder}>
                     <span className={styles.rightPanelPlaceholderIcon}>📄</span>
-                    <p>Click <strong>✎</strong> next to any page in the tree to edit its content here.</p>
-                    <p className={styles.rightPanelPlaceholderHint}>Use the tree on the left to add sections, rename pages, and reorder items.</p>
+                    <p>Click <strong>✎</strong> next to any page to edit its content here.</p>
+                    <p className={styles.rightPanelPlaceholderHint}>
+                      Changes are saved locally — close and reopen this dialog anytime without losing your work.
+                    </p>
                   </div>
                 )}
               </div>
 
             </div>
           )}
+
+          {/* Dialog resize handle */}
+          <div
+            className={styles.resizeHandle}
+            onMouseDown={handleDialogResizeMouseDown}
+            title="Drag to resize"
+          />
         </div>
       </div>
     </div>
