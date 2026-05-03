@@ -428,9 +428,53 @@ export function StructureEditorContent({ onClose }) {
   const [activeForm, setActiveForm] = useState(null);
   const [rightPanel, setRightPanel] = useState(null);
 
-  // Resizable dialog and splitter
+  // Resizable dialog and panel splitter
   const [modalSize, setModalSize] = useState({ width: 1120, height: 780 });
   const [leftWidth, setLeftWidth] = useState(320);
+
+  function handleSplitterMouseDown(e) {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = leftWidth;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      const next = Math.max(180, Math.min(560, startWidth + ev.clientX - startX));
+      setLeftWidth(next);
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
+  function handleDialogResizeMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = modalSize.width;
+    const startH = modalSize.height;
+    document.body.style.cursor = 'nwse-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      const w = Math.max(600, Math.min(window.innerWidth - 32, startW + ev.clientX - startX));
+      const h = Math.max(400, Math.min(window.innerHeight - 32, startH + ev.clientY - startY));
+      setModalSize({ width: w, height: h });
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
 
   const tree = useMemo(() => computeDocsTree(gitFiles, catData, changes), [gitFiles, catData, changes]);
 
@@ -920,7 +964,7 @@ export function StructureEditorContent({ onClose }) {
                 title="Drag to resize panels"
               />
 
-              {/* ── Right panel ── */}
+              {/* ── Right panel: content editor ── */}
               <div className={styles.rightPanel}>
                 {rightPanel ? (
                   rightPanel.fetching ? (
@@ -982,6 +1026,12 @@ export function StructureEditorContent({ onClose }) {
             title="Drag to resize"
           />
         </div>
+        {/* Dialog resize handle (bottom-right corner) */}
+        <div
+          className={styles.resizeHandle}
+          onMouseDown={handleDialogResizeMouseDown}
+          title="Drag to resize"
+        />
       </div>
     </div>
   );
