@@ -311,14 +311,6 @@ const config = {
                 label: "HausaNLP",
                 href: "https://hausanlp.org/",
               },
-              {
-                label: "Lanfrica",
-                href: "https://lanfrica.com/",
-              },
-              {
-                label: "Zindi Africa",
-                href: "https://zindi.africa/",
-              },
             ],
           },
           {
