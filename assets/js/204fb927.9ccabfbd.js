@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkmasakhane_playbook=globalThis.webpackChunkmasakhane_playbook||[]).push([[973],{475(a){a.exports=JSON.parse('{"metadata":{"permalink":"/MasakhanePlaybook/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":2,"blogDescription":"Updates from the Masakhane community","blogTitle":"Masakhane Blog"}}')}}]);
