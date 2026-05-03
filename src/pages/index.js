@@ -10,24 +10,11 @@ import styles from './index.module.css';
 import {
   IconBookOpen,
   IconWrench,
-  IconMegaphone,
   IconUsers,
   IconArrowRight,
-  IconNewspaper,
   IconSparkles,
   IconRocket,
 } from '@site/src/components/Icons';
-import NEWS_DATA from '@site/src/data/news.json';
-import { CardEditButton } from '@site/src/components/EditModal';
-import editStyles from '@site/src/components/EditModal/index.module.css';
-
-/* ── Icon map for news cards (icons stored as strings in JSON) ────────── */
-const ICON_MAP = {
-  users: IconUsers,
-  megaphone: IconMegaphone,
-  sparkles: IconSparkles,
-  rocket: IconRocket,
-};
 
 /* ============================================================
    SLIDE NAVIGATION
@@ -37,7 +24,6 @@ const SLIDES = [
   { id: 'playbook',     label: 'The Playbook' },
   { id: 'tool',         label: 'The Tool' },
   { id: 'testimonials', label: 'Researchers say' },
-  { id: 'news',         label: 'News' },
   { id: 'blog',         label: 'From the Blog' },
   { id: 'join',         label: 'Get Involved' },
 ];
@@ -137,91 +123,6 @@ function HeroSection() {
     </header>
   );
 }
-
-/* ============================================================
-   NEWS
-   ============================================================ */
-function NewsSection() {
-  return (
-    <section className={clsx(styles.section, styles.snapSection)} data-snap-section="news">
-      <div className="container">
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>
-            <IconNewspaper size={14} /> From the Blog
-          </span>
-        </div>
-        <div className={styles.newsGrid}>
-          {NEWS_DATA.map((item, idx) => {
-            const Icon = ICON_MAP[item.icon] || IconSparkles;
-            const Inner = (
-              <>
-                <div className={clsx(styles.newsThumb, styles[`newsThumb${idx}`])}>
-                  <span className={styles.newsThumbIcon}>
-                    <Icon size={32} />
-                  </span>
-                  <span className={styles.newsThumbLabel}>{item.tag}</span>
-                </div>
-                <div className={styles.newsBody}>
-                  <span className={styles.newsDate}>{item.date}</span>
-                  <h3 className={styles.newsTitle}>{item.title}</h3>
-                  <p className={styles.newsExcerpt}>{item.body}</p>
-                  {item.href && (
-                    <span className={styles.newsReadMore}>
-                      Read more <IconArrowRight size={16} />
-                    </span>
-                  )}
-                </div>
-              </>
-            );
-
-            const card = item.href ? (
-              <Link
-                key={item.id}
-                to={item.href}
-                className={clsx(styles.newsCard, styles.newsCardLink)}
-              >
-                {Inner}
-              </Link>
-            ) : (
-              <article key={item.id} className={styles.newsCard}>
-                {Inner}
-              </article>
-            );
-
-            return (
-              <div key={item.id} className={clsx(styles.newsCard, editStyles.cardWrap)} style={{padding: 0}}>
-                {item.href ? (
-                  <Link
-                    to={item.href}
-                    className={clsx(styles.newsCard, styles.newsCardLink)}
-                    style={{display: 'flex', flexDirection: 'column', height: '100%'}}
-                  >
-                    {Inner}
-                  </Link>
-                ) : (
-                  <article
-                    className={styles.newsCard}
-                    style={{height: '100%'}}
-                  >
-                    {Inner}
-                  </article>
-                )}
-                <CardEditButton
-                  mode="news"
-                  filePath="src/data/news.json"
-                  itemId={item.id}
-                  itemData={item}
-                  pageTitle={item.title}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 
 /* ============================================================
    FEATURE: PLAYBOOK
@@ -519,8 +420,11 @@ function FeatureTool() {
    ============================================================ */
 function BlogTeaserSection() {
   const {withBaseUrl} = useBaseUrlUtils();
-  const blogData = usePluginData('docusaurus-plugin-content-blog');
-  const posts = (blogData?.blogPosts ?? []).slice(0, 3);
+  // Custom plugin "recent-blog-posts" (defined in docusaurus.config.js) exposes
+  // the latest posts in a flat shape — easier to consume than digging into the
+  // stock blog plugin's internal structure.
+  const blogData = usePluginData('recent-blog-posts');
+  const posts = (blogData?.recentPosts ?? []).slice(0, 4);
 
   if (posts.length === 0) return null;
 
@@ -541,7 +445,7 @@ function BlogTeaserSection() {
           </Link>
         </div>
         <div className={styles.blogTeaserGrid}>
-          {posts.map(({metadata}) => {
+          {posts.map((post) => {
             const {
               title,
               permalink,
@@ -550,9 +454,9 @@ function BlogTeaserSection() {
               frontMatter,
               authors,
               tags,
-            } = metadata;
+            } = post;
             const tag = tags?.[0]?.label;
-            const imageSrc = resolveImg(frontMatter.image);
+            const imageSrc = resolveImg(frontMatter?.image);
             const author = authors?.[0];
             const authorImg = author && resolveImg(author.imageURL);
             const dateStr = new Date(date).toLocaleDateString('en-US', {
@@ -886,7 +790,6 @@ export default function Home() {
         <FeaturePlaybook />
         <FeatureTool />
         <TestimonialsSection />
-        <NewsSection />
         <BlogTeaserSection />
         <GetInvolvedSection />
       </main>

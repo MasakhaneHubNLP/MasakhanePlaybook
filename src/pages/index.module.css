@@ -46,8 +46,8 @@
   inset: 0;
   background: radial-gradient(
     ellipse 80% 60% at 50% 0%,
-    rgba(46, 133, 85, 0.09) 0%,
-    rgba(46, 133, 85, 0.04) 35%,
+    rgba(var(--brand-rgb), 0.09) 0%,
+    rgba(var(--brand-rgb), 0.04) 35%,
     transparent 70%
   );
   pointer-events: none;
@@ -86,7 +86,7 @@
   gap: 0.45rem;
   font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--ifm-color-primary);
   margin-bottom: 1.1rem;
@@ -124,7 +124,7 @@
   background: var(--ifm-color-primary);
   color: #fff;
   border: 1px solid var(--ifm-color-primary);
-  box-shadow: 0 8px 22px rgba(46, 133, 85, 0.28);
+  box-shadow: 0 8px 22px rgba(var(--brand-rgb), 0.28);
 }
 
 .primaryButton:hover {
@@ -132,7 +132,7 @@
   color: #fff;
   transform: translateY(-2px);
   text-decoration: none;
-  box-shadow: 0 12px 30px rgba(46, 133, 85, 0.38);
+  box-shadow: 0 12px 30px rgba(var(--brand-rgb), 0.38);
 }
 
 .secondaryButton {
@@ -143,7 +143,7 @@
 
 .secondaryButton:hover {
   border-color: var(--ifm-color-primary);
-  background: rgba(46, 133, 85, 0.06);
+  background: rgba(var(--brand-rgb), 0.06);
   color: var(--ifm-color-emphasis-900);
   transform: translateY(-2px);
   text-decoration: none;
@@ -293,172 +293,6 @@
 }
 
 /* ============================================================
-   NEWS
-   ============================================================ */
-.newsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-}
-
-@media (max-width: 600px) {
-  .newsGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.newsCard {
-  background: var(--ifm-background-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.newsCard:hover {
-  transform: translateY(-4px);
-  border-color: var(--ifm-color-primary-lighter);
-  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.18);
-}
-
-.newsCardLink {
-  text-decoration: none !important;
-  color: inherit;
-  cursor: pointer;
-}
-
-/* ----------------------------------------------------------------
-   News card thumbnails — B/W cover photography (per brand book).
-   To swap in real Masakhane community photos: drop a JPEG into
-   static/img/news/{0,1,2,3}.jpg and replace the URL on each
-   .newsThumb{N} below. The luminosity blend desaturates colour
-   images automatically; the dark overlay handles text contrast.
-   ---------------------------------------------------------------- */
-
-.newsThumb {
-  height: 170px;
-  display: flex;
-  align-items: flex-end;
-  padding: 1.1rem 1.3rem;
-  position: relative;
-  overflow: hidden;
-  background-color: #2a2a2a;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-blend-mode: luminosity;
-}
-
-.newsThumb::before {
-  /* darkening gradient — keeps label readable against any photo */
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.55) 100%);
-  pointer-events: none;
-}
-
-/* Q1 · Workshop — collaborative discussion */
-.newsThumb0 {
-  background-image: url('https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=900&h=520&q=80');
-}
-
-/* Q2 · Call for Chapters — focused writing / authoring */
-.newsThumb1 {
-  background-image: url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&h=520&q=80');
-}
-
-/* Indaba 2026 — community gathering / conference */
-.newsThumb2 {
-  background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&h=520&q=80');
-}
-
-/* Q3 · Release — collaborative work */
-.newsThumb3 {
-  background-image: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&h=520&q=80');
-}
-
-.newsThumbIcon {
-  position: absolute;
-  top: 1.1rem;
-  right: 1.3rem;
-  width: 52px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-}
-
-.newsThumbLabel {
-  position: relative;
-  z-index: 1;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-.newsBody {
-  padding: 1.6rem 1.6rem 1.85rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.newsDate {
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ifm-color-emphasis-600);
-  margin-bottom: 0.7rem;
-}
-
-.newsTitle {
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.8rem;
-  color: var(--ifm-color-emphasis-1000);
-}
-
-.newsExcerpt {
-  font-size: 1rem;
-  line-height: 1.65;
-  color: var(--ifm-color-emphasis-700);
-  margin: 0;
-}
-
-.newsReadMore {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 1.1rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--ifm-color-primary);
-  transition: transform 0.15s ease;
-}
-
-.newsCardLink:hover .newsReadMore {
-  transform: translateX(3px);
-}
-
-/* ============================================================
    CALL FOR CHAPTERS
    ============================================================ */
 .cfcSection {
@@ -499,7 +333,7 @@
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(46, 133, 85, 0.18), transparent 65%);
+  background: radial-gradient(circle, rgba(var(--brand-rgb), 0.18), transparent 65%);
   pointer-events: none;
 }
 
@@ -647,7 +481,7 @@
 .scopeCard:hover {
   transform: translateY(-4px);
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 26px 50px -28px rgba(46, 133, 85, 0.35);
+  box-shadow: 0 26px 50px -28px rgba(var(--brand-rgb), 0.35);
 }
 
 .scopeCard:hover::before {
@@ -658,7 +492,7 @@
   width: 56px;
   height: 56px;
   border-radius: 14px;
-  background: rgba(46, 133, 85, 0.1);
+  background: rgba(var(--brand-rgb), 0.1);
   color: var(--ifm-color-primary);
   display: flex;
   align-items: center;
@@ -746,7 +580,7 @@
   width: 56px;
   height: 56px;
   border-radius: 14px;
-  background: rgba(46, 133, 85, 0.1);
+  background: rgba(var(--brand-rgb), 0.1);
   color: var(--ifm-color-primary);
   display: flex;
   align-items: center;
@@ -886,7 +720,7 @@
   width: 44px;
   height: 44px;
   border-radius: 11px;
-  background: rgba(46, 133, 85, 0.1);
+  background: rgba(var(--brand-rgb), 0.1);
   color: var(--ifm-color-primary);
   display: flex;
   align-items: center;
@@ -921,7 +755,7 @@
   position: relative;
   z-index: 1;
   overflow: hidden;
-  box-shadow: 0 24px 60px -25px rgba(46, 133, 85, 0.55);
+  box-shadow: 0 24px 60px -25px rgba(var(--brand-rgb), 0.55);
 }
 
 .compBanner::before {
@@ -1034,7 +868,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 0.85rem;
-  box-shadow: 0 6px 16px -6px rgba(46, 133, 85, 0.55);
+  box-shadow: 0 6px 16px -6px rgba(var(--brand-rgb), 0.55);
 }
 
 @media (max-width: 996px) {
@@ -1084,9 +918,9 @@
   padding: 4.5rem 0 6rem;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 65% 80% at 90% 0%, rgba(46, 133, 85, 0.22), transparent 55%),
+    radial-gradient(ellipse 65% 80% at 90% 0%, rgba(var(--brand-rgb), 0.22), transparent 55%),
     radial-gradient(ellipse 55% 60% at 5% 100%, rgba(60, 173, 110, 0.16), transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(46, 133, 85, 0.04), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(var(--brand-rgb), 0.04), transparent 70%),
     var(--ifm-background-color);
 }
 
@@ -1107,7 +941,7 @@
   padding: 6rem 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 70% at 50% -10%, rgba(46, 133, 85, 0.12), transparent 60%),
+    radial-gradient(ellipse 80% 70% at 50% -10%, rgba(var(--brand-rgb), 0.12), transparent 60%),
     radial-gradient(ellipse 40% 60% at 100% 50%, rgba(60, 173, 110, 0.08), transparent 65%),
     var(--ifm-background-color);
 }
@@ -1117,7 +951,7 @@
   padding: 6rem 0;
   overflow: hidden;
   background:
-    radial-gradient(circle 600px at 0% 30%, rgba(46, 133, 85, 0.16), transparent 60%),
+    radial-gradient(circle 600px at 0% 30%, rgba(var(--brand-rgb), 0.16), transparent 60%),
     radial-gradient(circle 500px at 100% 70%, rgba(60, 173, 110, 0.14), transparent 60%),
     var(--ifm-color-emphasis-100);
 }
@@ -1134,7 +968,7 @@
   padding: 6rem 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 35% at 50% 0%, rgba(46, 133, 85, 0.16), transparent 70%),
+    radial-gradient(ellipse 80% 35% at 50% 0%, rgba(var(--brand-rgb), 0.16), transparent 70%),
     radial-gradient(ellipse 60% 35% at 50% 100%, rgba(53, 153, 98, 0.1), transparent 65%),
     var(--ifm-background-color);
 }
@@ -1156,7 +990,7 @@
   overflow: hidden;
   background:
     radial-gradient(ellipse 60% 70% at 100% 100%, rgba(53, 153, 98, 0.16), transparent 60%),
-    radial-gradient(ellipse 50% 60% at 0% 0%, rgba(46, 133, 85, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 0% 0%, rgba(var(--brand-rgb), 0.12), transparent 60%),
     var(--ifm-background-color);
 }
 
@@ -1165,7 +999,7 @@
   padding: 6rem 0;
   overflow: hidden;
   background:
-    radial-gradient(circle 700px at 50% 50%, rgba(46, 133, 85, 0.14), transparent 55%),
+    radial-gradient(circle 700px at 50% 50%, rgba(var(--brand-rgb), 0.14), transparent 55%),
     var(--ifm-color-emphasis-100);
 }
 
@@ -1180,7 +1014,7 @@
   padding: 6rem 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 50% 70% at 0% 0%, rgba(46, 133, 85, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 70% at 0% 0%, rgba(var(--brand-rgb), 0.14), transparent 60%),
     radial-gradient(ellipse 50% 70% at 100% 100%, rgba(60, 173, 110, 0.14), transparent 60%),
     var(--ifm-background-color);
 }
@@ -1207,7 +1041,7 @@
   left: -6%;
   width: 360px;
   height: 360px;
-  background: radial-gradient(circle, rgba(46, 133, 85, 0.18), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--brand-rgb), 0.18), transparent 70%);
 }
 
 .idbObjectives::before {
@@ -1223,7 +1057,7 @@
   right: -8%;
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle, rgba(46, 133, 85, 0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--brand-rgb), 0.15), transparent 70%);
 }
 
 .idbOrganizers::before {
@@ -1232,7 +1066,7 @@
   transform: translateX(-50%);
   width: 480px;
   height: 380px;
-  background: radial-gradient(ellipse, rgba(46, 133, 85, 0.14), transparent 70%);
+  background: radial-gradient(ellipse, rgba(var(--brand-rgb), 0.14), transparent 70%);
 }
 
 /* Inner content sits above the radiance */
@@ -1335,7 +1169,7 @@
 .agendaItem:hover {
   border-color: var(--ifm-color-primary);
   transform: translateX(3px);
-  box-shadow: 0 18px 36px -22px rgba(46, 133, 85, 0.3);
+  box-shadow: 0 18px 36px -22px rgba(var(--brand-rgb), 0.3);
 }
 
 @media (max-width: 768px) {
@@ -1376,7 +1210,7 @@
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: rgba(46, 133, 85, 0.12);
+  background: rgba(var(--brand-rgb), 0.12);
   color: var(--ifm-color-primary);
   display: flex;
   align-items: center;
@@ -1437,7 +1271,7 @@
 
 .audienceChip:hover {
   border-color: var(--ifm-color-primary);
-  background: rgba(46, 133, 85, 0.06);
+  background: rgba(var(--brand-rgb), 0.06);
   transform: translateY(-1px);
 }
 
@@ -1474,7 +1308,7 @@
 }
 
 .organizerCard:hover {
-  box-shadow: 0 18px 36px -22px rgba(46, 133, 85, 0.3);
+  box-shadow: 0 18px 36px -22px rgba(var(--brand-rgb), 0.3);
 }
 
 .organizerCard:hover {
@@ -1495,7 +1329,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px -6px rgba(46, 133, 85, 0.5);
+  box-shadow: 0 8px 20px -6px rgba(var(--brand-rgb), 0.5);
 }
 
 .organizerCopy {
@@ -1574,7 +1408,7 @@
   gap: 0.45rem;
   font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--ifm-color-primary);
   margin-bottom: 1.1rem;
@@ -1760,7 +1594,7 @@
   display: block;
   font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--ifm-color-primary);
   margin-bottom: 0.4rem;
@@ -1820,7 +1654,7 @@
   gap: 0.6rem;
   align-items: flex-start;
   padding: 0.7rem 0.9rem;
-  background: rgba(46, 133, 85, 0.08);
+  background: rgba(var(--brand-rgb), 0.08);
   border-left: 3px solid var(--ifm-color-primary);
   border-radius: 6px;
 }
@@ -1830,7 +1664,7 @@
   padding: 0.18rem 0.42rem;
   font-size: 0.58rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.09em;
   background: var(--ifm-color-primary);
   color: #fff;
   border-radius: 4px;
@@ -1899,7 +1733,7 @@
   background: var(--ifm-color-primary);
   color: #fff;
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 6px 18px -8px rgba(46, 133, 85, 0.55);
+  box-shadow: 0 6px 18px -8px rgba(var(--brand-rgb), 0.55);
 }
 
 .lifecycleStageActive .lifecycleStageNum {
@@ -2266,7 +2100,7 @@
   background: var(--ifm-color-primary);
   color: #fff;
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 4px 10px -3px rgba(46, 133, 85, 0.45);
+  box-shadow: 0 4px 10px -3px rgba(var(--brand-rgb), 0.45);
 }
 
 .mockChipCheck {
@@ -2339,8 +2173,8 @@
 }
 
 .mockNerPer {
-  background: rgba(46, 133, 85, 0.18);
-  border: 1px dashed rgba(46, 133, 85, 0.55);
+  background: rgba(var(--brand-rgb), 0.18);
+  border: 1px dashed rgba(var(--brand-rgb), 0.55);
 }
 
 .mockNerLoc {
@@ -2411,8 +2245,8 @@
 }
 
 .mockChatBubbleModel {
-  background: rgba(46, 133, 85, 0.08);
-  border-color: rgba(46, 133, 85, 0.25);
+  background: rgba(var(--brand-rgb), 0.08);
+  border-color: rgba(var(--brand-rgb), 0.25);
   margin-bottom: 0.85rem;
 }
 
@@ -2501,7 +2335,7 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(46, 133, 85, 0.1);
+  background: rgba(var(--brand-rgb), 0.1);
   color: var(--ifm-color-primary);
   display: flex;
   align-items: center;
@@ -2590,15 +2424,21 @@
 
 .blogTeaserViewAll:hover {
   border-color: var(--ifm-color-primary);
-  background: rgba(46, 133, 85, 0.08);
+  background: rgba(var(--brand-rgb), 0.08);
   color: var(--ifm-color-primary);
   transform: translateY(-1px);
 }
 
 .blogTeaserGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 1100px) {
+  .blogTeaserGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .blogTeaserCard {
@@ -2739,7 +2579,7 @@
   position: relative;
   padding: 5rem 0;
   background:
-    radial-gradient(ellipse at 30% 0%, rgba(46, 133, 85, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 30% 0%, rgba(var(--brand-rgb), 0.18) 0%, transparent 55%),
     linear-gradient(180deg, #14171f 0%, #1c2029 100%);
   color: #fff;
   overflow: hidden;
@@ -2755,7 +2595,7 @@
   display: inline-block;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--ifm-color-primary-lighter);
   margin: 0;
@@ -2781,7 +2621,7 @@
 }
 
 .testimonialCard:hover {
-  border-color: rgba(46, 133, 85, 0.5);
+  border-color: rgba(var(--brand-rgb), 0.5);
   background: rgba(255, 255, 255, 0.06);
   transform: translateY(-2px);
 }
@@ -2804,7 +2644,7 @@
   font-size: 2.8rem;
   line-height: 1;
   font-family: Georgia, 'Times New Roman', serif;
-  color: rgba(46, 133, 85, 0.22);
+  color: rgba(var(--brand-rgb), 0.22);
   pointer-events: none;
   -webkit-user-select: none;
   user-select: none;

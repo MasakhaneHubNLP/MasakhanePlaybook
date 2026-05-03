@@ -13,7 +13,7 @@
   width: 88px;
   height: 88px;
   border-radius: 22px;
-  background: rgba(46, 133, 85, 0.1);
+  background: rgba(var(--brand-rgb), 0.1);
   color: var(--ifm-color-primary);
   display: inline-flex;
   align-items: center;

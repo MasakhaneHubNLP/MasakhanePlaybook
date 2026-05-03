@@ -131,6 +131,109 @@ const config = {
   ],
 
   plugins: [
+    /* Tiny inline plugin: reads blog/*\/index.md at build time and exposes
+       the latest 6 posts as globalData. The homepage <BlogTeaserSection>
+       consumes this via usePluginData('recent-blog-posts').
+
+       Why fs-based instead of cross-plugin data: in Docusaurus 3, allContent
+       is undefined inside per-plugin contentLoaded (timing/scope), so we
+       read source files directly. Resolves authors from blog/authors.yml. */
+    function recentBlogPostsPlugin(context) {
+      return {
+        name: "recent-blog-posts",
+        async loadContent() {
+          const fs = require("fs");
+          const path = require("path");
+          const yaml = require("js-yaml");
+
+          const blogDir = path.join(context.siteDir, "blog");
+          if (!fs.existsSync(blogDir)) return [];
+
+          // Load author registry
+          let authorsRegistry = {};
+          const authorsPath = path.join(blogDir, "authors.yml");
+          if (fs.existsSync(authorsPath)) {
+            try {
+              authorsRegistry =
+                yaml.load(fs.readFileSync(authorsPath, "utf8")) || {};
+            } catch {}
+          }
+
+          // Permalinks are stored WITHOUT baseUrl — Docusaurus's <Link to>
+          // adds the baseUrl prefix at render time. Including it here would
+          // double-prefix to /baseUrl/baseUrl/blog/...
+          const posts = [];
+
+          for (const entry of fs.readdirSync(blogDir, {
+            withFileTypes: true,
+          })) {
+            if (!entry.isDirectory()) continue;
+            const indexPath = path.join(blogDir, entry.name, "index.md");
+            if (!fs.existsSync(indexPath)) continue;
+
+            const raw = fs.readFileSync(indexPath, "utf8");
+            const fmMatch = raw.match(/^---\n([\s\S]*?)\n---/);
+            if (!fmMatch) continue;
+            let fm;
+            try {
+              fm = yaml.load(fmMatch[1]);
+            } catch {
+              continue;
+            }
+            if (!fm) continue;
+
+            const dateMatch = entry.name.match(/^(\d{4}-\d{2}-\d{2})-/);
+            const date = dateMatch ? `${dateMatch[1]}T00:00:00.000Z` : null;
+            const slug =
+              fm.slug || entry.name.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+
+            const authorKeys = Array.isArray(fm.authors)
+              ? fm.authors
+              : fm.authors
+              ? [fm.authors]
+              : [];
+            const authors = authorKeys.map((key) => {
+              if (typeof key === "string") {
+                const a = authorsRegistry[key];
+                return a
+                  ? {
+                      name: a.name,
+                      title: a.title,
+                      imageURL: a.image_url,
+                      url: a.url,
+                    }
+                  : { name: key };
+              }
+              return key;
+            });
+
+            const tagList = Array.isArray(fm.tags) ? fm.tags : [];
+            const tags = tagList.map((t) => ({
+              label: typeof t === "string" ? t : t.label,
+              permalink: `/blog/tags/${
+                typeof t === "string" ? t : t.permalink
+              }`,
+            }));
+
+            posts.push({
+              title: fm.title,
+              permalink: `/blog/${slug}`,
+              date,
+              description: fm.description || null,
+              frontMatter: { image: fm.image || null },
+              tags,
+              authors,
+            });
+          }
+
+          posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+          return posts.slice(0, 6);
+        },
+        async contentLoaded({ content, actions }) {
+          actions.setGlobalData({ recentPosts: content || [] });
+        },
+      };
+    },
     [
       "@docusaurus/plugin-ideal-image",
       {
