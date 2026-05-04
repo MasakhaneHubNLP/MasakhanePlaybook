@@ -171,9 +171,20 @@
   font-size: 0.95rem;
   line-height: 1.65;
   color: var(--ifm-color-content);
+  background: #ffffff;
 }
+
+[data-theme='dark'] .editorContent {
+  background: #1e1e1e;
+  color: #e8e8e8;
+}
+
 .editorContent:focus {
-  background: var(--ifm-pre-background);
+  background: #f6f8fa;
+}
+
+[data-theme='dark'] .editorContent:focus {
+  background: #161b22;
 }
 .editorContent h1,
 .editorContent h2,
