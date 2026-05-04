@@ -350,7 +350,11 @@ const config = {
         isCloseable: true,
       },
       colorMode: {
-        respectPrefersColorScheme: true,
+        defaultMode: "light",
+        // Was true — caused Safari to flip between themes when macOS
+        // is in Auto appearance mode. The toggle button still works,
+        // user choice persists in localStorage.
+        respectPrefersColorScheme: false,
       },
       docs: {
         sidebar: {
@@ -359,10 +363,9 @@ const config = {
         },
       },
       navbar: {
-        logo: {
-          alt: "Masakhane Logo",
-          src: "img/logo.svg",
-        },
+        // Logo removed — text-only "MasakhanePlaybook" via siteConfig.title.
+        // Restore by uncommenting the logo block below.
+        // logo: { alt: "Masakhane Logo", src: "img/logo.svg" },
         hideOnScroll: false,
         items: [
           {

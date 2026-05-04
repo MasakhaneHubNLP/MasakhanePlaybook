@@ -158,7 +158,9 @@
    ============================================================ */
 .hero {
   position: relative;
-  padding: 6.5rem 0 5.5rem;
+  /* Tightened bottom padding (was 5.5rem) so the SUPPORTED BY marquee
+     fits within the same viewport as the hero copy. */
+  padding: 4.5rem 0 1.5rem;
   overflow: hidden;
   background: var(--ifm-background-color);
 }
@@ -176,7 +178,7 @@
     gap: 2.5rem;
   }
   .hero {
-    padding: 4rem 0 3.5rem;
+    padding: 3rem 0 1rem;
   }
 }
 
@@ -2986,4 +2988,105 @@
   }
 }
 
+/* ============================================================
+   SUPPORTERS marquee — rendered INSIDE the Hero band so it
+   appears in the same viewport (no scroll required to see it).
+   Pattern: MasakhaneHub / Stripe / Linear "trusted by" rows.
+   CSS-only, GPU-accelerated. Track is the logo array duplicated
+   2x so the loop seam (animation -50%) is invisible. Pauses on
+   hover. Respects prefers-reduced-motion.
+   ============================================================ */
+.heroSupporters {
+  /* Sits at the bottom of the Hero band. No section padding —
+     keeps the hero compact so logos are above the fold. */
+  margin-top: 2.5rem;
+  padding: 0 0 0.5rem;
+}
+
+.supportersLabel {
+  text-align: center;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 0 1.1rem;
+}
+
+.supportersMarquee {
+  overflow: hidden;
+  /* Soft fade on left/right edges so logos don't pop in/out abruptly. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 7%,
+    black 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 7%,
+    black 93%,
+    transparent 100%
+  );
+}
+
+.supportersTrack {
+  display: flex;
+  align-items: center;
+  gap: 4.5rem;
+  width: max-content;
+  /* 35s for one full cycle = comfortable read pace for ~5 logos */
+  animation: supportersMarquee 35s linear infinite;
+  will-change: transform;
+}
+
+.supportersMarquee:hover .supportersTrack {
+  animation-play-state: paused;
+}
+
+@keyframes supportersMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.supporterName {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--ifm-color-emphasis-800);
+  white-space: nowrap;
+  /* No links / no hover transitions — passive supporter mention. */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .supportersTrack {
+    animation: none;
+    /* Show first set only, allow user-controlled horizontal scroll. */
+    overflow-x: auto;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .supportersLabel {
+    font-size: 0.72rem;
+    margin-bottom: 1rem;
+  }
+  .supportersTrack {
+    gap: 3rem;
+  }
+  .supporterName {
+    height: 34px;
+    font-size: 0.92rem;
+  }
+}
 

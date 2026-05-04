@@ -119,8 +119,66 @@ function HeroSection() {
           />
         </div>
       </div>
+      <SupportersMarquee />
       <ScrollHint />
     </header>
+  );
+}
+
+/* ============================================================
+   SUPPORTERS — horizontal marquee of partner / institutional
+   logos. Pattern: MasakhaneHub site, plus Stripe / Linear /
+   Vercel "trusted by" rows. CSS-only marquee, pauses on hover,
+   respects prefers-reduced-motion.
+
+   To swap a logo: drop a new image in static/img/supporters/
+   with the same filename — CSS normalises by height (60px), so
+   any width works without distortion.
+   ============================================================ */
+const SUPPORTERS = [
+  {
+    name: 'Masakhane African Languages Hub',
+    logo: '/img/supporters/masakhane.png',
+    url: 'https://www.masakhane.io/',
+  },
+  {
+    name: 'Bayero University, Kano',
+    logo: '/img/supporters/bayero.png',
+    url: 'https://www.buk.edu.ng/',
+  },
+  {
+    name: 'Bahir Dar University',
+    logo: '/img/supporters/bahir-dar.png',
+    url: 'https://www.bdu.edu.et/',
+  },
+  {
+    name: 'HausaNLP',
+    logo: '/img/supporters/hausanlp.png',
+    url: 'https://hausanlp.org/',
+  },
+];
+
+/* Inline marquee — rendered INSIDE <HeroSection> at the bottom of the
+   hero band so visitors see the supporters in the same viewport
+   (no scroll required). Text-only, no logos, no links. */
+function SupportersMarquee() {
+  const track = [...SUPPORTERS, ...SUPPORTERS];
+  return (
+    <div className={styles.heroSupporters} aria-label="Project supporters">
+      <p className={styles.supportersLabel}>SUPPORTED BY</p>
+      <div className={styles.supportersMarquee}>
+        <div className={styles.supportersTrack}>
+          {track.map((s, idx) => (
+            <span
+              key={`${s.name}-${idx}`}
+              className={styles.supporterName}
+              aria-hidden={idx >= SUPPORTERS.length ? 'true' : undefined}>
+              {s.name}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
