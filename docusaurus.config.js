@@ -7,6 +7,8 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 

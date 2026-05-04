@@ -35,6 +35,7 @@
     "@docusaurus/module-type-aliases": "3.10.1",
     "@docusaurus/types": "3.10.1",
     "docs-to-pdf": "^1.1.0",
+    "dotenv": "^17.4.2",
     "gh-pages": "^6.3.0",
     "serve": "^14.2.6",
     "start-server-and-test": "^2.0.0"
