@@ -369,6 +369,12 @@ const config = {
         hideOnScroll: false,
         items: [
           {
+            to: "/",
+            label: "Home",
+            position: "left",
+            activeBaseRegex: "^/$",
+          },
+          {
             type: "dropdown",
             label: "MasakhanePlaybook",
             position: "left",
