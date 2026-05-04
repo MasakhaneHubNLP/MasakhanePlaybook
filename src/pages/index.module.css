@@ -165,6 +165,14 @@
   background: var(--ifm-background-color);
 }
 
+/* Widen the hero's container beyond Docusaurus's default 1320px so the
+   H1 and hero photo span more of the viewport on wide displays — no
+   awkward dead space on the left/right. Bounded at 1480 so line lengths
+   stay readable on ultrawide monitors. */
+.hero > .container {
+  max-width: 1480px;
+}
+
 .heroGrid {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
