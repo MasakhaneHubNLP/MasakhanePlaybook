@@ -131,6 +131,53 @@ const config = {
   ],
 
   plugins: [
+    /* GitHub contributors plugin — fetches the repo's contributors at build
+       time and exposes them via globalData. Filters out bots, sorts by
+       contribution count. Falls back to empty array if the fetch fails
+       (so offline builds still succeed). Set GITHUB_TOKEN env var to raise
+       the GitHub rate limit from 60 to 5000 requests/hour in CI. */
+    function contributorsPlugin() {
+      // Hardcoded exclude list — contributors who should never appear on the
+      // homepage Thanks-to-Contributors section. Add lowercase logins here.
+      const EXCLUDED_LOGINS = new Set(["keduog"]);
+      return {
+        name: "github-contributors",
+        async loadContent() {
+          const url =
+            "https://api.github.com/repos/MasakhaneHubNLP/MasakhanePlaybook/contributors?per_page=30";
+          try {
+            const headers = { "User-Agent": "MasakhanePlaybook-build" };
+            if (process.env.GITHUB_TOKEN) {
+              headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+            }
+            const res = await fetch(url, { headers });
+            if (!res.ok) {
+              console.warn(
+                `[github-contributors] HTTP ${res.status} — skipping`,
+              );
+              return [];
+            }
+            const data = await res.json();
+            return data
+              .filter((c) => c.type === "User") // strip bots (type: "Bot")
+              .filter((c) => !EXCLUDED_LOGINS.has(c.login.toLowerCase()))
+              .slice(0, 12)
+              .map((c) => ({
+                login: c.login,
+                avatarUrl: c.avatar_url,
+                htmlUrl: c.html_url,
+                contributions: c.contributions,
+              }));
+          } catch (err) {
+            console.warn("[github-contributors] fetch failed:", err.message);
+            return [];
+          }
+        },
+        async contentLoaded({ content, actions }) {
+          actions.setGlobalData({ contributors: content || [] });
+        },
+      };
+    },
     /* Tiny inline plugin: reads blog/*\/index.md at build time and exposes
        the latest 6 posts as globalData. The homepage <BlogTeaserSection>
        consumes this via usePluginData('recent-blog-posts').
