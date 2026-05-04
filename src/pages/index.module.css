@@ -3023,8 +3023,8 @@
 }
 
 [data-theme='dark'] .supportedByCard {
-  background: var(--ifm-color-emphasis-200);
-  border-color: var(--ifm-color-emphasis-300);
+  background: #0f172a;
+  border-color: #1e293b;
 }
 
 .supportersLabel {
@@ -3105,7 +3105,7 @@
 }
 
 [data-theme='dark'] .supporterLogo {
-  filter: grayscale(1) invert(1) opacity(0.55);
+  filter: grayscale(1) invert(1) opacity(0.75);
 }
 
 [data-theme='dark'] .supporterLogo:hover {

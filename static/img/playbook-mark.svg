@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" role="img" aria-label="Masakhane Playbook Home">
+
+  <!-- Left book page -->
+  <path d="M2 7.5C2 6.7 2.7 6 3.5 6L17 6L17 30L3.5 30C2.7 30 2 29.3 2 28.5Z"
+        fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+
+  <!-- Right book page -->
+  <path d="M19 6L32.5 6C33.3 6 34 6.7 34 7.5L34 28.5C34 29.3 33.3 30 32.5 30L19 30Z"
+        fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+
+  <!-- Spine -->
+  <path d="M17 6C17.5 5.6 18.5 5.6 19 6L19 30C18.5 30.4 17.5 30.4 17 30Z"
+        fill="#059669"/>
+
+  <!-- Left page: text lines -->
+  <rect x="4.5" y="10"   width="10" height="1.5" rx="0.75" fill="#94a3b8"/>
+  <rect x="4.5" y="13"   width="10" height="1.5" rx="0.75" fill="#94a3b8"/>
+
+  <!-- Left page: amber highlight (annotation mark) -->
+  <rect x="4.5" y="16.5" width="10" height="3"   rx="1"    fill="#fbbf24" opacity="0.9"/>
+
+  <!-- Left page: more text -->
+  <rect x="4.5" y="21"   width="10" height="1.5" rx="0.75" fill="#94a3b8"/>
+  <rect x="4.5" y="24"   width="7"  height="1.5" rx="0.75" fill="#94a3b8"/>
+
+  <!-- Right page: text lines -->
+  <rect x="21.5" y="10"  width="10" height="1.5" rx="0.75" fill="#94a3b8"/>
+  <rect x="21.5" y="13"  width="10" height="1.5" rx="0.75" fill="#94a3b8"/>
+
+  <!-- Right page: green annotation label -->
+  <rect x="21.5" y="17"  width="10" height="5.5" rx="2"    fill="#059669"/>
+  <rect x="23"   y="19.5" width="7"  height="1.5" rx="0.75" fill="white"/>
+
+  <!-- Right page: more text -->
+  <rect x="21.5" y="24"  width="8"  height="1.5" rx="0.75" fill="#94a3b8"/>
+
+</svg>
