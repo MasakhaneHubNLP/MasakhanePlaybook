@@ -404,6 +404,11 @@ const config = {
             position: "left",
           },
           {
+            to: "/about",
+            label: "About Us",
+            position: "left",
+          },
+          {
             type: "html",
             position: "right",
             value:
