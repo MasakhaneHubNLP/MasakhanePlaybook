@@ -265,6 +265,7 @@ function TreeRow({
   onEditPage,
   editingPath,
   loadingPaths,
+  locked,
 }) {
   const idx = siblings.indexOf(node);
   const canUp = idx > 0;
@@ -273,6 +274,7 @@ function TreeRow({
   const isLoading = loadingPaths.has(node.path);
   const formKey = `${node.path}:`;
   const isEditing = editingPath === node.path;
+  const lockTitle = 'Sign in with GitHub to make changes';
 
   const indent = depth * 20;
 
@@ -305,8 +307,9 @@ function TreeRow({
           {node.type === 'page' && (
             <button
               className={`${styles.actionBtn} ${styles.editPageBtn}`}
-              title="Edit page content"
-              onClick={() => onEditPage(node)}
+              title={locked ? lockTitle : 'Edit page content'}
+              onClick={locked ? undefined : () => onEditPage(node)}
+              disabled={locked}
               type="button"
             >
               ✎
@@ -315,8 +318,9 @@ function TreeRow({
           {node.type === 'section' && (
             <button
               className={styles.actionBtn}
-              title="Add page inside this section"
-              onClick={() => onSetActiveForm(`${formKey}add-page`)}
+              title={locked ? lockTitle : 'Add page inside this section'}
+              onClick={locked ? undefined : () => onSetActiveForm(`${formKey}add-page`)}
+              disabled={locked}
               type="button"
             >
               + Page
@@ -325,8 +329,9 @@ function TreeRow({
           {node.type === 'page' && (
             <button
               className={styles.actionBtn}
-              title="Add a sub-page"
-              onClick={() => onSetActiveForm(`${formKey}add-subpage`)}
+              title={locked ? lockTitle : 'Add a sub-page'}
+              onClick={locked ? undefined : () => onSetActiveForm(`${formKey}add-subpage`)}
+              disabled={locked}
               type="button"
             >
               + Sub
@@ -334,19 +339,21 @@ function TreeRow({
           )}
           <button
             className={styles.actionBtn}
-            title="Rename"
-            onClick={() => onSetActiveForm(`${formKey}rename`)}
+            title={locked ? lockTitle : 'Rename'}
+            onClick={locked ? undefined : () => onSetActiveForm(`${formKey}rename`)}
+            disabled={locked}
             type="button"
           >
             ✏
           </button>
-          <button className={`${styles.actionBtn} ${styles.arrowBtn}`} title="Move up" onClick={() => onMoveUp(node)} disabled={!canUp} type="button">↑</button>
-          <button className={`${styles.actionBtn} ${styles.arrowBtn}`} title="Move down" onClick={() => onMoveDown(node)} disabled={!canDown} type="button">↓</button>
+          <button className={`${styles.actionBtn} ${styles.arrowBtn}`} title={locked ? lockTitle : 'Move up'} onClick={locked ? undefined : () => onMoveUp(node)} disabled={locked || !canUp} type="button">↑</button>
+          <button className={`${styles.actionBtn} ${styles.arrowBtn}`} title={locked ? lockTitle : 'Move down'} onClick={locked ? undefined : () => onMoveDown(node)} disabled={locked || !canDown} type="button">↓</button>
           {node.type === 'page' && (
             <button
               className={`${styles.actionBtn} ${styles.deleteBtn}`}
-              title="Delete page"
-              onClick={() => onDelete(node)}
+              title={locked ? lockTitle : 'Delete page'}
+              onClick={locked ? undefined : () => onDelete(node)}
+              disabled={locked}
               type="button"
             >
               🗑
@@ -404,6 +411,7 @@ function TreeRow({
           onEditPage={onEditPage}
           editingPath={editingPath}
           loadingPaths={loadingPaths}
+          locked={locked}
         />
       ))}
     </>
@@ -856,6 +864,8 @@ export function StructureEditorContent({ onClose }) {
                   <button
                     className={styles.addSectionBtn}
                     onClick={() => setActiveForm('root:add-section')}
+                    disabled={!auth}
+                    title={!auth ? 'Sign in with GitHub to make changes' : undefined}
                     type="button"
                   >
                     + Section
@@ -892,6 +902,7 @@ export function StructureEditorContent({ onClose }) {
                         onEditPage={handleEditPage}
                         editingPath={rightPanel?.path}
                         loadingPaths={loadingPaths}
+                        locked={!auth}
                       />
                     ))}
 
@@ -1000,6 +1011,8 @@ export function StructureEditorContent({ onClose }) {
                             className={styles.rightPanelSaveBtn}
                             type="button"
                             onClick={saveRightPanel}
+                            disabled={!auth}
+                            title={!auth ? 'Sign in with GitHub to save changes' : undefined}
                           >
                             ✓ Save to changes
                           </button>
@@ -1013,12 +1026,19 @@ export function StructureEditorContent({ onClose }) {
                           </button>
                         </div>
                       </div>
-                      <div className={styles.rightPanelBody}>
+                      <div className={styles.rightPanelBody} style={{ position: 'relative' }}>
                         <WysiwygEditor
                           key={rightPanel.path}
                           initialHtml={rightPanel.htmlContent}
                           onChange={html => setRightPanel(prev => ({ ...prev, htmlContent: html, dirty: true }))}
                         />
+                        {!auth && (
+                          <div className={styles.editorLockOverlay}>
+                            <span className={styles.editorLockMsg}>
+                              🔒 Sign in with GitHub to edit pages
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </>
                   )

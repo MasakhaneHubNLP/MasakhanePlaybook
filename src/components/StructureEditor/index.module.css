@@ -549,6 +549,27 @@
   background: #1b1b1d;
 }
 
+.editorLockOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 0 0 4px 0;
+}
+
+.editorLockMsg {
+  background: #1e293b;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
 .rightPanelPlaceholder {
   flex: 1;
   display: flex;
