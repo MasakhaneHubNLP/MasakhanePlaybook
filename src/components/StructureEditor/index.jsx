@@ -428,9 +428,10 @@ export function StructureEditorContent({ onClose }) {
   const [activeForm, setActiveForm] = useState(null);
   const [rightPanel, setRightPanel] = useState(null);
 
-  // Resizable dialog and panel splitter
+  // Resizable dialog, panel splitter, and fullscreen
   const [modalSize, setModalSize] = useState({ width: 1120, height: 780 });
   const [leftWidth, setLeftWidth] = useState(320);
+  const [fullscreen, setFullscreen] = useState(false);
 
   function handleSplitterMouseDown(e) {
     e.preventDefault();
@@ -802,11 +803,11 @@ export function StructureEditorContent({ onClose }) {
       onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        className={styles.modal}
+        className={`${styles.modal}${fullscreen ? ` ${styles.modalFullscreen}` : ''}`}
         role="dialog"
         aria-modal="true"
         aria-label="Contribute to the Playbook"
-        style={{ width: modalSize.width, height: modalSize.height }}
+        style={fullscreen ? undefined : { width: modalSize.width, height: modalSize.height }}
       >
         {/* Header */}
         <div className={styles.modalHeader}>
@@ -1019,19 +1020,39 @@ export function StructureEditorContent({ onClose }) {
             </div>
           )}
 
-          {/* Dialog resize handle */}
+        </div>
+
+        {/* Footer bar */}
+        <div className={styles.modalFooterBar}>
+          <button
+            type="button"
+            className={styles.fullscreenBtn}
+            onClick={() => setFullscreen(f => !f)}
+            title={fullscreen ? 'Exit full screen' : 'Full screen'}
+          >
+            {fullscreen ? (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/>
+                <path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
+              </svg>
+            ) : (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+                <path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+              </svg>
+            )}
+            {fullscreen ? 'Exit full screen' : 'Full screen'}
+          </button>
+        </div>
+
+        {/* Resize handle — hidden in fullscreen */}
+        {!fullscreen && (
           <div
             className={styles.resizeHandle}
             onMouseDown={handleDialogResizeMouseDown}
             title="Drag to resize"
           />
-        </div>
-        {/* Dialog resize handle (bottom-right corner) */}
-        <div
-          className={styles.resizeHandle}
-          onMouseDown={handleDialogResizeMouseDown}
-          title="Drag to resize"
-        />
+        )}
       </div>
     </div>
   );

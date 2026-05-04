@@ -965,3 +965,48 @@
 .resizeHandle:hover::after {
   opacity: 1;
 }
+
+/* ── Full-screen mode ────────────────────────────────────── */
+
+.modalFullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+/* ── Modal footer bar ────────────────────────────────────── */
+
+.modalFooterBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.3rem 0.6rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  flex-shrink: 0;
+}
+
+.fullscreenBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-600);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  transition: color 0.15s ease, background 0.15s ease;
+  line-height: 1;
+}
+
+.fullscreenBtn:hover {
+  color: var(--ifm-color-primary);
+  background: rgba(46, 133, 85, 0.07);
+}
