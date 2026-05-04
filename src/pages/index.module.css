@@ -3017,14 +3017,9 @@
 .supportedByCard {
   width: 100%;
   padding: 2.25rem 0 2rem;
-  background: var(--ifm-color-emphasis-100);
-  border-top: 1px solid var(--ifm-color-emphasis-200);
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
-}
-
-[data-theme='dark'] .supportedByCard {
-  background: #0f172a;
-  border-color: #1e293b;
+  background: #1e293b;
+  border-top: 1px solid #0f172a;
+  border-bottom: 1px solid #0f172a;
 }
 
 .supportersLabel {
@@ -3033,7 +3028,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ifm-color-emphasis-600);
+  color: rgba(255, 255, 255, 0.5);
   margin: 0 0 1.1rem;
 }
 
@@ -3088,8 +3083,7 @@
   padding: 0 0.5rem;
   text-decoration: none;
   transition: opacity 0.2s ease, filter 0.2s ease;
-  /* Desaturate logos so they all match visually as a cohesive row */
-  filter: grayscale(1) opacity(0.65);
+  filter: grayscale(0.3) opacity(0.8);
 }
 
 .supporterLogo:hover {
@@ -3102,14 +3096,6 @@
   max-width: 160px;
   object-fit: contain;
   display: block;
-}
-
-[data-theme='dark'] .supporterLogo {
-  filter: grayscale(1) invert(1) opacity(0.75);
-}
-
-[data-theme='dark'] .supporterLogo:hover {
-  filter: grayscale(0) invert(0) opacity(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
