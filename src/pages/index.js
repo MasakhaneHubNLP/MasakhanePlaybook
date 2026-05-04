@@ -136,22 +136,22 @@ function HeroSection() {
 const SUPPORTERS = [
   {
     name: 'Masakhane African Languages Hub',
-    logo: '/img/supporters/masakhane.png',
+    logo: 'https://media.licdn.com/dms/image/v2/D4D12AQF_P-I7yV2dkg/article-cover_image-shrink_720_1280/B4DZ2QAraeJ0AI-/0/1776237600665?e=2147483647&v=beta&t=aISc34mrr154JbEv2eFr0XFfVST1VgWJsdpIC0A6Uoo',
     url: 'https://www.masakhane.io/',
   },
   {
     name: 'Bayero University, Kano',
-    logo: '/img/supporters/bayero.png',
+    logo: 'https://buk.edu.ng/sites/default/files/logo_2.png',
     url: 'https://www.buk.edu.ng/',
   },
   {
     name: 'Bahir Dar University',
-    logo: '/img/supporters/bahir-dar.png',
+    logo: 'https://www.bdu.edu.et/sites/default/files/logo_0_0.png',
     url: 'https://www.bdu.edu.et/',
   },
   {
     name: 'HausaNLP',
-    logo: '/img/supporters/hausanlp.png',
+    logo: 'https://hausanlp.org/images/hausanlp-logo.svg',
     url: 'https://hausanlp.org/',
   },
 ];
@@ -167,13 +167,14 @@ function SupportedBySection() {
             <a
               key={`${s.name}-${idx}`}
               href={s.url}
-              className={styles.supporterName}
+              className={styles.supporterLogo}
               target="_blank"
               rel="noreferrer noopener"
+              aria-label={s.name}
               aria-hidden={idx >= SUPPORTERS.length ? 'true' : undefined}
               tabIndex={idx >= SUPPORTERS.length ? -1 : undefined}
             >
-              {s.name}
+              <img src={s.logo} alt={s.name} loading="lazy" decoding="async" />
             </a>
           ))}
         </div>

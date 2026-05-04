@@ -3076,22 +3076,40 @@
 }
 
 .supporterName {
+  display: none; /* retired — replaced by .supporterLogo */
+}
+
+.supporterLogo {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  height: 40px;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  color: var(--ifm-color-emphasis-800);
-  white-space: nowrap;
+  justify-content: center;
+  height: 56px;
+  padding: 0 0.5rem;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+  /* Desaturate logos so they all match visually as a cohesive row */
+  filter: grayscale(1) opacity(0.65);
 }
 
-.supporterName:hover {
-  color: var(--ifm-color-primary);
-  text-decoration: none;
+.supporterLogo:hover {
+  filter: grayscale(0) opacity(1);
+}
+
+.supporterLogo img {
+  height: 48px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+[data-theme='dark'] .supporterLogo {
+  filter: grayscale(1) invert(1) opacity(0.55);
+}
+
+[data-theme='dark'] .supporterLogo:hover {
+  filter: grayscale(0) invert(0) opacity(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3112,11 +3130,14 @@
     margin-bottom: 1rem;
   }
   .supportersTrack {
-    gap: 3rem;
+    gap: 2.5rem;
   }
-  .supporterName {
-    height: 34px;
-    font-size: 0.92rem;
+  .supporterLogo {
+    height: 44px;
+  }
+  .supporterLogo img {
+    height: 36px;
+    max-width: 120px;
   }
 }
 
