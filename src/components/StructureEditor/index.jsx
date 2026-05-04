@@ -425,7 +425,9 @@ export function StructureEditorContent({ onClose }) {
   const buildToken   = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
   const oauthClientId = siteConfig.customFields?.GITHUB_OAUTH_CLIENT_ID || '';
   const oauthProxyUrl = siteConfig.customFields?.GITHUB_OAUTH_PROXY_URL || '';
-  const oauthCallbackUrl = typeof window !== 'undefined'
+  // On localhost the popup redirect_uri won't match GitHub's registered callback,
+  // so we leave callbackUrl empty — canPopup becomes false and device flow is used instead.
+  const oauthCallbackUrl = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
     ? `${window.location.origin}${siteConfig.baseUrl}oauth-callback`
     : '';
 
@@ -455,6 +457,7 @@ export function StructureEditorContent({ onClose }) {
   // Resizable dialog, panel splitter, and fullscreen
   const [modalSize, setModalSize] = useState({ width: 1120, height: 780 });
   const [leftWidth, setLeftWidth] = useState(320);
+  const [leftHidden, setLeftHidden] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
 
   function handleSplitterMouseDown(e) {
@@ -855,24 +858,49 @@ export function StructureEditorContent({ onClose }) {
               <button className={styles.closeSuccessBtn} onClick={onClose}>Close</button>
             </div>
           ) : (
-            <div className={styles.editorLayout} style={{ gridTemplateColumns: `${leftWidth}px 4px 1fr` }}>
+            <div
+              className={styles.editorLayout}
+              style={{ gridTemplateColumns: leftHidden ? `32px 0px 1fr` : `${leftWidth}px 4px 1fr` }}
+            >
 
               {/* ── Left panel ── */}
-              <div className={styles.leftPanel}>
-                <div className={styles.treePanelHeader}>
-                  <span className={styles.treePanelTitle}>Playbook pages</span>
+              <div className={`${styles.leftPanel}${leftHidden ? ` ${styles.leftPanelHidden}` : ''}`}>
+                {leftHidden ? (
                   <button
-                    className={styles.addSectionBtn}
-                    onClick={() => setActiveForm('root:add-section')}
-                    disabled={!auth}
-                    title={!auth ? 'Sign in with GitHub to make changes' : undefined}
+                    className={styles.panelExpandTab}
+                    onClick={() => setLeftHidden(false)}
+                    title="Show structure panel"
                     type="button"
                   >
-                    + Section
+                    <span>❯</span>
+                    <span className={styles.panelExpandLabel}>Structure</span>
                   </button>
+                ) : (
+                <div className={styles.treePanelHeader}>
+                  <span className={styles.treePanelTitle}>Playbook pages</span>
+                  <div className={styles.treePanelHeaderActions}>
+                    <button
+                      className={styles.addSectionBtn}
+                      onClick={() => setActiveForm('root:add-section')}
+                      disabled={!auth}
+                      title={!auth ? 'Sign in with GitHub to make changes' : undefined}
+                      type="button"
+                    >
+                      + Section
+                    </button>
+                    <button
+                      className={styles.hideStructureBtn}
+                      onClick={() => setLeftHidden(true)}
+                      title="Hide structure panel"
+                      type="button"
+                    >
+                      ❮
+                    </button>
+                  </div>
                 </div>
+                )}
 
-                {loading ? (
+                {!leftHidden && loading ? (
                   <div className={styles.stateBox}>Loading tree from GitHub…</div>
                 ) : error ? (
                   <div className={styles.errorBox}>{error}</div>
@@ -918,8 +946,8 @@ export function StructureEditorContent({ onClose }) {
                   </div>
                 )}
 
-                {/* Footer: pending + auth + submit */}
-                <div className={styles.leftPanelFooter}>
+                {/* Footer: pending + auth + submit — hidden when panel is collapsed */}
+                {!leftHidden && <div className={styles.leftPanelFooter}>
                   {pendingList.length > 0 && (
                     <div className={styles.pendingSection}>
                       <div className={styles.pendingSectionTitle}>
@@ -982,7 +1010,7 @@ export function StructureEditorContent({ onClose }) {
                       {submitting ? 'Creating PR…' : `Submit${pendingList.length > 0 ? ` (${pendingList.length})` : ''} as PR`}
                     </button>
                   </div>
-                </div>
+                </div>}
               </div>
 
               {/* ── Panel splitter ── */}
