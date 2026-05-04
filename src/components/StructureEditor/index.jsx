@@ -460,6 +460,11 @@ export function StructureEditorContent({ onClose }) {
   const [leftHidden, setLeftHidden] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
 
+  // Translation tab
+  const [rightPanelTab, setRightPanelTab] = useState('edit'); // 'edit' | 'translate'
+  const [translationLang, setTranslationLang] = useState('fr');
+  const [translationHtml, setTranslationHtml] = useState('');
+
   function handleSplitterMouseDown(e) {
     e.preventDefault();
     const startX = e.clientX;
@@ -653,6 +658,8 @@ export function StructureEditorContent({ onClose }) {
   async function handleEditPage(node) {
     if (rightPanel?.path === node.path && !rightPanel.fetching) return;
     setRightPanel({ path: node.path, htmlContent: null, frontmatter: '', fetching: true, dirty: false });
+    setRightPanelTab('edit');
+    setTranslationHtml('');
     try {
       const md = await getPageContent(node.path);
       const { frontmatter, content } = splitFrontmatter(md);
@@ -668,6 +675,23 @@ export function StructureEditorContent({ onClose }) {
     const md = htmlToMd(rightPanel.htmlContent);
     upsert(rightPanel.path, (rightPanel.frontmatter || '') + md + '\n');
     setRightPanel(prev => ({ ...prev, dirty: false }));
+  }
+
+  function translationFilePath(docPath, lang) {
+    return `i18n/${lang}/docusaurus-plugin-content-docs/current/${docPath.replace(/^docs\//, '')}`;
+  }
+
+  function saveTranslation() {
+    if (!rightPanel || !translationHtml.trim()) return;
+    const md = htmlToMd(translationHtml);
+    upsert(translationFilePath(rightPanel.path, translationLang), (rightPanel.frontmatter || '') + md + '\n');
+  }
+
+  function openGoogleTranslate() {
+    if (!rightPanel) return;
+    const md = htmlToMd(rightPanel.htmlContent);
+    const url = `https://translate.google.com/?sl=en&tl=${translationLang}&text=${encodeURIComponent(md.slice(0, 5000))}&op=translate`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   /* ── Operations ─────────────────────────────────────────────────────── */
@@ -1030,20 +1054,46 @@ export function StructureEditorContent({ onClose }) {
                     </div>
                   ) : (
                     <>
+                      {/* ── Tab bar ── */}
                       <div className={styles.rightPanelHeader}>
-                        <span className={styles.rightPanelPath} title={rightPanel.path}>
-                          ✎ {rightPanel.path.replace(/^docs\//, '')}
-                        </span>
-                        <div className={styles.rightPanelActions}>
+                        <div className={styles.rightPanelTabs}>
                           <button
-                            className={styles.rightPanelSaveBtn}
+                            className={`${styles.rightPanelTab} ${rightPanelTab === 'edit' ? styles.rightPanelTabActive : ''}`}
+                            onClick={() => setRightPanelTab('edit')}
                             type="button"
-                            onClick={saveRightPanel}
-                            disabled={!auth}
-                            title={!auth ? 'Sign in with GitHub to save changes' : undefined}
                           >
-                            ✓ Save to changes
+                            ✎ Edit
                           </button>
+                          <button
+                            className={`${styles.rightPanelTab} ${rightPanelTab === 'translate' ? styles.rightPanelTabActive : ''}`}
+                            onClick={() => setRightPanelTab('translate')}
+                            type="button"
+                          >
+                            🌍 Translation
+                          </button>
+                        </div>
+                        <div className={styles.rightPanelActions}>
+                          {rightPanelTab === 'edit' ? (
+                            <button
+                              className={styles.rightPanelSaveBtn}
+                              type="button"
+                              onClick={saveRightPanel}
+                              disabled={!auth}
+                              title={!auth ? 'Sign in with GitHub to save changes' : undefined}
+                            >
+                              ✓ Save to changes
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.rightPanelSaveBtn}
+                              type="button"
+                              onClick={saveTranslation}
+                              disabled={!auth || !translationHtml.trim()}
+                              title={!auth ? 'Sign in with GitHub to save' : !translationHtml.trim() ? 'Add a translation first' : undefined}
+                            >
+                              ✓ Save translation
+                            </button>
+                          )}
                           <button
                             className={styles.rightPanelCloseBtn}
                             type="button"
@@ -1054,20 +1104,95 @@ export function StructureEditorContent({ onClose }) {
                           </button>
                         </div>
                       </div>
-                      <div className={styles.rightPanelBody} style={{ position: 'relative' }}>
-                        <WysiwygEditor
-                          key={rightPanel.path}
-                          initialHtml={rightPanel.htmlContent}
-                          onChange={html => setRightPanel(prev => ({ ...prev, htmlContent: html, dirty: true }))}
-                        />
-                        {!auth && (
-                          <div className={styles.editorLockOverlay}>
-                            <span className={styles.editorLockMsg}>
-                              🔒 Sign in with GitHub to edit pages
-                            </span>
+
+                      {/* ── Edit tab ── */}
+                      {rightPanelTab === 'edit' && (
+                        <div className={styles.rightPanelBody} style={{ position: 'relative' }}>
+                          <WysiwygEditor
+                            key={rightPanel.path}
+                            initialHtml={rightPanel.htmlContent}
+                            onChange={html => setRightPanel(prev => ({ ...prev, htmlContent: html, dirty: true }))}
+                          />
+                          {!auth && (
+                            <div className={styles.editorLockOverlay}>
+                              <span className={styles.editorLockMsg}>
+                                🔒 Sign in with GitHub to edit pages
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* ── Translation tab — side-by-side ── */}
+                      {rightPanelTab === 'translate' && (
+                        <div className={styles.translatePanel}>
+                          {/* Toolbar */}
+                          <div className={styles.translateToolbar}>
+                            <label className={styles.translateLangLabel}>Target language</label>
+                            <select
+                              className={styles.translateLangSelect}
+                              value={translationLang}
+                              onChange={e => { setTranslationLang(e.target.value); setTranslationHtml(''); }}
+                            >
+                              <option value="fr">French</option>
+                              <option value="ar">Arabic</option>
+                              <option value="pt">Portuguese</option>
+                              <option value="ha">Hausa</option>
+                              <option value="sw">Swahili</option>
+                              <option value="am">Amharic</option>
+                              <option value="yo">Yoruba</option>
+                              <option value="ig">Igbo</option>
+                              <option value="zu">Zulu</option>
+                              <option value="om">Oromo</option>
+                              <option value="so">Somali</option>
+                              <option value="rw">Kinyarwanda</option>
+                            </select>
+                            <button
+                              className={styles.translateOpenBtn}
+                              type="button"
+                              onClick={openGoogleTranslate}
+                              title="Opens the English content in Google Translate — copy the result and paste on the right"
+                            >
+                              Open in Google Translate ↗
+                            </button>
                           </div>
-                        )}
-                      </div>
+
+                          {/* Side-by-side panes */}
+                          <div className={styles.translateSplitView}>
+                            {/* Left: original read-only */}
+                            <div className={styles.translateSide}>
+                              <div className={styles.translateSideHeader}>English (original)</div>
+                              <div
+                                className={styles.translateOriginalContent}
+                                dangerouslySetInnerHTML={{ __html: rightPanel.htmlContent }}
+                              />
+                            </div>
+
+                            <div className={styles.translateDivider} />
+
+                            {/* Right: translation editor */}
+                            <div className={styles.translateSide}>
+                              <div className={styles.translateSideHeader}>
+                                Translation
+                              </div>
+                              <div className={styles.rightPanelBody} style={{ position: 'relative' }}>
+                                <WysiwygEditor
+                                  key={`${rightPanel.path}-${translationLang}`}
+                                  initialHtml={translationHtml}
+                                  onChange={html => setTranslationHtml(html)}
+                                />
+                                {!auth && (
+                                  <div className={styles.editorLockOverlay}>
+                                    <span className={styles.editorLockMsg}>
+                                      🔒 Sign in with GitHub to save translations
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </>
                   )
                 ) : (
