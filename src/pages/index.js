@@ -120,7 +120,6 @@ function HeroSection() {
         </div>
       </div>
       <SupportersMarquee />
-      <ScrollHint />
     </header>
   );
 }
