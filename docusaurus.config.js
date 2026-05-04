@@ -363,17 +363,14 @@ const config = {
         },
       },
       navbar: {
-        // Logo removed — text-only "MasakhanePlaybook" via siteConfig.title.
-        // Restore by uncommenting the logo block below.
-        // logo: { alt: "Masakhane Logo", src: "img/logo.svg" },
+        logo: {
+          alt: "Masakhane Playbook Home",
+          src: "img/playbook-mark.svg",
+          href: "/",
+          target: "_self",
+        },
         hideOnScroll: false,
         items: [
-          {
-            to: "/",
-            label: "Home",
-            position: "left",
-            activeBaseRegex: "^/$",
-          },
           {
             type: "dropdown",
             label: "MasakhanePlaybook",

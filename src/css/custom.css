@@ -121,6 +121,11 @@ article p,
   letter-spacing: -0.01em;
 }
 
+.navbar__logo {
+  height: 2.4rem;
+  width: auto;
+}
+
 .navbar__link {
   font-weight: 600;
 }
