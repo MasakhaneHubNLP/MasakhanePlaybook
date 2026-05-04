@@ -648,9 +648,9 @@ function TestimonialsSection() {
     <section className={clsx(styles.testimonialsSection, styles.snapSection)} data-snap-section="testimonials">
       <div className="container">
         <div className={styles.testimonialsHeader}>
-          <span className={styles.testimonialsEyebrow}>
-            What AfricaNLP researchers are saying
-          </span>
+          <Heading as="h2" className={styles.testimonialsHeading}>
+            From the Community
+          </Heading>
         </div>
         <div className={styles.testimonialsGrid}>
           {TESTIMONIALS.map((t) => (
@@ -693,9 +693,6 @@ function GetInvolvedSection() {
     <section className={clsx(styles.section, styles.snapSection)} data-snap-section="join">
       <div className="container">
         <div className={styles.sectionHeader}>
-          <span className={styles.sectionEyebrow}>
-            <IconSparkles size={14} /> Get Involved
-          </span>
           <Heading as="h2" className={styles.sectionTitle}>
             Help build the Playbook
           </Heading>
@@ -747,8 +744,8 @@ function ContributorsSection() {
     <section className={clsx(styles.section, styles.altSection)}>
       <div className="container">
         <div className={styles.sectionHeader}>
-          <Heading as="h2" className={styles.contributorsHeading}>
-            Thanks to our contributors
+          <Heading as="h2" className={styles.sectionTitle}>
+            Thanks to our Contributors
           </Heading>
           <p className={styles.sectionLead}>
             The Playbook is built by a growing community of researchers,

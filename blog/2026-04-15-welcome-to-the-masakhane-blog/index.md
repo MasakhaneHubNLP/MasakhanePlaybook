@@ -4,7 +4,7 @@ title: "Welcome to the Masakhane Blog"
 description: A space for community updates, calls for contribution, project milestones, and stories from teams building NLP for African languages.
 authors: [shamsuddeen]
 tags: [announcement, playbook]
-image: /img/blog/sample-post.svg
+image: https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&h=675&q=80
 ---
 
 This is the first post on the new Masakhane blog. We'll use this space to share community updates, calls for contribution, project milestones, and stories from teams building NLP for African languages.

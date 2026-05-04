@@ -2591,14 +2591,16 @@
   margin: 0 auto 2.5rem;
 }
 
-.testimonialsEyebrow {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ifm-color-primary-lighter);
+/* Mirrors .blogTeaserHeading sizing/weight/tracking, with white text
+   for the dark testimonial band. Keeps the section header rhythm
+   consistent with "From the Blog" elsewhere on the page. */
+.testimonialsHeading {
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   margin: 0;
+  color: #fff;
 }
 
 .testimonialsGrid {
@@ -2895,15 +2897,6 @@
    tiles with @username, plus a "Join community" pill below.
    Pattern: Label Studio's "Thanks to our Core Contributors".
    ============================================================ */
-.contributorsHeading {
-  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  margin: 0 0 0.75rem;
-  color: var(--ifm-color-emphasis-1000);
-}
-
 .contributorsGrid {
   display: flex;
   flex-wrap: wrap;
