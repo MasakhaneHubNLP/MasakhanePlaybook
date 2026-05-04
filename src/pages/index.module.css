@@ -2412,7 +2412,11 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  margin: 0;
+  /* 1.25rem bottom margin so when this heading is followed by a lead
+     paragraph (FeaturePlaybook, FeatureTool) there's breathing room.
+     Other usages (Testimonials, Blog Teaser header) wrap the heading
+     in a container with its own bottom margin, so this is harmless. */
+  margin: 0 0 1.25rem;
 }
 
 .blogTeaserViewAll {

@@ -189,17 +189,15 @@ function FeaturePlaybook() {
     <section className={clsx(styles.section, styles.altSection, styles.featureRow, styles.snapSection)} data-snap-section="playbook">
       <div className={clsx('container', styles.featureGrid)}>
         <div className={styles.featureCopy}>
-          <span className={styles.featureEyebrow}>
-            <IconBookOpen size={14} /> The Playbook
-          </span>
-          <Heading as="h2" className={styles.featureTitle}>
-            A practical guide to dataset creation, written with the
-            communities who use it.
+          <Heading as="h2" className={styles.blogTeaserHeading}>
+            Masakhane Playbook
           </Heading>
           <p className={styles.featureLead}>
-            From task formulation and label schema design to consent forms,
-            inter-annotator agreement, and sustainability → every chapter is
-            built around real low-resource language scenarios.
+            A practical guide to dataset creation, written with the
+            communities who use it — from task formulation and label schema
+            design to consent forms, inter-annotator agreement, and
+            sustainability. Every chapter is built around real low-resource
+            language scenarios.
           </p>
           <ul className={styles.featureList}>
             <li>Step-by-step guidelines, video demos, and quality checklists</li>
@@ -279,15 +277,14 @@ function FeatureTool() {
     <section className={clsx(styles.section, styles.featureRow, styles.showcaseSection, styles.snapSection)} data-snap-section="tool">
       <div className={clsx('container', styles.featureGrid, styles.featureGridReverse)}>
         <div className={styles.featureCopy}>
-          <span className={styles.featureEyebrow}>
-            <IconWrench size={14} /> Masakhane Tool
-          </span>
-          <Heading as="h2" className={styles.featureTitle}>
-            An open, mobile-first, Progressive Web App for grassroots data collection.
+          <Heading as="h2" className={styles.blogTeaserHeading}>
+            Masakhane Tool
           </Heading>
           <p className={styles.featureLead}>
-            Built for the realities of African contexts → patchy connectivity,
-            multiple scripts, and community-led annotation workflows.
+            An open, mobile-first, Progressive Web App for grassroots data
+            collection — built for the realities of African contexts: patchy
+            connectivity, multiple scripts, and community-led annotation
+            workflows.
           </p>
           <ul className={styles.featureList}>
             <li>Offline-first capture with background synchronization</li>
