@@ -136,28 +136,33 @@ function HeroSection() {
 const SUPPORTERS = [
   {
     name: 'Masakhane African Languages Hub',
-    logo: 'https://media.licdn.com/dms/image/v2/D4D12AQF_P-I7yV2dkg/article-cover_image-shrink_720_1280/B4DZ2QAraeJ0AI-/0/1776237600665?e=2147483647&v=beta&t=aISc34mrr154JbEv2eFr0XFfVST1VgWJsdpIC0A6Uoo',
+    logo: '/img/supporters/masakhane.png',
     url: 'https://www.masakhane.io/',
   },
   {
     name: 'Bayero University, Kano',
-    logo: 'https://buk.edu.ng/sites/default/files/logo_2.png',
+    logo: '/img/supporters/bayero.png',
     url: 'https://www.buk.edu.ng/',
   },
   {
     name: 'Bahir Dar University',
-    logo: 'https://www.bdu.edu.et/sites/default/files/logo_0_0.png',
+    logo: '/img/supporters/bahir-dar.png',
     url: 'https://www.bdu.edu.et/',
   },
   {
     name: 'HausaNLP',
-    logo: 'https://hausanlp.org/images/hausanlp-logo.svg',
+    logo: '/img/supporters/hausanlp.svg',
     url: 'https://hausanlp.org/',
   },
 ];
 
 function SupportedBySection() {
+  const {withBaseUrl} = useBaseUrlUtils();
   const track = [...SUPPORTERS, ...SUPPORTERS];
+  // Resolve logo paths through baseUrl so they work under /MasakhanePlaybook/.
+  // External absolute URLs (http/https) are passed through unchanged.
+  const resolveLogo = (src) =>
+    /^https?:\/\//.test(src) ? src : withBaseUrl(src);
   return (
     <div className={styles.supportedByCard} aria-label="Project supporters">
       <p className={styles.supportersLabel}>SUPPORTED BY</p>
@@ -174,7 +179,12 @@ function SupportedBySection() {
               aria-hidden={idx >= SUPPORTERS.length ? 'true' : undefined}
               tabIndex={idx >= SUPPORTERS.length ? -1 : undefined}
             >
-              <img src={s.logo} alt={s.name} loading="lazy" decoding="async" />
+              <img
+                src={resolveLogo(s.logo)}
+                alt={s.name}
+                loading="lazy"
+                decoding="async"
+              />
             </a>
           ))}
         </div>

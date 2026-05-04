@@ -3012,24 +3012,33 @@
   display: none; /* retired — replaced by .supportedByCard below */
 }
 
-/* ── Supported By card — full-width horizontal bar above the footer ── */
+/* ── Supported By card — full-width horizontal bar above the footer ──
+   Stripe/Vercel "Customers" pattern: subtle cream-tinted band, each logo
+   on a small white card so any logo (designed for white bg) renders
+   correctly. Theme-aware so it doesn't fight the site palette. */
 
 .supportedByCard {
   width: 100%;
-  padding: 2.25rem 0 2rem;
-  background: #1e293b;
-  border-top: 1px solid #0f172a;
-  border-bottom: 1px solid #0f172a;
+  padding: 2.5rem 0 2.25rem;
+  background: rgba(var(--brand-rgb), 0.04); /* very pale emerald in light mode */
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .supportedByCard {
+  background: var(--ifm-background-surface-color);
+  border-top-color: var(--ifm-color-emphasis-300);
+  border-bottom-color: var(--ifm-color-emphasis-300);
 }
 
 .supportersLabel {
   text-align: center;
   font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0 0 1.1rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 0 1.4rem;
 }
 
 .supportersMarquee {
@@ -3074,26 +3083,42 @@
   display: none; /* retired — replaced by .supporterLogo */
 }
 
+/* Each logo gets its own white "card" — guarantees legibility for
+   institutional logos (universities, NGOs) that are designed for white
+   backgrounds, regardless of section bg or theme mode. */
 .supporterLogo {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 56px;
-  padding: 0 0.5rem;
+  height: 64px;
+  padding: 0.5rem 1.1rem;
   text-decoration: none;
-  transition: opacity 0.2s ease, filter 0.2s ease;
-  filter: grayscale(0.3) opacity(0.8);
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  opacity: 0.92;
 }
 
 .supporterLogo:hover {
-  filter: grayscale(0) opacity(1);
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+[data-theme='dark'] .supporterLogo {
+  /* Keep the white card in dark mode too so logos stay readable. */
+  background: #ffffff;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .supporterLogo img {
-  height: 48px;
+  height: 40px;
   width: auto;
-  max-width: 160px;
+  max-width: 150px;
   object-fit: contain;
   display: block;
 }
