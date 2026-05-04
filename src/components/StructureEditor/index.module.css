@@ -781,32 +781,11 @@
 }
 [data-theme='dark'] .authError { color: #f08080; }
 
-.authSetupHint {
+.authOrDivider {
   font-size: 0.71rem;
-  color: var(--ifm-color-emphasis-600);
-  margin: 0.4rem 0 0;
-  line-height: 1.5;
-}
-.authSetupHint a {
-  color: var(--ifm-color-primary);
-  text-decoration: underline;
-}
-.authSetupHint code {
-  font-size: 0.68rem;
-  background: var(--ifm-color-emphasis-200);
-  padding: 0.05em 0.3em;
-  border-radius: 3px;
-}
-
-.authUsePat {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: inherit;
-  color: var(--ifm-color-primary);
-  text-decoration: underline;
-  font-family: inherit;
+  color: var(--ifm-color-emphasis-500);
+  margin: 0.55rem 0 0.35rem;
+  text-align: center;
 }
 
 .authTokenLink {

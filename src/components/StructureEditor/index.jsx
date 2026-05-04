@@ -106,7 +106,6 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
   const [deviceInfo, setDeviceInfo] = useState(null);
   const [error, setError] = useState('');
   const [draft, setDraft] = useState('');
-  const [showPat, setShowPat] = useState(false);
   const abortRef = useRef(null);
 
   // What's available depends on which env vars are set
@@ -164,7 +163,6 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
   function handleSignIn() {
     if (canPopup)  return handlePopupOAuth();
     if (canDevice) return handleDeviceFlow();
-    setShowPat(true);
   }
 
   async function handlePaste() {
@@ -202,71 +200,46 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
     );
   }
 
-  // ── PAT fallback (no OAuth configured) ───────────────────────────────
-  if (showPat) {
-    return (
-      <div className={styles.authWaiting}>
-        <p className={styles.authWaitingMsg}>
-          Paste a GitHub token with <code>public_repo</code> scope:
-        </p>
-        <div className={styles.authPatRow}>
-          <input
-            type="password"
-            className={styles.authTokenInput}
-            value={draft}
-            onChange={e => setDraft(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handlePaste()}
-            placeholder="ghp_xxxxxxxxxxxx"
-            autoComplete="off"
-            autoFocus
-          />
-          <button className={styles.authConnectBtn} onClick={handlePaste}
-            disabled={!draft.trim() || phase === 'loading'} type="button">
-            {phase === 'loading' ? '…' : 'Connect'}
-          </button>
-        </div>
-        <a
-          href="https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook"
-          target="_blank" rel="noreferrer noopener"
-          className={styles.authTokenLink}
-        >
-          Generate a token on GitHub ↗
-        </a>
-        <button className={styles.authCancelSmall}
-          onClick={() => { setShowPat(false); setDraft(''); setError(''); }} type="button">
-          ← Back
-        </button>
-        {error && <p className={styles.authError}>{error}</p>}
-      </div>
-    );
-  }
-
-  // ── Default: sign-in button + setup hint when OAuth not configured ────
+  // ── Default: GitHub button + token input always visible ──────────────
   return (
     <div className={styles.authBlock}>
       <button
         className={styles.authGitHubBtn}
         onClick={handleSignIn}
-        disabled={phase === 'loading'}
+        disabled={phase === 'loading' || !canDevice}
+        title={!canDevice ? 'OAuth not configured — use a personal access token below' : undefined}
         type="button"
       >
         {GH_MARK}
         {phase === 'loading' ? 'Connecting…' : 'Sign in with GitHub'}
       </button>
-      {!canDevice && (
-        <p className={styles.authSetupHint}>
-          For one-click login,{' '}
-          <a href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook/blob/main/proposal/github-oauth-worker.js"
-            target="_blank" rel="noreferrer noopener">
-            deploy the OAuth proxy
-          </a>{' '}
-          and set <code>GITHUB_OAUTH_CLIENT_ID</code> +{' '}
-          <code>GITHUB_OAUTH_PROXY_URL</code> in your environment.{' '}
-          <button className={styles.authUsePat} onClick={() => setShowPat(true)} type="button">
-            Use a token instead
-          </button>
-        </p>
-      )}
+      <p className={styles.authOrDivider}>or use a personal access token</p>
+      <div className={styles.authPatRow}>
+        <input
+          type="password"
+          className={styles.authTokenInput}
+          value={draft}
+          onChange={e => setDraft(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handlePaste()}
+          placeholder="ghp_xxxxxxxxxxxx"
+          autoComplete="off"
+        />
+        <button
+          className={styles.authConnectBtn}
+          onClick={handlePaste}
+          disabled={!draft.trim() || phase === 'loading'}
+          type="button"
+        >
+          {phase === 'loading' ? '…' : 'Connect'}
+        </button>
+      </div>
+      <a
+        href="https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook"
+        target="_blank" rel="noreferrer noopener"
+        className={styles.authTokenLink}
+      >
+        Generate a token on GitHub ↗
+      </a>
       {error && <p className={styles.authError}>{error}</p>}
     </div>
   );
