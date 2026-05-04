@@ -101,16 +101,39 @@ const GH_MARK = (
 );
 
 function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconnect }) {
-  // phases: 'idle' | 'device-pending' | 'loading' | 'waiting'
+  // phases: 'idle' | 'loading' | 'device-pending' | 'waiting'
   const [phase, setPhase] = useState('idle');
-  const [deviceInfo, setDeviceInfo] = useState(null); // { user_code, verification_uri }
-  const [error, setError]   = useState('');
-  const [draft, setDraft]   = useState('');
+  const [deviceInfo, setDeviceInfo] = useState(null);
+  const [error, setError] = useState('');
+  const [draft, setDraft] = useState('');
+  const [showPat, setShowPat] = useState(false);
   const abortRef = useRef(null);
 
-  const configured = !!(clientId && proxyUrl);
+  // What's available depends on which env vars are set
+  const canPopup  = !!(clientId && proxyUrl && callbackUrl);
+  const canDevice = !!(clientId && proxyUrl);
 
-  // ── Device Flow ───────────────────────────────────────────────────────
+  // ── Popup OAuth (best UX — requires Cloudflare Worker + callbackUrl) ──
+  async function handlePopupOAuth() {
+    setPhase('loading');
+    setError('');
+    try {
+      const token = await loginWithGitHub(clientId, proxyUrl, callbackUrl);
+      await onConnect(token);
+    } catch (e) {
+      if (e.message === 'cancelled') { setPhase('idle'); return; }
+      // Popup was blocked → fall back to device flow silently
+      if (e.message?.includes('Popup')) {
+        setError('Popup blocked — switching to device flow.');
+        await handleDeviceFlow();
+        return;
+      }
+      setError(e.message || 'GitHub login failed.');
+      setPhase('idle');
+    }
+  }
+
+  // ── Device Flow (requires Cloudflare Worker, no client_secret) ────────
   async function handleDeviceFlow() {
     setPhase('loading');
     setError('');
@@ -119,7 +142,6 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
       setDeviceInfo(info);
       window.open(info.verification_uri, '_blank', 'noopener,noreferrer');
       setPhase('device-pending');
-
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       const token = await pollDeviceFlow(clientId, info.device_code, proxyUrl, info.interval || 5, ctrl.signal);
@@ -138,13 +160,11 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
     setError('');
   }
 
-  // ── Fallback (no config): open token page then paste ─────────────────
-  function handleFallbackSignIn() {
-    window.open(
-      'https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook+Contribute',
-      '_blank', 'noopener,noreferrer',
-    );
-    setPhase('waiting');
+  // ── Main sign-in handler: picks best available method ─────────────────
+  function handleSignIn() {
+    if (canPopup)  return handlePopupOAuth();
+    if (canDevice) return handleDeviceFlow();
+    setShowPat(true);
   }
 
   async function handlePaste() {
@@ -155,7 +175,7 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
       await onConnect(draft.trim());
     } catch (e) {
       setError(e.message || 'Invalid token or missing public_repo permission.');
-      setPhase('waiting');
+      setPhase('idle');
     }
   }
 
@@ -170,25 +190,25 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
     );
   }
 
-  // ── Device flow pending: show the code ────────────────────────────────
+  // ── Device flow pending ───────────────────────────────────────────────
   if (phase === 'device-pending' && deviceInfo) {
     return (
       <div className={styles.authDeviceBox}>
-        <p className={styles.authDevicePrompt}>
-          GitHub opened — enter this code to authorize:
-        </p>
+        <p className={styles.authDevicePrompt}>Enter this code on the GitHub tab that just opened:</p>
         <div className={styles.authDeviceCode}>{deviceInfo.user_code}</div>
-        <p className={styles.authDeviceHint}>Waiting for you to authorize on GitHub…</p>
+        <p className={styles.authDeviceHint}>Waiting for authorisation…</p>
         <button className={styles.authCancelSmall} onClick={cancelDevice} type="button">Cancel</button>
       </div>
     );
   }
 
-  // ── Paste panel (fallback, after GitHub tab was opened) ───────────────
-  if (phase === 'waiting') {
+  // ── PAT fallback (no OAuth configured) ───────────────────────────────
+  if (showPat) {
     return (
       <div className={styles.authWaiting}>
-        <p className={styles.authWaitingMsg}>Copy the generated token from the GitHub tab:</p>
+        <p className={styles.authWaitingMsg}>
+          Paste a GitHub token with <code>public_repo</code> scope:
+        </p>
         <div className={styles.authPatRow}>
           <input
             type="password"
@@ -200,11 +220,20 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
             autoComplete="off"
             autoFocus
           />
-          <button className={styles.authConnectBtn} onClick={handlePaste} disabled={!draft.trim()} type="button">
-            Connect
+          <button className={styles.authConnectBtn} onClick={handlePaste}
+            disabled={!draft.trim() || phase === 'loading'} type="button">
+            {phase === 'loading' ? '…' : 'Connect'}
           </button>
         </div>
-        <button className={styles.authCancelSmall} onClick={() => { setPhase('idle'); setDraft(''); setError(''); }} type="button">
+        <a
+          href="https://github.com/settings/tokens/new?scopes=public_repo&description=Masakhane+Playbook"
+          target="_blank" rel="noreferrer noopener"
+          className={styles.authTokenLink}
+        >
+          Generate a token on GitHub ↗
+        </a>
+        <button className={styles.authCancelSmall}
+          onClick={() => { setShowPat(false); setDraft(''); setError(''); }} type="button">
           ← Back
         </button>
         {error && <p className={styles.authError}>{error}</p>}
@@ -212,18 +241,32 @@ function AuthPanel({ auth, clientId, proxyUrl, callbackUrl, onConnect, onDisconn
     );
   }
 
-  // ── Default: sign-in button ───────────────────────────────────────────
+  // ── Default: sign-in button + setup hint when OAuth not configured ────
   return (
     <div className={styles.authBlock}>
       <button
         className={styles.authGitHubBtn}
-        onClick={configured ? handleDeviceFlow : handleFallbackSignIn}
+        onClick={handleSignIn}
         disabled={phase === 'loading'}
         type="button"
       >
         {GH_MARK}
         {phase === 'loading' ? 'Connecting…' : 'Sign in with GitHub'}
       </button>
+      {!canDevice && (
+        <p className={styles.authSetupHint}>
+          For one-click login,{' '}
+          <a href="https://github.com/MasakhaneHubNLP/MasakhanePlaybook/blob/main/proposal/github-oauth-worker.js"
+            target="_blank" rel="noreferrer noopener">
+            deploy the OAuth proxy
+          </a>{' '}
+          and set <code>GITHUB_OAUTH_CLIENT_ID</code> +{' '}
+          <code>GITHUB_OAUTH_PROXY_URL</code> in your environment.{' '}
+          <button className={styles.authUsePat} onClick={() => setShowPat(true)} type="button">
+            Use a token instead
+          </button>
+        </p>
+      )}
       {error && <p className={styles.authError}>{error}</p>}
     </div>
   );
