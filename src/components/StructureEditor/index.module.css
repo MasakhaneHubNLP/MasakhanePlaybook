@@ -564,9 +564,14 @@
   transition: color 0.15s, background 0.15s;
 }
 
-.rightPanelTab:hover {
+.rightPanelTab:hover:not(:disabled) {
   color: var(--ifm-color-primary);
   background: var(--ifm-color-emphasis-200);
+}
+
+.rightPanelTab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .rightPanelTabActive {

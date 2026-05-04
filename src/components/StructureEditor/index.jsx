@@ -1067,6 +1067,8 @@ export function StructureEditorContent({ onClose }) {
                           <button
                             className={`${styles.rightPanelTab} ${rightPanelTab === 'translate' ? styles.rightPanelTabActive : ''}`}
                             onClick={() => setRightPanelTab('translate')}
+                            disabled={!auth}
+                            title={!auth ? 'Sign in with GitHub to contribute translations' : undefined}
                             type="button"
                           >
                             🌍 Translation
