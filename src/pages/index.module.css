@@ -3009,10 +3009,22 @@
    hover. Respects prefers-reduced-motion.
    ============================================================ */
 .heroSupporters {
-  /* Sits at the bottom of the Hero band. No section padding —
-     keeps the hero compact so logos are above the fold. */
-  margin-top: 2.5rem;
-  padding: 0 0 0.5rem;
+  display: none; /* retired — replaced by .supportedByCard below */
+}
+
+/* ── Supported By card — full-width horizontal bar above the footer ── */
+
+.supportedByCard {
+  width: 100%;
+  padding: 2.25rem 0 2rem;
+  background: var(--ifm-color-emphasis-100);
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .supportedByCard {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-emphasis-300);
 }
 
 .supportersLabel {
@@ -3073,7 +3085,13 @@
   letter-spacing: -0.005em;
   color: var(--ifm-color-emphasis-800);
   white-space: nowrap;
-  /* No links / no hover transitions — passive supporter mention. */
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.supporterName:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

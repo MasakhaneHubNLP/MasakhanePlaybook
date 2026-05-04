@@ -119,7 +119,6 @@ function HeroSection() {
           />
         </div>
       </div>
-      <SupportersMarquee />
     </header>
   );
 }
@@ -157,23 +156,25 @@ const SUPPORTERS = [
   },
 ];
 
-/* Inline marquee — rendered INSIDE <HeroSection> at the bottom of the
-   hero band so visitors see the supporters in the same viewport
-   (no scroll required). Text-only, no logos, no links. */
-function SupportersMarquee() {
+function SupportedBySection() {
   const track = [...SUPPORTERS, ...SUPPORTERS];
   return (
-    <div className={styles.heroSupporters} aria-label="Project supporters">
+    <div className={styles.supportedByCard} aria-label="Project supporters">
       <p className={styles.supportersLabel}>SUPPORTED BY</p>
       <div className={styles.supportersMarquee}>
         <div className={styles.supportersTrack}>
           {track.map((s, idx) => (
-            <span
+            <a
               key={`${s.name}-${idx}`}
+              href={s.url}
               className={styles.supporterName}
-              aria-hidden={idx >= SUPPORTERS.length ? 'true' : undefined}>
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-hidden={idx >= SUPPORTERS.length ? 'true' : undefined}
+              tabIndex={idx >= SUPPORTERS.length ? -1 : undefined}
+            >
               {s.name}
-            </span>
+            </a>
           ))}
         </div>
       </div>
@@ -906,6 +907,7 @@ export default function Home() {
         <GetInvolvedSection />
         <ContributorsSection />
       </main>
+      <SupportedBySection />
       <SlideDots activeId={activeSlide} />
     </Layout>
   );
