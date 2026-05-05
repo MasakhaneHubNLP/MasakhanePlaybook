@@ -16,15 +16,7 @@ dotenv.config({ path: ".env.local" });
 const config = {
   title: "Masakhane Playbook",
   customFields: {
-    // Optional: pre-fill a PAT for the contribute feature (fallback if OAuth not configured).
-    // WARNING: embedded in the built JS bundle — use a limited-scope token only.
-    GITHUB_EDIT_TOKEN: process.env.GITHUB_EDIT_TOKEN || "",
-
     // GitHub OAuth App for the "Connect GitHub" popup login in the Contribute dialog.
-    // Register an OAuth App at https://github.com/settings/developers, then:
-    //   - Set Authorization callback URL to: <your-site-url>/oauth-callback
-    //   - Add GITHUB_OAUTH_CLIENT_ID to .env.local (safe to expose; it's public)
-    //   - Deploy proposal/github-oauth-worker.js to Cloudflare Workers and add its URL below
     GITHUB_OAUTH_CLIENT_ID: process.env.GITHUB_OAUTH_CLIENT_ID || "",
     GITHUB_OAUTH_PROXY_URL: process.env.GITHUB_OAUTH_PROXY_URL || "",
     // Dedicated translation proxy (proposal/translate-worker.js deployed to Cloudflare).
@@ -151,8 +143,9 @@ const config = {
             "https://api.github.com/repos/MasakhaneHubNLP/MasakhanePlaybook/contributors?per_page=30";
           try {
             const headers = { "User-Agent": "MasakhanePlaybook-build" };
-            if (process.env.GITHUB_TOKEN) {
-              headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+            const ghToken = process.env.GITHUB_TOKEN || process.env.GITHUB_EDIT_TOKEN;
+            if (ghToken) {
+              headers.Authorization = `Bearer ${ghToken}`;
             }
             const res = await fetch(url, { headers });
             if (!res.ok) {

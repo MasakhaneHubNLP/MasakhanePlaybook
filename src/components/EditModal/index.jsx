@@ -21,6 +21,7 @@ function inlineMd(text) {
     .replace(/__(.+?)__/g, '<strong>$1</strong>')
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
     .replace(/_([^_\n]+)_/g, '<em>$1</em>')
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" style="max-width:100%;height:auto">')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 }
 
@@ -191,6 +192,7 @@ function ToolBtn({ title, onAction, children }) {
 export function WysiwygEditor({ initialHtml, onChange }) {
   const editorRef = useRef(null);
   const colorRef = useRef(null);
+  const imgInputRef = useRef(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -218,6 +220,23 @@ export function WysiwygEditor({ initialHtml, onChange }) {
   const handleColor = useCallback((e) => {
     exec('foreColor', e.target.value);
   }, [exec]);
+
+  const handleImageFile = useCallback((e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const defaultAlt = file.name.replace(/\.[^.]+$/, '');
+    const alt = window.prompt('Alt text for the image:', defaultAlt) ?? defaultAlt;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      editorRef.current?.focus();
+      document.execCommand('insertHTML', false,
+        `<img src="${ev.target.result}" alt="${alt}" style="max-width:100%;height:auto">`
+      );
+      onChange(editorRef.current?.innerHTML || '');
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [onChange]);
 
   return (
     <div className={styles.editorWrap}>
@@ -251,6 +270,22 @@ export function WysiwygEditor({ initialHtml, onChange }) {
         <span className={styles.toolSep} />
         <ToolBtn title="Insert link" onAction={insertLink}>🔗</ToolBtn>
         <ToolBtn title="Remove link" onAction={() => exec('unlink')}>🔗̶</ToolBtn>
+        <span className={styles.toolSep} />
+        {/* Image insert — label wraps hidden file input so click is a trusted user gesture */}
+        <label
+          className={styles.toolBtn}
+          title="Insert image from file"
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          🖼
+          <input
+            ref={imgInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handleImageFile}
+          />
+        </label>
         <span className={styles.toolSep} />
         <label className={styles.colorLabel} title="Text color">
           <span className={styles.colorIcon}>A</span>

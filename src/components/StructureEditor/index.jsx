@@ -455,7 +455,6 @@ function TreeRow({
 
 export function StructureEditorContent({ onClose }) {
   const { siteConfig } = useDocusaurusContext();
-  const buildToken    = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
   const oauthClientId = siteConfig.customFields?.GITHUB_OAUTH_CLIENT_ID || '';
   const oauthProxyUrl    = siteConfig.customFields?.GITHUB_OAUTH_PROXY_URL || '';
   const translationProxy = siteConfig.customFields?.TRANSLATION_PROXY_URL || '';
@@ -465,8 +464,14 @@ export function StructureEditorContent({ onClose }) {
     ? `${window.location.origin}${siteConfig.baseUrl}oauth-callback`
     : '';
 
-  // Auth: persisted in localStorage
-  const [auth, setAuth] = useState(null); // { token, username, avatarUrl, name }
+  // Auth: read synchronously from localStorage so the first tree fetch can use the token
+  const [auth, setAuth] = useState(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const raw = localStorage.getItem(AUTH_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  });
 
   // Tree data
   const [gitFiles, setGitFiles] = useState([]);
@@ -549,27 +554,13 @@ export function StructureEditorContent({ onClose }) {
 
   const tree = useMemo(() => computeDocsTree(gitFiles, catData, changes), [gitFiles, catData, changes]);
 
-  /* ── Bootstrap: load auth + changes from localStorage ── */
+  /* ── Bootstrap: load pending changes from localStorage ── */
 
   useEffect(() => {
-    // Load saved pending changes
     try {
       const raw = localStorage.getItem(CHANGES_KEY);
       if (raw) setChanges(JSON.parse(raw));
     } catch {}
-
-    // Load saved auth from localStorage
-    try {
-      const raw = localStorage.getItem(AUTH_KEY);
-      if (raw) { setAuth(JSON.parse(raw)); return; }
-    } catch {}
-
-    // Auto-login with the build token (maintainer mode) when no user session exists
-    if (buildToken) {
-      verifyGitHubToken(buildToken)
-        .then(info => setAuth({ token: buildToken, ...info }))
-        .catch(() => {});
-    }
   }, []);
 
   // Persist changes to localStorage whenever they change
@@ -581,18 +572,38 @@ export function StructureEditorContent({ onClose }) {
     }
   }, [changes]);
 
-  // Fetch tree (public, no token needed for read)
-  useEffect(() => {
-    fetchDocsTree(null)
+  // Fetch tree — use auth token when available (5000 req/hr vs 60/hr unauthenticated)
+  const loadTree = useCallback((token) => {
+    setLoading(true);
+    setError('');
+    return fetchDocsTree(token || null)
       .then(({ files, cats }) => {
         setGitFiles(files);
         setCatData(cats);
         const topKeys = Object.keys(cats).filter(p => p.match(/^docs\/[^/]+\/_category_\.json$/));
         setExpanded(new Set(topKeys.map(p => p.replace('/_category_.json', ''))));
       })
-      .catch(e => setError(`Failed to load playbook tree: ${e.message}`))
+      .catch(e => {
+        const is403 = e.message?.includes('403');
+        setError(is403
+          ? 'GitHub rate limit reached. Sign in with GitHub below to load the tree.'
+          : `Failed to load playbook tree: ${e.message}`);
+      })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => { loadTree(auth?.token); }, []);  // initial load
+
+  // Retry tree load when user signs in (clears a previous 403 rate-limit error)
+  const prevAuthToken = useRef(null);
+  useEffect(() => {
+    if (auth?.token && auth.token !== prevAuthToken.current && error?.includes('rate limit')) {
+      prevAuthToken.current = auth.token;
+      loadTree(auth.token);
+    } else if (auth?.token) {
+      prevAuthToken.current = auth.token;
+    }
+  }, [auth?.token, error, loadTree]);
 
   /* ── Auth ─────────────────────────────────────────────────────────────── */
 
@@ -1002,7 +1013,23 @@ export function StructureEditorContent({ onClose }) {
                 {!leftHidden && loading ? (
                   <div className={styles.stateBox}>Loading tree from GitHub…</div>
                 ) : error ? (
-                  <div className={styles.errorBox}>{error}</div>
+                  <div className={styles.errorBox}>
+                    {error}
+                    {error.includes('rate limit') && !auth && (
+                      <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', opacity: 0.85 }}>
+                        Sign in with GitHub below to load the tree using your authenticated quota.
+                      </p>
+                    )}
+                    {error.includes('rate limit') && auth && (
+                      <button
+                        type="button"
+                        style={{ marginTop: '0.5rem', padding: '0.25rem 0.75rem', fontSize: '0.8rem', cursor: 'pointer' }}
+                        onClick={() => loadTree(auth.token)}
+                      >
+                        Retry
+                      </button>
+                    )}
+                  </div>
                 ) : (
                   <div className={styles.treeScroll}>
                     {tree.map(node => (

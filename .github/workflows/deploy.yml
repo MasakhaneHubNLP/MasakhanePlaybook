@@ -24,6 +24,7 @@ jobs:
       - name: Build website
         run: yarn build
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
           GITHUB_OAUTH_PROXY_URL: ${{ secrets.OAUTH_PROXY_URL }}
           TRANSLATION_PROXY_URL: ${{ secrets.TRANSLATION_PROXY_URL }}
