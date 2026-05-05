@@ -581,6 +581,7 @@
 
 .translatePanel {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -797,10 +798,24 @@
   background: #1b1b1d;
 }
 
-/* Remove the WysiwygEditor's internal 480px cap so the pane scrolls instead */
+/* Make the WysiwygEditor grow to fill the full translation pane */
+.translateEditorBody :global([class*="editorWrap"]) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Remove the fixed min/max-height so the content area fills remaining space */
 .translateEditorBody :global([class*="editorContent"]) {
+  min-height: 0;
   max-height: none;
   flex: 1;
+  overflow-y: auto;
 }
 
 .editorLockOverlay {
