@@ -685,7 +685,7 @@
 
 .translateSplitView {
   display: grid;
-  grid-template-columns: 1fr 1px 1fr;
+  /* grid-template-columns set via inline style; default 1fr 4px 1fr */
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -720,11 +720,6 @@
   color: var(--ifm-color-content);
   user-select: text;
   cursor: default;
-}
-
-.translateDivider {
-  background: var(--ifm-color-emphasis-200);
-  width: 1px;
 }
 
 .rightPanelPath {

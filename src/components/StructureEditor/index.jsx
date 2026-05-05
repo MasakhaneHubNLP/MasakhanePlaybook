@@ -493,6 +493,7 @@ export function StructureEditorContent({ onClose }) {
   const [leftWidth, setLeftWidth] = useState(320);
   const [leftHidden, setLeftHidden] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [translateSplitWidth, setTranslateSplitWidth] = useState(null); // null = 50/50 until first drag
 
   // Translation tab
   const [rightPanelTab, setRightPanelTab] = useState('edit'); // 'edit' | 'translate'
@@ -617,6 +618,27 @@ export function StructureEditorContent({ onClose }) {
     document.body.style.userSelect = 'none';
     function onMove(ev) {
       setLeftWidth(Math.max(180, Math.min(560, startWidth + ev.clientX - startX)));
+    }
+    function onUp() {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
+  function handleTranslateSplitterMouseDown(e) {
+    e.preventDefault();
+    const container = e.currentTarget.parentElement;
+    const startX = e.clientX;
+    const startWidth = translateSplitWidth ?? container.offsetWidth / 2;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      const max = container.offsetWidth - 204;
+      setTranslateSplitWidth(Math.max(200, Math.min(max, startWidth + ev.clientX - startX)));
     }
     function onUp() {
       document.body.style.cursor = '';
@@ -1229,7 +1251,10 @@ export function StructureEditorContent({ onClose }) {
                           )}
 
                           {/* Side-by-side panes */}
-                          <div className={styles.translateSplitView}>
+                          <div
+                            className={styles.translateSplitView}
+                            style={{ gridTemplateColumns: translateSplitWidth ? `${translateSplitWidth}px 4px 1fr` : '1fr 4px 1fr' }}
+                          >
                             {/* Left: original read-only */}
                             <div className={styles.translateSide}>
                               <div className={styles.translateSideHeader}>English (original)</div>
@@ -1239,7 +1264,11 @@ export function StructureEditorContent({ onClose }) {
                               />
                             </div>
 
-                            <div className={styles.translateDivider} />
+                            <div
+                              className={styles.splitter}
+                              onMouseDown={handleTranslateSplitterMouseDown}
+                              title="Drag to resize"
+                            />
 
                             {/* Right: translation editor */}
                             <div className={styles.translateSide}>
