@@ -17,22 +17,22 @@ import styles from './index.module.css';
 const AUTH_KEY = 'masakhane_pb_auth';
 const CHANGES_KEY = 'masakhane_pb_changes';
 
-const NLLB_CODES = {
-  fr: 'fra_Latn', ar: 'arb_Arab', pt: 'por_Latn',
-  ha: 'hau_Latn', sw: 'swh_Latn', am: 'amh_Ethi',
-  yo: 'yor_Latn', ig: 'ibo_Latn', zu: 'zul_Latn',
-  om: 'gaz_Latn', so: 'som_Latn', rw: 'kin_Latn',
-};
+// All languages supported by the translation proxy
+// European/Arabic/Swahili → Helsinki-NLP via HF; African languages → MyMemory
+const SUPPORTED_AUTO_TRANSLATE = new Set(['fr', 'ar', 'sw', 'de', 'es', 'pt', 'ha', 'yo', 'am', 'ig', 'zu', 'om', 'so', 'rw']);
 
-async function nllbTranslateChunk(text, tgtLang, proxyUrl) {
-  const res = await fetch(`${proxyUrl}/translate`, {
+async function autoTranslateChunk(text, tgtLang, proxyUrl) {
+  const res = await fetch(proxyUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, tgt_lang: tgtLang }),
   });
+  const contentType = res.headers.get('Content-Type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error(`Worker returned unexpected response (HTTP ${res.status}) — check TRANSLATION_PROXY_URL`);
+  }
   const data = await res.json();
   if (data.error) {
-    if (data.estimated_time) throw new Error(`model_loading:${Math.ceil(data.estimated_time)}`);
     throw new Error(data.error);
   }
   return data[0]?.translation_text || text;
@@ -45,7 +45,7 @@ async function translateHtmlContent(html, tgtLang, proxyUrl) {
   for (const block of blocks) {
     const text = block.textContent.trim();
     if (text.length < 3) continue;
-    block.textContent = await nllbTranslateChunk(text, tgtLang, proxyUrl);
+    block.textContent = await autoTranslateChunk(text, tgtLang, proxyUrl);
   }
   return div.innerHTML;
 }
@@ -457,7 +457,8 @@ export function StructureEditorContent({ onClose }) {
   const { siteConfig } = useDocusaurusContext();
   const buildToken    = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
   const oauthClientId = siteConfig.customFields?.GITHUB_OAUTH_CLIENT_ID || '';
-  const oauthProxyUrl = siteConfig.customFields?.GITHUB_OAUTH_PROXY_URL || '';
+  const oauthProxyUrl    = siteConfig.customFields?.GITHUB_OAUTH_PROXY_URL || '';
+  const translationProxy = siteConfig.customFields?.TRANSLATION_PROXY_URL || '';
   // On localhost the popup redirect_uri won't match GitHub's registered callback,
   // so we leave callbackUrl empty — canPopup becomes false and device flow is used instead.
   const oauthCallbackUrl = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
@@ -730,22 +731,15 @@ export function StructureEditorContent({ onClose }) {
   }
 
   async function handleAutoTranslate() {
-    if (!oauthProxyUrl || !rightPanel) return;
-    const tgtLang = NLLB_CODES[translationLang];
-    if (!tgtLang) return;
+    if (!translationProxy || !rightPanel) return;
     setTranslating(true);
     setTranslateError('');
     setTranslationHtml('');
     try {
-      const result = await translateHtmlContent(rightPanel.htmlContent, tgtLang, oauthProxyUrl);
+      const result = await translateHtmlContent(rightPanel.htmlContent, translationLang, translationProxy);
       setTranslationHtml(result);
     } catch (e) {
-      if (e.message.startsWith('model_loading:')) {
-        const secs = e.message.split(':')[1];
-        setTranslateError(`Model is warming up — retry in ~${secs}s`);
-      } else {
-        setTranslateError(e.message || 'Translation failed');
-      }
+      setTranslateError(e.message || 'Translation failed');
     } finally {
       setTranslating(false);
     }
@@ -1206,13 +1200,13 @@ export function StructureEditorContent({ onClose }) {
                               <option value="so">Somali</option>
                               <option value="rw">Kinyarwanda</option>
                             </select>
-                            {oauthProxyUrl && (
+                            {translationProxy && (
                               <button
                                 className={styles.translateAutoBtn}
                                 type="button"
                                 onClick={handleAutoTranslate}
-                                disabled={translating}
-                                title="Generate a draft translation using NLLB-200 (Meta AI)"
+                                disabled={translating || !SUPPORTED_AUTO_TRANSLATE.has(translationLang)}
+                                title="Generate a draft translation (Helsinki-NLP for European languages, MyMemory for African languages)"
                               >
                                 {translating ? '⏳ Translating…' : '✨ Auto-translate'}
                               </button>
@@ -1229,7 +1223,6 @@ export function StructureEditorContent({ onClose }) {
                           {translateError && (
                             <div className={styles.translateError}>
                               {translateError}
-                              <button className={styles.translateRetryBtn} onClick={handleAutoTranslate} type="button">Retry</button>
                             </div>
                           )}
 

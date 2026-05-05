@@ -26,6 +26,7 @@ jobs:
         env:
           GITHUB_OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
           GITHUB_OAUTH_PROXY_URL: ${{ secrets.OAUTH_PROXY_URL }}
+          TRANSLATION_PROXY_URL: ${{ secrets.TRANSLATION_PROXY_URL }}
 
       - name: Generate Playbook PDF
         run: yarn pdf:built

@@ -27,9 +27,8 @@ const config = {
     //   - Deploy proposal/github-oauth-worker.js to Cloudflare Workers and add its URL below
     GITHUB_OAUTH_CLIENT_ID: process.env.GITHUB_OAUTH_CLIENT_ID || "",
     GITHUB_OAUTH_PROXY_URL: process.env.GITHUB_OAUTH_PROXY_URL || "",
-    // HuggingFace Inference API token for NLLB-200 auto-translation in the Contribute dialog.
-    // Get a free read token at https://huggingface.co/settings/tokens
-    HUGGINGFACE_TOKEN: process.env.HUGGINGFACE_TOKEN || "",
+    // Dedicated translation proxy (proposal/translate-worker.js deployed to Cloudflare).
+    TRANSLATION_PROXY_URL: process.env.TRANSLATION_PROXY_URL || "",
   },
   tagline: "Democratizing machine translation for African languages",
   favicon: "img/favicon.ico",
