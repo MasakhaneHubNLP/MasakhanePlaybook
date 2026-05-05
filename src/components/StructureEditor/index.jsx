@@ -498,6 +498,7 @@ export function StructureEditorContent({ onClose }) {
   const [rightPanelTab, setRightPanelTab] = useState('edit'); // 'edit' | 'translate'
   const [translationLang, setTranslationLang] = useState('fr');
   const [translationHtml, setTranslationHtml] = useState('');
+  const [translateKey, setTranslateKey] = useState(0);
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState('');
 
@@ -738,6 +739,7 @@ export function StructureEditorContent({ onClose }) {
     try {
       const result = await translateHtmlContent(rightPanel.htmlContent, translationLang, translationProxy);
       setTranslationHtml(result);
+      setTranslateKey(k => k + 1);
     } catch (e) {
       setTranslateError(e.message || 'Translation failed');
     } finally {
@@ -1246,7 +1248,7 @@ export function StructureEditorContent({ onClose }) {
                               </div>
                               <div className={styles.rightPanelBody} style={{ position: 'relative' }}>
                                 <WysiwygEditor
-                                  key={`${rightPanel.path}-${translationLang}`}
+                                  key={`${rightPanel.path}-${translationLang}-${translateKey}`}
                                   initialHtml={translationHtml}
                                   onChange={html => setTranslationHtml(html)}
                                 />
