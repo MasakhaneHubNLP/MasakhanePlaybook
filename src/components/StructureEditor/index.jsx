@@ -17,6 +17,39 @@ import styles from './index.module.css';
 const AUTH_KEY = 'masakhane_pb_auth';
 const CHANGES_KEY = 'masakhane_pb_changes';
 
+const NLLB_CODES = {
+  fr: 'fra_Latn', ar: 'arb_Arab', pt: 'por_Latn',
+  ha: 'hau_Latn', sw: 'swh_Latn', am: 'amh_Ethi',
+  yo: 'yor_Latn', ig: 'ibo_Latn', zu: 'zul_Latn',
+  om: 'gaz_Latn', so: 'som_Latn', rw: 'kin_Latn',
+};
+
+async function nllbTranslateChunk(text, tgtLang, proxyUrl) {
+  const res = await fetch(`${proxyUrl}/translate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, tgt_lang: tgtLang }),
+  });
+  const data = await res.json();
+  if (data.error) {
+    if (data.estimated_time) throw new Error(`model_loading:${Math.ceil(data.estimated_time)}`);
+    throw new Error(data.error);
+  }
+  return data[0]?.translation_text || text;
+}
+
+async function translateHtmlContent(html, tgtLang, proxyUrl) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const blocks = Array.from(div.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, td, th'));
+  for (const block of blocks) {
+    const text = block.textContent.trim();
+    if (text.length < 3) continue;
+    block.textContent = await nllbTranslateChunk(text, tgtLang, proxyUrl);
+  }
+  return div.innerHTML;
+}
+
 function splitFrontmatter(md) {
   const m = String(md).match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   return m ? { frontmatter: `---\n${m[1]}\n---\n`, content: m[2] } : { frontmatter: '', content: md };
@@ -422,7 +455,7 @@ function TreeRow({
 
 export function StructureEditorContent({ onClose }) {
   const { siteConfig } = useDocusaurusContext();
-  const buildToken   = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
+  const buildToken    = siteConfig.customFields?.GITHUB_EDIT_TOKEN || '';
   const oauthClientId = siteConfig.customFields?.GITHUB_OAUTH_CLIENT_ID || '';
   const oauthProxyUrl = siteConfig.customFields?.GITHUB_OAUTH_PROXY_URL || '';
   // On localhost the popup redirect_uri won't match GitHub's registered callback,
@@ -464,6 +497,8 @@ export function StructureEditorContent({ onClose }) {
   const [rightPanelTab, setRightPanelTab] = useState('edit'); // 'edit' | 'translate'
   const [translationLang, setTranslationLang] = useState('fr');
   const [translationHtml, setTranslationHtml] = useState('');
+  const [translating, setTranslating] = useState(false);
+  const [translateError, setTranslateError] = useState('');
 
   function handleSplitterMouseDown(e) {
     e.preventDefault();
@@ -692,6 +727,28 @@ export function StructureEditorContent({ onClose }) {
     const md = htmlToMd(rightPanel.htmlContent);
     const url = `https://translate.google.com/?sl=en&tl=${translationLang}&text=${encodeURIComponent(md.slice(0, 5000))}&op=translate`;
     window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  async function handleAutoTranslate() {
+    if (!oauthProxyUrl || !rightPanel) return;
+    const tgtLang = NLLB_CODES[translationLang];
+    if (!tgtLang) return;
+    setTranslating(true);
+    setTranslateError('');
+    setTranslationHtml('');
+    try {
+      const result = await translateHtmlContent(rightPanel.htmlContent, tgtLang, oauthProxyUrl);
+      setTranslationHtml(result);
+    } catch (e) {
+      if (e.message.startsWith('model_loading:')) {
+        const secs = e.message.split(':')[1];
+        setTranslateError(`Model is warming up — retry in ~${secs}s`);
+      } else {
+        setTranslateError(e.message || 'Translation failed');
+      }
+    } finally {
+      setTranslating(false);
+    }
   }
 
   /* ── Operations ─────────────────────────────────────────────────────── */
@@ -1134,7 +1191,7 @@ export function StructureEditorContent({ onClose }) {
                             <select
                               className={styles.translateLangSelect}
                               value={translationLang}
-                              onChange={e => { setTranslationLang(e.target.value); setTranslationHtml(''); }}
+                              onChange={e => { setTranslationLang(e.target.value); setTranslationHtml(''); setTranslateError(''); }}
                             >
                               <option value="fr">French</option>
                               <option value="ar">Arabic</option>
@@ -1149,15 +1206,32 @@ export function StructureEditorContent({ onClose }) {
                               <option value="so">Somali</option>
                               <option value="rw">Kinyarwanda</option>
                             </select>
+                            {oauthProxyUrl && (
+                              <button
+                                className={styles.translateAutoBtn}
+                                type="button"
+                                onClick={handleAutoTranslate}
+                                disabled={translating}
+                                title="Generate a draft translation using NLLB-200 (Meta AI)"
+                              >
+                                {translating ? '⏳ Translating…' : '✨ Auto-translate'}
+                              </button>
+                            )}
                             <button
                               className={styles.translateOpenBtn}
                               type="button"
                               onClick={openGoogleTranslate}
                               title="Opens the English content in Google Translate — copy the result and paste on the right"
                             >
-                              Open in Google Translate ↗
+                              Google Translate ↗
                             </button>
                           </div>
+                          {translateError && (
+                            <div className={styles.translateError}>
+                              {translateError}
+                              <button className={styles.translateRetryBtn} onClick={handleAutoTranslate} type="button">Retry</button>
+                            </div>
+                          )}
 
                           {/* Side-by-side panes */}
                           <div className={styles.translateSplitView}>

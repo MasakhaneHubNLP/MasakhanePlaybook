@@ -614,6 +614,28 @@
   cursor: pointer;
 }
 
+.translateAutoBtn {
+  padding: 0.28rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.translateAutoBtn:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.translateAutoBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .translateOpenBtn {
   margin-left: auto;
   padding: 0.28rem 0.8rem;
@@ -630,6 +652,35 @@
 
 .translateOpenBtn:hover {
   opacity: 0.88;
+}
+
+.translateError {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.78rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+  padding: 0.4rem 1rem;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .translateError {
+  color: #fca5a5;
+  background: #2d1515;
+  border-color: #7f1d1d;
+}
+
+.translateRetryBtn {
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  color: inherit;
+  font-weight: 600;
 }
 
 .translateSplitView {
