@@ -687,12 +687,14 @@
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   flex: 1;
+  height: 100%;
   overflow: hidden;
 }
 
 .translateSide {
   display: flex;
   flex-direction: column;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -782,6 +784,27 @@
 
 [data-theme='dark'] .rightPanelBody {
   background: #1b1b1d;
+}
+
+/* Scrollable variant used inside the translation right pane */
+.translateEditorBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  position: relative;
+}
+
+[data-theme='dark'] .translateEditorBody {
+  background: #1b1b1d;
+}
+
+/* Remove the WysiwygEditor's internal 480px cap so the pane scrolls instead */
+.translateEditorBody :global([class*="editorContent"]) {
+  max-height: none;
+  flex: 1;
 }
 
 .editorLockOverlay {

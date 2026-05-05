@@ -1246,7 +1246,7 @@ export function StructureEditorContent({ onClose }) {
                               <div className={styles.translateSideHeader}>
                                 Translation
                               </div>
-                              <div className={styles.rightPanelBody} style={{ position: 'relative' }}>
+                              <div className={styles.translateEditorBody}>
                                 <WysiwygEditor
                                   key={`${rightPanel.path}-${translationLang}-${translateKey}`}
                                   initialHtml={translationHtml}
