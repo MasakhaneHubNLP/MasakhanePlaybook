@@ -628,15 +628,63 @@ export function StructureEditorContent({ onClose }) {
 
   /* ── Document upload ──────────────────────────────────────────────────── */
 
-  async function pdfToMarkdown(pdf) {
-    const pageItems = [];
-    for (let p = 1; p <= pdf.numPages; p++) {
-      const page = await pdf.getPage(p);
-      const content = await page.getTextContent();
-      pageItems.push(content.items);
+  async function extractPageImages(page, pdfjsLib) {
+    const MIN_PX = 20;
+    const images = [];
+    const seen = new Set();
+
+    let ops;
+    try { ops = await page.getOperatorList(); } catch { return images; }
+
+    async function fetchObj(name) {
+      return new Promise(resolve => {
+        try { page.objs.get(name, resolve); }
+        catch { try { page.commonObjs.get(name, resolve); } catch { resolve(null); } }
+      });
     }
 
-    const allItems = pageItems.flat().filter(item => item.str?.trim());
+    function renderToDataUrl(imgData) {
+      if (!imgData?.data || imgData.width < MIN_PX || imgData.height < MIN_PX) return null;
+      const canvas = document.createElement('canvas');
+      canvas.width = imgData.width;
+      canvas.height = imgData.height;
+      const ctx = canvas.getContext('2d');
+      const id = ctx.createImageData(imgData.width, imgData.height);
+      id.data.set(imgData.data);
+      ctx.putImageData(id, 0, 0);
+      return canvas.toDataURL('image/png');
+    }
+
+    for (let i = 0; i < ops.fnArray.length; i++) {
+      if (ops.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
+        const name = ops.argsArray[i][0];
+        if (seen.has(name)) continue;
+        seen.add(name);
+        const imgData = await fetchObj(name);
+        const dataUrl = renderToDataUrl(imgData);
+        if (dataUrl) images.push(dataUrl);
+
+      } else if (ops.fnArray[i] === pdfjsLib.OPS.paintInlineImageXObject) {
+        const imgData = ops.argsArray[i][0];
+        const dataUrl = renderToDataUrl(imgData);
+        if (dataUrl) images.push(dataUrl);
+      }
+    }
+    return images;
+  }
+
+  async function pdfToMarkdown(pdf, pdfjsLib) {
+    const pages = [];
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const page = await pdf.getPage(p);
+      const [content, images] = await Promise.all([
+        page.getTextContent(),
+        extractPageImages(page, pdfjsLib),
+      ]);
+      pages.push({ items: content.items, images });
+    }
+
+    const allItems = pages.flatMap(p => p.items).filter(item => item.str?.trim());
     const heights = allItems
       .map(item => Math.abs(item.transform?.[3] || 0))
       .filter(h => h > 2)
@@ -653,7 +701,7 @@ export function StructureEditorContent({ onClose }) {
       }
     }
 
-    for (const items of pageItems) {
+    for (const { items, images } of pages) {
       const sorted = [...items]
         .filter(item => item.str?.trim())
         .sort((a, b) => {
@@ -691,6 +739,11 @@ export function StructureEditorContent({ onClose }) {
       }
       flushLine();
       flushPara();
+
+      // Append extracted images after each page's text
+      for (const dataUrl of images) {
+        mdParts.push(`![](${dataUrl})`);
+      }
     }
 
     return mdParts.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
@@ -706,7 +759,7 @@ export function StructureEditorContent({ onClose }) {
           `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        markdown = await pdfToMarkdown(pdf);
+        markdown = await pdfToMarkdown(pdf, pdfjsLib);
       } else if (ext === 'docx') {
         const arrayBuffer = await file.arrayBuffer();
         const result = await mammoth.convertToHtml({ arrayBuffer }, {
