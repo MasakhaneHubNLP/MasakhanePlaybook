@@ -297,6 +297,7 @@ function TreeRow({
   onMoveDown,
   onDelete,
   onEditPage,
+  onEditSection,
   editingPath,
   loadingPaths,
   locked,
@@ -328,9 +329,9 @@ function TreeRow({
 
         <span className={styles.nodeIcon}>{node.type === 'section' ? '📁' : '📄'}</span>
         <span
-          className={`${styles.nodeLabel} ${node.type === 'page' ? styles.nodeLabelClickable : ''}`}
+          className={`${styles.nodeLabel} ${styles.nodeLabelClickable}`}
           title={node.path}
-          onClick={node.type === 'page' ? () => onEditPage(node) : undefined}
+          onClick={() => node.type === 'page' ? onEditPage(node) : onEditSection(node)}
         >
           {node.label}
         </span>
@@ -343,6 +344,17 @@ function TreeRow({
               className={`${styles.actionBtn} ${styles.editPageBtn}`}
               title={locked ? lockTitle : 'Edit page content'}
               onClick={locked ? undefined : () => onEditPage(node)}
+              disabled={locked}
+              type="button"
+            >
+              ✎
+            </button>
+          )}
+          {node.type === 'section' && (
+            <button
+              className={`${styles.actionBtn} ${styles.editPageBtn}`}
+              title={locked ? lockTitle : 'Edit section intro page'}
+              onClick={locked ? undefined : () => onEditSection(node)}
               disabled={locked}
               type="button"
             >
@@ -443,6 +455,7 @@ function TreeRow({
           onMoveDown={onMoveDown}
           onDelete={onDelete}
           onEditPage={onEditPage}
+          onEditSection={onEditSection}
           editingPath={editingPath}
           loadingPaths={loadingPaths}
           locked={locked}
@@ -1012,6 +1025,24 @@ export function StructureEditorContent({ onClose }) {
 
   /* ── Right panel ─────────────────────────────────────────────────────── */
 
+  async function handleEditSection(node) {
+    const indexPath = `${node.path}/index.md`;
+    if (rightPanel?.path === indexPath && !rightPanel.fetching) return;
+    setRightPanel({ path: indexPath, htmlContent: null, frontmatter: '', fetching: true, dirty: false });
+    setRightPanelTab('edit');
+    setTranslationHtml('');
+    try {
+      const md = await getPageContent(indexPath);
+      const { frontmatter, content } = splitFrontmatter(md);
+      setRightPanel({ path: indexPath, htmlContent: mdToHtml(content), frontmatter, fetching: false, dirty: false });
+    } catch {
+      // File doesn't exist yet — open a blank starter (saved to pendingChanges on save)
+      const starter = `---\nsidebar_label: ${JSON.stringify(node.label)}\nsidebar_position: 0\n---\n\n# ${node.label}\n\n`;
+      const { frontmatter, content } = splitFrontmatter(starter);
+      setRightPanel({ path: indexPath, htmlContent: mdToHtml(content), frontmatter, fetching: false, dirty: true });
+    }
+  }
+
   async function handleEditPage(node) {
     if (rightPanel?.path === node.path && !rightPanel.fetching) return;
     setRightPanel({ path: node.path, htmlContent: null, frontmatter: '', fetching: true, dirty: false });
@@ -1358,6 +1389,7 @@ export function StructureEditorContent({ onClose }) {
                         onMoveDown={n => moveNode(n, 'down')}
                         onDelete={deleteNode}
                         onEditPage={handleEditPage}
+                        onEditSection={handleEditSection}
                         editingPath={rightPanel?.path}
                         loadingPaths={loadingPaths}
                         locked={!auth}
