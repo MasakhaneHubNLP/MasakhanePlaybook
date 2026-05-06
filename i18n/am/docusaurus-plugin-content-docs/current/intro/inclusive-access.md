@@ -1,56 +1,55 @@
 ---
 sidebar_position: 4
 ---
+# አካታች መዳረሻ
 
-# Inclusive Access
+የመጫወቻ ደብተሩ የተለያየ ደረጃ ያላቸው ቴክኒካል ዳራ፣ ማንበብና መጻፍ፣ ቋንቋ እና ግንኙነት ባላቸው ሰዎች ሊጠቀሙበት ይገባል። ይህ ገጽ አስተባባሪዎችን ለተለያዩ ተመልካቾች በማስማማት ላይ ይመራል።
 
-The playbook should be usable by people with different levels of technical background, literacy, language, and connectivity. This page guides coordinators on adapting it for diverse audiences.
+## ቴክኒካል ላልሆኑ ታዳሚዎች መላመድ
 
-## Adapting for Non-Technical Audiences
+ብዙ አስተዋጽዖ አበርካቾች - ገላጭ፣ ድምጽ መቅጃዎች፣ ተርጓሚዎች - ተመራማሪዎች አይደሉም። የመጫወቻ መጽሐፉን ስታስተዋውቃቸው፡-
 
-Many contributors — annotators, voice recorders, translators — are not researchers. When introducing the playbook to them:
+- ከተግባራቸው ጋር ተዛማጅነት ያላቸውን ክፍሎች ብቻ ያካፍሉ; ወደ ሙሉ የመጫወቻ መጽሐፍ አያገናኙ
+- ቴክኒካዊ ቃላትን በቋንቋ አቻዎች ይተኩ፣ ወይም በመጀመሪያ የቃላት መፍቻውን ይሂዱ
+- አስተዋጽዖ አበርካቾች ራሳቸውን ችለው እንዲያነቡ ከመጠየቅዎ በፊት ተግባሮችን በቀጥታ (ስክሪን ማጋራት ወይም በአካል) አሳይ
+- ከአስተዋጽዖ አድራጊው ቋንቋ እና ጎራ ተጨባጭ ምሳሌዎችን ተጠቀም
 
-- Share only the sections relevant to their task; do not link to the full playbook
-- Replace technical terms with plain-language equivalents, or walk through the [Glossary](../glossary) first
-- Demonstrate tasks live (screen share or in-person) before asking contributors to read independently
-- Use concrete examples from the contributor's own language and domain
+## ዝቅተኛ ማንበብና መጻፍ አስተዋጽዖ አበርካቾች መላመድ
 
-## Adapting for Low-Literacy Contributors
+- ቁልፍ መመሪያዎችን ከቅጽበታዊ ገጽ እይታዎች ወይም ምሳሌዎች ጋር ወደ አጭር ቁጥር ደረጃዎች ይለውጡ
+- ከጽሑፍ ንባብ እንደ አማራጭ የቃል ምልከታዎችን ያቅርቡ - አስተባባሪ ክፍሉን አንብቦ ጥያቄዎችን ይወስዳል
+- ለተለየ ተግባር በጣም አስፈላጊ እርምጃዎችን የያዘ የታተመ ፈጣን ማመሳከሪያ ካርድ (A5, አንድ ጎን) ያዘጋጁ
+- ከማጠናቀቅዎ በፊት ቁሳቁሶችን ከማህበረሰብ አባላት ጋር ይሞክሩት - ዝቅተኛ ማንበብና መጻፍ አስተዋፅዖ አድራጊዎች ብዙውን ጊዜ ፕሮሴን የሚደብቁትን ትክክለኛ ግልጽነት ችግሮች ያጋልጣሉ
 
-- Convert key instructions into short numbered steps with screenshots or illustrations
-- Offer oral walkthroughs as an alternative to written reading — a coordinator reads through the section and takes questions
-- Prepare a printed quick-reference card (A5, one side) with the most important steps for the specific task
-- Test materials with community members before finalizing — contributors with low literacy often surface genuine clarity problems that polished prose hides
+## ሥርዓተ-ፆታን ያካተተ ማመቻቸት
 
-## Gender-Inclusive Facilitation
+- ሴቶች እና ያልተወከሉ ተሳታፊዎች ምሳሌዎችን እንዲያበረክቱ እና ጥያቄዎችን እንዲጠይቁ በንቃት ይጋብዙ
+- የተለያዩ ተናጋሪዎችን፣ ርዕሶችን እና አመለካከቶችን የሚያንፀባርቁ የስልጠና ምሳሌዎችን ተጠቀም - የተዛባ ሁኔታዎችን ያስወግዱ
+- የመንከባከብ ኃላፊነቶችን ለማስተናገድ ተለዋዋጭ የክፍለ ጊዜ ጊዜን ይስጡ
+- ተሳትፎን በፆታ ይከታተሉ እና አንዱ ቡድን የበላይ ከሆነ ማመቻቸትን ያስተካክሉ
 
-- Actively invite women and underrepresented participants to contribute examples and ask questions
-- Use training examples that reflect diverse speakers, topics, and perspectives — avoid stereotyped scenarios
-- Offer flexible session timing to accommodate caregiving responsibilities
-- Track participation by gender and adjust facilitation if one group dominates
+## ባለብዙ ቋንቋ መዳረሻ
 
-## Multilingual Access
+- ከስልጠናው ክፍለ ጊዜ በፊት ከፕሮጀክትዎ ጋር ተዛማጅነት ያላቸውን ክፍሎች ይተርጉሙ - ለፈቃድ ቅጾች ወይም ለአስተዋጽዖ ስምምነቶች በማሽን ትርጉም ላይ አይተማመኑ
+- በማህበረሰቡ የስራ ቋንቋ የአካባቢያዊ የቃላት መፍቻ ቃላትን ያቆዩ
+- ተሳታፊዎች እንግሊዘኛ ውስን ለሆኑባቸው ክፍለ-ጊዜዎች የሁለት ቋንቋ ተናጋሪ ተባባሪ አስተባባሪ ይጋብዙ
 
-- Translate the sections relevant to your project before the training session — do not rely on machine translation for consent forms or contributor agreements
-- Maintain a local glossary of key annotation terms in the community's working language
-- Invite a bilingual co-facilitator for sessions where participants have limited English
+## ከመስመር ውጭ እና ዝቅተኛ-ግንኙነት መዳረሻ
 
-## Offline and Low-Connectivity Access
+ያለ አስተማማኝ በይነመረብ ለሚሰሩ አስተዋጽዖ አበርካቾች፡-
 
-For contributors working without reliable internet:
+- ሙሉውን የመጫወቻ መጽሐፍ እንደ አንድ ነጠላ ፋይል ለማግኘት ፒዲኤፍ አውርድን ይጠቀሙ - በዋትስአፕ ወይም ዩኤስቢ ለማተም ወይም ለማጋራት ተስማሚ።
+- ዝቅተኛ ግንኙነት ባለባቸው ቦታዎች ላሉ አውደ ጥናቶች፣ ከመጓዝዎ በፊት አግባብነት ያላቸውን የምዕራፍ ገጾችን አስቀድመው ያውርዱ ወይም ያትሙ
+- እየታየ ያለው የማብራሪያ መሳሪያ ከመስመር ውጭ ወይም ዝቅተኛ ባንድዊድዝ መጠቀምን እንደሚደግፍ ያረጋግጡ - Toolingን ይመልከቱ
 
-- Use **Download PDF** in the navbar to get the full playbook as a single file — suitable for printing or sharing via WhatsApp or USB
-- For workshops in low-connectivity venues, pre-download or print only the relevant chapter pages before traveling
-- Ensure the annotation tool being demonstrated also supports offline or low-bandwidth use — see [Tooling](../documentation/tooling)
+የታተሙ ቅጂዎችን በሚሰራጭበት ጊዜ በሽፋኑ ላይ ያለውን የስሪት ቁጥር እና ቀን ያስተውሉ. የቀጥታ ጣቢያው ሁልጊዜ የቅርብ ጊዜውን ስሪት ያንፀባርቃል።
 
-When distributing printed copies, note the version number and date on the cover. The live site always reflects the latest version.
+## በአጠቃቀም ላይ ግብረመልስ መሰብሰብ
 
-## Collecting Feedback on Usability
+ከእያንዳንዱ የስልጠና ክፍለ ጊዜ በኋላ ተሳታፊዎችን ይጠይቁ፡-
 
-After each training session, ask participants:
+- የሚመለከተውን ክፍል ካነበቡ በኋላ ያልተረዱት ነገር አለ?
+- ምሳሌዎች ከእርስዎ ቋንቋ እና አውድ ጋር ተዛማጅነት አላቸው?
+- ለመከተል ቀላል ለማድረግ ምን ይለውጣሉ?
 
-- Was there anything you did not understand after reading the relevant section?
-- Were the examples relevant to your language and context?
-- What would you change to make it easier to follow?
-
-Submit responses to the playbook maintainers — the playbook improves through exactly this kind of community use.
+ምላሾችን ለመጫወቻ መጽሐፍ ጠባቂዎች አስረክብ - የመጫወቻ ደብተሩ በትክክል በዚህ የማህበረሰብ አጠቃቀም ይሻሻላል።
