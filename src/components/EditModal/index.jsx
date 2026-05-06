@@ -205,6 +205,7 @@ export function WysiwygEditor({ initialHtml, onChange }) {
   const editorRef = useRef(null);
   const colorRef = useRef(null);
   const imgInputRef = useRef(null);
+  const vidInputRef = useRef(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -268,6 +269,26 @@ export function WysiwygEditor({ initialHtml, onChange }) {
     onChange(editorRef.current?.innerHTML || '');
   }, [onChange]);
 
+  const handleVideoFile = useCallback((e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      window.alert('Video file exceeds 10 MB. Please use the 🎬 URL button to link to a hosted video instead.');
+      e.target.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      editorRef.current?.focus();
+      document.execCommand('insertHTML', false,
+        `<video src="${ev.target.result}" controls style="max-width:100%;height:auto"></video>`
+      );
+      onChange(editorRef.current?.innerHTML || '');
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [onChange]);
+
   return (
     <div className={styles.editorWrap}>
       <div className={styles.toolbar}>
@@ -317,6 +338,20 @@ export function WysiwygEditor({ initialHtml, onChange }) {
           />
         </label>
         <ToolBtn title="Insert video (YouTube, Vimeo, or direct URL)" onAction={handleVideoInsert}>🎬</ToolBtn>
+        <label
+          className={styles.toolBtn}
+          title="Insert video from file (max 10 MB)"
+          onMouseDown={(e) => e.preventDefault()}
+        >
+          📹
+          <input
+            ref={vidInputRef}
+            type="file"
+            accept="video/*"
+            style={{ display: 'none' }}
+            onChange={handleVideoFile}
+          />
+        </label>
         <span className={styles.toolSep} />
         <label className={styles.colorLabel} title="Text color">
           <span className={styles.colorIcon}>A</span>
