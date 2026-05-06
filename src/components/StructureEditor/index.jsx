@@ -507,6 +507,7 @@ export function StructureEditorContent({ onClose }) {
   const [translateKey, setTranslateKey] = useState(0);
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState('');
+  const [uploadPreview, setUploadPreview] = useState(null); // { fileName, title, markdown }
 
   function handleSplitterMouseDown(e) {
     e.preventDefault();
@@ -650,8 +651,12 @@ export function StructureEditorContent({ onClose }) {
         return;
       }
 
-      console.log('[upload] file:', file.name, '| format:', ext, '| chars:', markdown.length);
-      console.log('[upload] markdown preview:\n', markdown.slice(0, 500));
+      const h1 = markdown.match(/^#\s+(.+)$/m);
+      const title = h1
+        ? h1[1].trim()
+        : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
+
+      setUploadPreview({ fileName: file.name, title, markdown });
     };
 
     reader.readAsText(file);
@@ -1414,6 +1419,50 @@ export function StructureEditorContent({ onClose }) {
             {fullscreen ? 'Exit full screen' : 'Full screen'}
           </button>
         </div>
+
+        {/* Upload preview overlay */}
+        {uploadPreview && (
+          <div className={styles.uploadOverlay}>
+            <div className={styles.uploadPreviewPanel}>
+              <div className={styles.uploadPreviewHeader}>
+                <span className={styles.uploadPreviewFileName}>{uploadPreview.fileName}</span>
+                <button
+                  className={styles.closeBtn}
+                  onClick={() => setUploadPreview(null)}
+                  aria-label="Close preview"
+                  type="button"
+                >✕</button>
+              </div>
+              <div className={styles.uploadPreviewBody}>
+                <div className={styles.uploadTitleRow}>
+                  <label className={styles.uploadTitleLabel}>Page title</label>
+                  <input
+                    className={styles.uploadTitleInput}
+                    value={uploadPreview.title}
+                    onChange={e => setUploadPreview(prev => ({ ...prev, title: e.target.value }))}
+                  />
+                </div>
+                <div
+                  className={styles.uploadPreviewContent}
+                  dangerouslySetInnerHTML={{ __html: mdToHtml(uploadPreview.markdown) }}
+                />
+              </div>
+              <div className={styles.uploadPreviewFooter}>
+                <button
+                  className={styles.cancelBtn}
+                  onClick={() => setUploadPreview(null)}
+                  type="button"
+                >Cancel</button>
+                <button
+                  className={styles.submitBtn}
+                  type="button"
+                  disabled
+                  title="Placement coming in next step"
+                >Add to Playbook →</button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Resize handle — hidden in fullscreen */}
         {!fullscreen && (

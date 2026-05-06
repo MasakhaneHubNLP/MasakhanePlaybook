@@ -1351,3 +1351,114 @@
   color: var(--ifm-color-primary);
   background: rgba(46, 133, 85, 0.07);
 }
+
+/* ── Upload preview overlay ─────────────────────────────────────────── */
+
+.uploadOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.uploadPreviewPanel {
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  width: min(820px, 92%);
+  height: min(680px, 90%);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.uploadPreviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  flex-shrink: 0;
+}
+
+.uploadPreviewFileName {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ifm-color-content-secondary);
+}
+
+.uploadPreviewBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  gap: 0.85rem;
+}
+
+.uploadTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+.uploadTitleLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ifm-color-content-secondary);
+  white-space: nowrap;
+}
+
+.uploadTitleInput {
+  flex: 1;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.92rem;
+  font-family: inherit;
+  border: 1.5px solid var(--ifm-color-emphasis-300);
+  border-radius: 5px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+}
+
+.uploadTitleInput:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+}
+
+.uploadPreviewContent {
+  flex: 1;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  background: var(--ifm-background-surface-color);
+}
+
+.uploadPreviewContent h1,
+.uploadPreviewContent h2,
+.uploadPreviewContent h3 {
+  margin-top: 1.1em;
+  margin-bottom: 0.35em;
+}
+
+.uploadPreviewContent p { margin: 0.5em 0; }
+.uploadPreviewContent ul,
+.uploadPreviewContent ol { padding-left: 1.4em; margin: 0.5em 0; }
+
+.uploadPreviewFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 0.75rem 1.1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  flex-shrink: 0;
+}
