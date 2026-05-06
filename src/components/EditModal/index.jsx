@@ -134,6 +134,18 @@ function nodeToMd(node) {
       case 'pre': out += `\n\n\`\`\`\n${inner}\n\`\`\`\n\n`; break;
       case 'a': out += `[${inner}](${child.getAttribute('href') || ''})`; break;
       case 'img': out += `![${child.getAttribute('alt') || ''}](${child.getAttribute('src') || ''})`; break;
+      case 'iframe': {
+        const src = child.getAttribute('src') || '';
+        const w = child.getAttribute('width') || '560';
+        const h = child.getAttribute('height') || '315';
+        out += `\n\n<iframe width="${w}" height="${h}" src="${src}" frameborder="0" allowfullscreen style="max-width:100%"></iframe>\n\n`;
+        break;
+      }
+      case 'video': {
+        const src = child.getAttribute('src') || '';
+        out += `\n\n<video src="${src}" controls style="max-width:100%;height:auto"></video>\n\n`;
+        break;
+      }
       case 'p': out += `\n\n${inner}\n\n`; break;
       case 'br': out += '\n'; break;
       case 'blockquote': out += `\n\n> ${inner.trim().replace(/\n/g, '\n> ')}\n\n`; break;
@@ -238,6 +250,24 @@ export function WysiwygEditor({ initialHtml, onChange }) {
     e.target.value = '';
   }, [onChange]);
 
+  const handleVideoInsert = useCallback(() => {
+    const url = window.prompt('Enter video URL (YouTube, Vimeo, or direct .mp4/.webm):');
+    if (!url) return;
+    let html;
+    const ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    const vimeoMatch = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (ytMatch) {
+      html = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="max-width:100%"></iframe>`;
+    } else if (vimeoMatch) {
+      html = `<iframe width="560" height="315" src="https://player.vimeo.com/video/${vimeoMatch[1]}" frameborder="0" allowfullscreen style="max-width:100%"></iframe>`;
+    } else {
+      html = `<video src="${url}" controls style="max-width:100%;height:auto"></video>`;
+    }
+    editorRef.current?.focus();
+    document.execCommand('insertHTML', false, html);
+    onChange(editorRef.current?.innerHTML || '');
+  }, [onChange]);
+
   return (
     <div className={styles.editorWrap}>
       <div className={styles.toolbar}>
@@ -286,6 +316,7 @@ export function WysiwygEditor({ initialHtml, onChange }) {
             onChange={handleImageFile}
           />
         </label>
+        <ToolBtn title="Insert video (YouTube, Vimeo, or direct URL)" onAction={handleVideoInsert}>🎬</ToolBtn>
         <span className={styles.toolSep} />
         <label className={styles.colorLabel} title="Text color">
           <span className={styles.colorIcon}>A</span>
