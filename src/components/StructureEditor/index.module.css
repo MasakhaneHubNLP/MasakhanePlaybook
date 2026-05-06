@@ -360,6 +360,7 @@
   margin: 1px 6px;
   transition: background 0.1s;
   min-width: 0;
+  position: relative;
 }
 .treeRow:hover {
   background: var(--ifm-color-emphasis-100);
@@ -431,12 +432,18 @@
 }
 
 .nodeActions {
+  position: absolute;
+  right: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   gap: 2px;
   opacity: 0;
-  flex-shrink: 0;
   transition: opacity 0.12s;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 4px;
+  padding-left: 4px;
 }
 
 .actionBtn {
