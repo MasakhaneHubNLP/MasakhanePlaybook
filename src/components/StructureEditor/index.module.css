@@ -1514,3 +1514,43 @@
   cursor: pointer;
   user-select: none;
 }
+
+.batchList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.batchItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 6px;
+  background: var(--ifm-background-surface-color);
+}
+
+.batchItemName {
+  font-size: 0.75rem;
+  color: var(--ifm-color-content-secondary);
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+.batchRemoveBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.batchRemoveBtn:hover { color: var(--ifm-color-danger); }

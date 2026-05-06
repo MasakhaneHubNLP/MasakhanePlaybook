@@ -509,6 +509,7 @@ export function StructureEditorContent({ onClose }) {
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState('');
   const [uploadPreview, setUploadPreview] = useState(null); // { fileName, title, titleFromH1, markdown }
+  const [uploadBatch, setUploadBatch] = useState(null);    // [{ fileName, title, titleFromH1, markdown }]
   const [uploadPlacement, setUploadPlacement] = useState('page'); // 'page' | 'section' | 'subsection'
   const [uploadTargetSection, setUploadTargetSection] = useState('');
   const [uploadSectionName, setUploadSectionName] = useState('');
@@ -627,14 +628,9 @@ export function StructureEditorContent({ onClose }) {
 
   /* ── Document upload ──────────────────────────────────────────────────── */
 
-  async function handleUploadFile(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    e.target.value = '';
-
+  async function parseUploadFile(file) {
     const ext = file.name.split('.').pop().toLowerCase();
     let markdown = '';
-
     try {
       if (ext === 'docx') {
         const arrayBuffer = await file.arrayBuffer();
@@ -648,36 +644,43 @@ export function StructureEditorContent({ onClose }) {
         markdown = htmlToMd(result.value);
       } else {
         const text = await file.text();
-        if (ext === 'md' || ext === 'mdx') {
-          markdown = text;
-        } else if (ext === 'txt') {
-          markdown = text
-            .split(/\n{2,}/)
-            .map(p => p.trim())
-            .filter(Boolean)
-            .map(p => p.replace(/\n/g, ' '))
-            .join('\n\n');
-        } else if (ext === 'html' || ext === 'htm') {
-          markdown = htmlToMd(text);
-        } else {
-          return;
-        }
+        if (ext === 'md' || ext === 'mdx') markdown = text;
+        else if (ext === 'txt') markdown = text.split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => p.replace(/\n/g, ' ')).join('\n\n');
+        else if (ext === 'html' || ext === 'htm') markdown = htmlToMd(text);
+        else return null;
       }
     } catch (err) {
-      console.error('[upload] parse error:', err);
-      return;
+      console.error('[upload] parse error:', file.name, err);
+      return null;
     }
-
     const h1 = markdown.match(/^#\s+(.+)$/m);
     const titleFromH1 = !!h1;
-    const title = h1
-      ? h1[1].trim()
-      : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
+    const title = h1 ? h1[1].trim() : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
+    return { fileName: file.name, title, titleFromH1, markdown };
+  }
 
-    setUploadPreview({ fileName: file.name, title, titleFromH1, markdown });
-    setUploadPlacement('page');
-    setUploadTargetSection(tree.find(n => n.type === 'section')?.path ?? '');
-    setUploadSectionName('');
+  async function handleUploadFile(e) {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    e.target.value = '';
+
+    const defaultSection = tree.find(n => n.type === 'section')?.path ?? '';
+
+    if (files.length === 1) {
+      const item = await parseUploadFile(files[0]);
+      if (!item) return;
+      setUploadPreview(item);
+      setUploadPlacement('page');
+      setUploadTargetSection(defaultSection);
+      setUploadSectionName('');
+    } else {
+      const items = (await Promise.all(files.map(parseUploadFile))).filter(Boolean);
+      if (!items.length) return;
+      setUploadBatch(items);
+      setUploadPlacement('section');
+      setUploadTargetSection(defaultSection);
+      setUploadSectionName('');
+    }
   }
 
   function buildUploadContent(markdown, title, position) {
@@ -730,6 +733,47 @@ export function StructureEditorContent({ onClose }) {
     }
 
     setUploadPreview(null);
+    setUploadTargetSection('');
+    setUploadSectionName('');
+  }
+
+  function handleConfirmBatch() {
+    if (!uploadBatch?.length) return;
+
+    if (uploadPlacement === 'page') {
+      const sectionNode = flatSections(tree).find(n => n.path === uploadTargetSection);
+      if (!sectionNode) return;
+      uploadBatch.forEach((item, i) => {
+        const path = `${sectionNode.path}/${slugify(item.title)}.md`;
+        upsert(path, buildUploadContent(item.markdown, item.title, sectionNode.children.length + 1 + i));
+      });
+
+    } else if (uploadPlacement === 'section') {
+      const label = uploadSectionName.trim() || uploadBatch[0].title;
+      const slug = slugify(label);
+      const position = tree.filter(n => n.type === 'section')
+        .reduce((m, n) => Math.max(m, isFinite(n.position) ? n.position : 0), 0) + 1;
+      upsert(`docs/${slug}/_category_.json`, starterCategory(label, position));
+      uploadBatch.forEach((item, i) => {
+        upsert(`docs/${slug}/${slugify(item.title)}.md`, buildUploadContent(item.markdown, item.title, i + 1));
+      });
+      setExpanded(prev => new Set([...prev, `docs/${slug}`]));
+
+    } else if (uploadPlacement === 'subsection') {
+      const parentNode = flatSections(tree).find(n => n.path === uploadTargetSection);
+      if (!parentNode) return;
+      const label = uploadSectionName.trim() || uploadBatch[0].title;
+      const subSlug = slugify(label);
+      const subPath = `${parentNode.path}/${subSlug}`;
+      const subPos = parentNode.children.length + 1;
+      upsert(`${subPath}/_category_.json`, starterCategory(label, subPos));
+      uploadBatch.forEach((item, i) => {
+        upsert(`${subPath}/${slugify(item.title)}.md`, buildUploadContent(item.markdown, item.title, i + 1));
+      });
+      setExpanded(prev => new Set([...prev, parentNode.path, subPath]));
+    }
+
+    setUploadBatch(null);
     setUploadTargetSection('');
     setUploadSectionName('');
   }
@@ -1126,6 +1170,7 @@ export function StructureEditorContent({ onClose }) {
                       ref={uploadInputRef}
                       type="file"
                       accept=".md,.mdx,.txt,.html,.htm,.docx"
+                      multiple
                       style={{ display: 'none' }}
                       onChange={handleUploadFile}
                     />
@@ -1594,6 +1639,120 @@ export function StructureEditorContent({ onClose }) {
                     }
                     type="button"
                   >Add to Playbook →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Batch upload overlay */}
+        {uploadBatch && (
+          <div className={styles.uploadOverlay}>
+            <div className={styles.uploadPreviewPanel}>
+              <div className={styles.uploadPreviewHeader}>
+                <span className={styles.uploadPreviewFileName}>
+                  Upload {uploadBatch.length} documents
+                </span>
+                <button
+                  className={styles.closeBtn}
+                  onClick={() => setUploadBatch(null)}
+                  aria-label="Close"
+                  type="button"
+                >✕</button>
+              </div>
+              <div className={styles.uploadPreviewBody}>
+                <div className={styles.batchList}>
+                  {uploadBatch.map((item, idx) => (
+                    <div key={idx} className={styles.batchItem}>
+                      <span className={styles.batchItemName}>{item.fileName}</span>
+                      <input
+                        className={styles.uploadTitleInput}
+                        value={item.title}
+                        onChange={e => {
+                          const newTitle = e.target.value;
+                          setUploadBatch(prev => prev.map((it, i) => i !== idx ? it : {
+                            ...it,
+                            title: newTitle,
+                            markdown: it.titleFromH1
+                              ? it.markdown.replace(/^#\s+.+$/m, `# ${newTitle}`)
+                              : it.markdown,
+                          }));
+                        }}
+                      />
+                      <button
+                        className={styles.batchRemoveBtn}
+                        type="button"
+                        title="Remove from batch"
+                        onClick={() => setUploadBatch(prev => prev.filter((_, i) => i !== idx))}
+                      >✕</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.uploadPreviewFooter}>
+                <div className={styles.uploadPlacement}>
+                  <span className={styles.uploadTitleLabel}>Place as</span>
+                  <div className={styles.uploadRadioGroup}>
+                    {[
+                      { value: 'page',       label: 'Pages in existing section' },
+                      { value: 'section',    label: 'New top-level section' },
+                      { value: 'subsection', label: 'Sub-section under section' },
+                    ].map(({ value, label }) => (
+                      <label key={value} className={styles.uploadRadioLabel}>
+                        <input
+                          type="radio"
+                          name="batchPlacement"
+                          value={value}
+                          checked={uploadPlacement === value}
+                          onChange={() => setUploadPlacement(value)}
+                        />
+                        {label}
+                      </label>
+                    ))}
+                  </div>
+                  {(uploadPlacement === 'page' || uploadPlacement === 'subsection') && (
+                    <div className={styles.uploadSectionPicker}>
+                      <label className={styles.uploadTitleLabel}>
+                        {uploadPlacement === 'page' ? 'Section' : 'Parent section'}
+                      </label>
+                      <select
+                        className={styles.uploadSectionSelect}
+                        value={uploadTargetSection}
+                        onChange={e => setUploadTargetSection(e.target.value)}
+                      >
+                        {flatSections(tree).map(n => (
+                          <option key={n.path} value={n.path}>{n.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  {(uploadPlacement === 'section' || uploadPlacement === 'subsection') && (
+                    <div className={styles.uploadSectionPicker}>
+                      <label className={styles.uploadTitleLabel}>Section name</label>
+                      <input
+                        className={styles.uploadTitleInput}
+                        placeholder={uploadBatch[0]?.title}
+                        value={uploadSectionName}
+                        onChange={e => setUploadSectionName(e.target.value)}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className={styles.uploadPreviewActions}>
+                  <button
+                    className={styles.cancelBtn}
+                    onClick={() => setUploadBatch(null)}
+                    type="button"
+                  >Cancel</button>
+                  <button
+                    className={styles.submitBtn}
+                    onClick={handleConfirmBatch}
+                    disabled={
+                      uploadBatch.length === 0 ||
+                      ((uploadPlacement === 'page' || uploadPlacement === 'subsection') && !uploadTargetSection)
+                    }
+                    type="button"
+                  >Add {uploadBatch.length} pages →</button>
                 </div>
               </div>
             </div>
