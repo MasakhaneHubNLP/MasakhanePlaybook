@@ -508,8 +508,10 @@ export function StructureEditorContent({ onClose }) {
   const [translateKey, setTranslateKey] = useState(0);
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState('');
-  const [uploadPreview, setUploadPreview] = useState(null); // { fileName, title, markdown }
+  const [uploadPreview, setUploadPreview] = useState(null); // { fileName, title, titleFromH1, markdown }
+  const [uploadPlacement, setUploadPlacement] = useState('page'); // 'page' | 'section' | 'subsection'
   const [uploadTargetSection, setUploadTargetSection] = useState('');
+  const [uploadSectionName, setUploadSectionName] = useState('');
 
   function handleSplitterMouseDown(e) {
     e.preventDefault();
@@ -673,29 +675,63 @@ export function StructureEditorContent({ onClose }) {
       : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
 
     setUploadPreview({ fileName: file.name, title, titleFromH1, markdown });
+    setUploadPlacement('page');
     setUploadTargetSection(tree.find(n => n.type === 'section')?.path ?? '');
+    setUploadSectionName('');
+  }
+
+  function buildUploadContent(markdown, title, position) {
+    const { frontmatter } = splitFrontmatter(markdown);
+    if (!frontmatter) {
+      return `---\nsidebar_position: ${position}\nsidebar_label: ${JSON.stringify(title)}\n---\n\n${markdown}`;
+    }
+    let c = setFrontmatterField(markdown, 'sidebar_position', position);
+    c = setFrontmatterField(c, 'sidebar_label', JSON.stringify(title));
+    return c;
+  }
+
+  function flatSections(nodes) {
+    return nodes.flatMap(n =>
+      n.type === 'section' ? [n, ...flatSections(n.children)] : []
+    );
   }
 
   function handleConfirmUpload() {
-    const sectionNode = tree.find(n => n.path === uploadTargetSection);
-    if (!sectionNode || !uploadPreview) return;
+    if (!uploadPreview) return;
+    const { title, markdown } = uploadPreview;
+    const pageSlug = slugify(title);
 
-    const slug = slugify(uploadPreview.title);
-    const path = `${sectionNode.path}/${slug}.md`;
-    const position = sectionNode.children.length + 1;
+    if (uploadPlacement === 'page') {
+      const sectionNode = flatSections(tree).find(n => n.path === uploadTargetSection);
+      if (!sectionNode) return;
+      const path = `${sectionNode.path}/${pageSlug}.md`;
+      const position = sectionNode.children.length + 1;
+      upsert(path, buildUploadContent(markdown, title, position));
 
-    const { frontmatter } = splitFrontmatter(uploadPreview.markdown);
-    let content = uploadPreview.markdown;
-    if (!frontmatter) {
-      content = `---\nsidebar_position: ${position}\nsidebar_label: ${JSON.stringify(uploadPreview.title)}\n---\n\n${content}`;
-    } else {
-      content = setFrontmatterField(content, 'sidebar_position', position);
-      content = setFrontmatterField(content, 'sidebar_label', JSON.stringify(uploadPreview.title));
+    } else if (uploadPlacement === 'section') {
+      const label = uploadSectionName.trim() || title;
+      const slug = slugify(label);
+      const position = tree.filter(n => n.type === 'section')
+        .reduce((m, n) => Math.max(m, isFinite(n.position) ? n.position : 0), 0) + 1;
+      upsert(`docs/${slug}/_category_.json`, starterCategory(label, position));
+      upsert(`docs/${slug}/${pageSlug}.md`, buildUploadContent(markdown, title, 1));
+      setExpanded(prev => new Set([...prev, `docs/${slug}`]));
+
+    } else if (uploadPlacement === 'subsection') {
+      const parentNode = flatSections(tree).find(n => n.path === uploadTargetSection);
+      if (!parentNode) return;
+      const label = uploadSectionName.trim() || title;
+      const subSlug = slugify(label);
+      const subPath = `${parentNode.path}/${subSlug}`;
+      const subPos = parentNode.children.length + 1;
+      upsert(`${subPath}/_category_.json`, starterCategory(label, subPos));
+      upsert(`${subPath}/${pageSlug}.md`, buildUploadContent(markdown, title, 1));
+      setExpanded(prev => new Set([...prev, parentNode.path, subPath]));
     }
 
-    upsert(path, content);
     setUploadPreview(null);
     setUploadTargetSection('');
+    setUploadSectionName('');
   }
 
   /* ── Resize handlers ──────────────────────────────────────────────────── */
@@ -1493,18 +1529,57 @@ export function StructureEditorContent({ onClose }) {
                 />
               </div>
               <div className={styles.uploadPreviewFooter}>
-                <div className={styles.uploadSectionPicker}>
-                  <label className={styles.uploadTitleLabel}>Add to section</label>
-                  <select
-                    className={styles.uploadSectionSelect}
-                    value={uploadTargetSection}
-                    onChange={e => setUploadTargetSection(e.target.value)}
-                  >
-                    {tree.filter(n => n.type === 'section').map(n => (
-                      <option key={n.path} value={n.path}>{n.label}</option>
+                <div className={styles.uploadPlacement}>
+                  <span className={styles.uploadTitleLabel}>Place as</span>
+                  <div className={styles.uploadRadioGroup}>
+                    {[
+                      { value: 'page',       label: 'New page in section' },
+                      { value: 'section',    label: 'New top-level section' },
+                      { value: 'subsection', label: 'Sub-section under section' },
+                    ].map(({ value, label }) => (
+                      <label key={value} className={styles.uploadRadioLabel}>
+                        <input
+                          type="radio"
+                          name="uploadPlacement"
+                          value={value}
+                          checked={uploadPlacement === value}
+                          onChange={() => setUploadPlacement(value)}
+                        />
+                        {label}
+                      </label>
                     ))}
-                  </select>
+                  </div>
+
+                  {(uploadPlacement === 'page' || uploadPlacement === 'subsection') && (
+                    <div className={styles.uploadSectionPicker}>
+                      <label className={styles.uploadTitleLabel}>
+                        {uploadPlacement === 'page' ? 'Section' : 'Parent section'}
+                      </label>
+                      <select
+                        className={styles.uploadSectionSelect}
+                        value={uploadTargetSection}
+                        onChange={e => setUploadTargetSection(e.target.value)}
+                      >
+                        {flatSections(tree).map(n => (
+                          <option key={n.path} value={n.path}>{n.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {(uploadPlacement === 'section' || uploadPlacement === 'subsection') && (
+                    <div className={styles.uploadSectionPicker}>
+                      <label className={styles.uploadTitleLabel}>Section name</label>
+                      <input
+                        className={styles.uploadTitleInput}
+                        placeholder={uploadPreview?.title}
+                        value={uploadSectionName}
+                        onChange={e => setUploadSectionName(e.target.value)}
+                      />
+                    </div>
+                  )}
                 </div>
+
                 <div className={styles.uploadPreviewActions}>
                   <button
                     className={styles.cancelBtn}
@@ -1514,7 +1589,9 @@ export function StructureEditorContent({ onClose }) {
                   <button
                     className={styles.submitBtn}
                     onClick={handleConfirmUpload}
-                    disabled={!uploadTargetSection}
+                    disabled={
+                      (uploadPlacement === 'page' || uploadPlacement === 'subsection') && !uploadTargetSection
+                    }
                     type="button"
                   >Add to Playbook →</button>
                 </div>

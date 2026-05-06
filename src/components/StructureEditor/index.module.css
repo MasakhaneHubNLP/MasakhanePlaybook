@@ -1489,4 +1489,28 @@
 .uploadPreviewActions {
   display: flex;
   gap: 0.6rem;
+  align-self: flex-end;
+}
+
+.uploadPlacement {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.uploadRadioGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.uploadRadioLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  user-select: none;
 }
