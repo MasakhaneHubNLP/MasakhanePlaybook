@@ -1456,9 +1456,37 @@
 
 .uploadPreviewFooter {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.6rem;
   padding: 0.75rem 1.1rem;
   border-top: 1px solid var(--ifm-color-emphasis-200);
   flex-shrink: 0;
+}
+
+.uploadSectionPicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.uploadSectionSelect {
+  padding: 0.3rem 0.55rem;
+  font-size: 0.82rem;
+  font-family: inherit;
+  border: 1.5px solid var(--ifm-color-emphasis-300);
+  border-radius: 5px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+}
+
+.uploadSectionSelect:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+}
+
+.uploadPreviewActions {
+  display: flex;
+  gap: 0.6rem;
 }

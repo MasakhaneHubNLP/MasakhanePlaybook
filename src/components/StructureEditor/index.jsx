@@ -508,6 +508,7 @@ export function StructureEditorContent({ onClose }) {
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState('');
   const [uploadPreview, setUploadPreview] = useState(null); // { fileName, title, markdown }
+  const [uploadTargetSection, setUploadTargetSection] = useState('');
 
   function handleSplitterMouseDown(e) {
     e.preventDefault();
@@ -657,9 +658,32 @@ export function StructureEditorContent({ onClose }) {
         : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
 
       setUploadPreview({ fileName: file.name, title, markdown });
+      setUploadTargetSection(tree.find(n => n.type === 'section')?.path ?? '');
     };
 
     reader.readAsText(file);
+  }
+
+  function handleConfirmUpload() {
+    const sectionNode = tree.find(n => n.path === uploadTargetSection);
+    if (!sectionNode || !uploadPreview) return;
+
+    const slug = slugify(uploadPreview.title);
+    const path = `${sectionNode.path}/${slug}.md`;
+    const position = sectionNode.children.length + 1;
+
+    const { frontmatter } = splitFrontmatter(uploadPreview.markdown);
+    let content = uploadPreview.markdown;
+    if (!frontmatter) {
+      content = `---\nsidebar_position: ${position}\nsidebar_label: ${JSON.stringify(uploadPreview.title)}\n---\n\n${content}`;
+    } else {
+      content = setFrontmatterField(content, 'sidebar_position', position);
+      content = setFrontmatterField(content, 'sidebar_label', JSON.stringify(uploadPreview.title));
+    }
+
+    upsert(path, content);
+    setUploadPreview(null);
+    setUploadTargetSection('');
   }
 
   /* ── Resize handlers ──────────────────────────────────────────────────── */
@@ -1448,17 +1472,31 @@ export function StructureEditorContent({ onClose }) {
                 />
               </div>
               <div className={styles.uploadPreviewFooter}>
-                <button
-                  className={styles.cancelBtn}
-                  onClick={() => setUploadPreview(null)}
-                  type="button"
-                >Cancel</button>
-                <button
-                  className={styles.submitBtn}
-                  type="button"
-                  disabled
-                  title="Placement coming in next step"
-                >Add to Playbook →</button>
+                <div className={styles.uploadSectionPicker}>
+                  <label className={styles.uploadTitleLabel}>Add to section</label>
+                  <select
+                    className={styles.uploadSectionSelect}
+                    value={uploadTargetSection}
+                    onChange={e => setUploadTargetSection(e.target.value)}
+                  >
+                    {tree.filter(n => n.type === 'section').map(n => (
+                      <option key={n.path} value={n.path}>{n.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.uploadPreviewActions}>
+                  <button
+                    className={styles.cancelBtn}
+                    onClick={() => setUploadPreview(null)}
+                    type="button"
+                  >Cancel</button>
+                  <button
+                    className={styles.submitBtn}
+                    onClick={handleConfirmUpload}
+                    disabled={!uploadTargetSection}
+                    type="button"
+                  >Add to Playbook →</button>
+                </div>
               </div>
             </div>
           </div>
