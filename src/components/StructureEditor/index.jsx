@@ -628,11 +628,86 @@ export function StructureEditorContent({ onClose }) {
 
   /* ── Document upload ──────────────────────────────────────────────────── */
 
+  async function pdfToMarkdown(pdf) {
+    const pageItems = [];
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const page = await pdf.getPage(p);
+      const content = await page.getTextContent();
+      pageItems.push(content.items);
+    }
+
+    const allItems = pageItems.flat().filter(item => item.str?.trim());
+    const heights = allItems
+      .map(item => Math.abs(item.transform?.[3] || 0))
+      .filter(h => h > 2)
+      .sort((a, b) => a - b);
+    const bodySize = heights[Math.floor(heights.length * 0.4)] || 12;
+
+    const mdParts = [];
+    let paraBuffer = [];
+
+    function flushPara() {
+      if (paraBuffer.length) {
+        mdParts.push(paraBuffer.join(' '));
+        paraBuffer = [];
+      }
+    }
+
+    for (const items of pageItems) {
+      const sorted = [...items]
+        .filter(item => item.str?.trim())
+        .sort((a, b) => {
+          const ay = a.transform?.[5] ?? 0;
+          const by = b.transform?.[5] ?? 0;
+          return by - ay || (a.transform?.[4] ?? 0) - (b.transform?.[4] ?? 0);
+        });
+
+      let lineY = null;
+      let lineItems = [];
+      let lineMaxH = 0;
+
+      function flushLine() {
+        if (!lineItems.length) return;
+        const text = lineItems.map(i => i.str).join(' ').replace(/\s+/g, ' ').trim();
+        if (!text) return;
+        const ratio = lineMaxH / bodySize;
+        if (ratio >= 1.8) { flushPara(); mdParts.push(`# ${text}`); }
+        else if (ratio >= 1.4) { flushPara(); mdParts.push(`## ${text}`); }
+        else if (ratio >= 1.15) { flushPara(); mdParts.push(`### ${text}`); }
+        else paraBuffer.push(text);
+        lineItems = [];
+        lineMaxH = 0;
+      }
+
+      for (const item of sorted) {
+        const y = item.transform?.[5] ?? 0;
+        const h = Math.abs(item.transform?.[3] ?? bodySize);
+        if (lineY === null || Math.abs(y - lineY) > bodySize * 0.5) {
+          flushLine();
+          lineY = y;
+        }
+        lineItems.push(item);
+        lineMaxH = Math.max(lineMaxH, h);
+      }
+      flushLine();
+      flushPara();
+    }
+
+    return mdParts.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+
   async function parseUploadFile(file) {
     const ext = file.name.split('.').pop().toLowerCase();
     let markdown = '';
     try {
-      if (ext === 'docx') {
+      if (ext === 'pdf') {
+        const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf');
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        markdown = await pdfToMarkdown(pdf);
+      } else if (ext === 'docx') {
         const arrayBuffer = await file.arrayBuffer();
         const result = await mammoth.convertToHtml({ arrayBuffer }, {
           convertImage: mammoth.images.imgElement(image =>
@@ -1169,7 +1244,7 @@ export function StructureEditorContent({ onClose }) {
                     <input
                       ref={uploadInputRef}
                       type="file"
-                      accept=".md,.mdx,.txt,.html,.htm,.docx"
+                      accept=".md,.mdx,.txt,.html,.htm,.docx,.pdf"
                       multiple
                       style={{ display: 'none' }}
                       onChange={handleUploadFile}

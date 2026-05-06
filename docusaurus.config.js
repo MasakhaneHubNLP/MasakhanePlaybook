@@ -549,4 +549,16 @@ const config = {
     }),
 };
 
+// Ignore pdfjs-dist's optional Node.js canvas dependency in the browser build
+config.plugins.push(function webpackCanvasFallback() {
+  return {
+    name: 'webpack-canvas-fallback',
+    configureWebpack() {
+      return {
+        resolve: { fallback: { canvas: false } },
+      };
+    },
+  };
+});
+
 export default config;
