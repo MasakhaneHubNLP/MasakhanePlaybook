@@ -5,6 +5,11 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
+    "start:ha": "docusaurus start --locale ha",
+    "start:am": "docusaurus start --locale am",
+    "start:sw": "docusaurus start --locale sw",
+    "start:fr": "docusaurus start --locale fr",
+    "start:pt": "docusaurus start --locale pt",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
