@@ -1102,11 +1102,35 @@ export function StructureEditorContent({ onClose }) {
     upsert(translationFilePath(rightPanel.path, translationLang), (rightPanel.frontmatter || '') + md + '\n');
   }
 
-  function openGoogleTranslate() {
+  async function gtTranslateBlock(text, tgtLang) {
+    const res = await fetch(
+      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${tgtLang}&dt=t&q=${encodeURIComponent(text)}`
+    );
+    if (!res.ok) throw new Error(`Google Translate API error: ${res.status}`);
+    const data = await res.json();
+    return (data[0] || []).map(item => item[0]).join('');
+  }
+
+  async function handleGoogleTranslate() {
     if (!rightPanel) return;
-    const md = htmlToMd(rightPanel.htmlContent);
-    const url = `https://translate.google.com/?sl=en&tl=${translationLang}&text=${encodeURIComponent(md.slice(0, 5000))}&op=translate`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    setTranslating(true);
+    setTranslateError('');
+    try {
+      const div = document.createElement('div');
+      div.innerHTML = rightPanel.htmlContent;
+      const blocks = Array.from(div.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, td, th'));
+      for (const block of blocks) {
+        const text = block.textContent.trim();
+        if (text.length < 3) continue;
+        block.textContent = await gtTranslateBlock(text, translationLang);
+      }
+      setTranslationHtml(div.innerHTML);
+      setTranslateKey(k => k + 1);
+    } catch (e) {
+      setTranslateError(e.message || 'Google Translate failed');
+    } finally {
+      setTranslating(false);
+    }
   }
 
   async function handleAutoTranslate() {
@@ -1632,10 +1656,11 @@ export function StructureEditorContent({ onClose }) {
                             <button
                               className={styles.translateOpenBtn}
                               type="button"
-                              onClick={openGoogleTranslate}
-                              title="Opens the English content in Google Translate — copy the result and paste on the right"
+                              onClick={handleGoogleTranslate}
+                              disabled={translating}
+                              title="Translate using Google Translate API"
                             >
-                              Google Translate ↗
+                              {translating ? '⏳ Translating…' : '🌐 Google Translate'}
                             </button>
                           </div>
                           {translateError && (
