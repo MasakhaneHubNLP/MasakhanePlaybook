@@ -194,6 +194,26 @@
 }
 .addSectionBtn:hover { opacity: 0.88; }
 
+.uploadBtn {
+  padding: 0.24rem 0.5rem;
+  background: none;
+  color: var(--ifm-color-primary);
+  border: 1.5px solid var(--ifm-color-primary);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+.uploadBtn:hover:not(:disabled) {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+.uploadBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .treeScroll {
   flex: 1;
   overflow-y: auto;

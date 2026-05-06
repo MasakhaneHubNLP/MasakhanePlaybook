@@ -999,6 +999,14 @@ export function StructureEditorContent({ onClose }) {
                       + Section
                     </button>
                     <button
+                      className={styles.uploadBtn}
+                      disabled={!auth}
+                      title={!auth ? 'Sign in with GitHub to upload a document' : 'Upload document'}
+                      type="button"
+                    >
+                      📤
+                    </button>
+                    <button
                       className={styles.hideStructureBtn}
                       onClick={() => setLeftHidden(true)}
                       title="Hide structure panel"
