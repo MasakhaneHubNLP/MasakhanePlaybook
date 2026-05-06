@@ -509,6 +509,7 @@ export function StructureEditorContent({ onClose }) {
 
   // Resizable dialog, panel splitter, and fullscreen
   const [modalSize, setModalSize] = useState({ width: 1120, height: 780 });
+  const [modalPos,  setModalPos]  = useState(null); // { x, y } | null = centered
   const [leftWidth, setLeftWidth] = useState(320);
   const [leftHidden, setLeftHidden] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
@@ -545,6 +546,32 @@ export function StructureEditorContent({ onClose }) {
     }
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
+  }
+
+  function handleHeaderMouseDown(e) {
+    if (fullscreen) return;
+    if (e.target.closest('button')) return;
+    e.preventDefault();
+    const startLeft = modalPos ? modalPos.x : (window.innerWidth  - modalSize.width)  / 2;
+    const startTop  = modalPos ? modalPos.y : (window.innerHeight - modalSize.height) / 2;
+    const offsetX   = e.clientX - startLeft;
+    const offsetY   = e.clientY - startTop;
+    document.body.style.cursor     = 'move';
+    document.body.style.userSelect = 'none';
+    function onMove(ev) {
+      setModalPos({
+        x: Math.max(0, Math.min(window.innerWidth  - modalSize.width,  ev.clientX - offsetX)),
+        y: Math.max(0, Math.min(window.innerHeight - modalSize.height, ev.clientY - offsetY)),
+      });
+    }
+    function onUp() {
+      document.body.style.cursor     = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
   }
 
   function handleDialogResizeMouseDown(e) {
@@ -1262,10 +1289,14 @@ export function StructureEditorContent({ onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label="Contribute to the Playbook"
-        style={fullscreen ? undefined : { width: modalSize.width, height: modalSize.height }}
+        style={fullscreen ? undefined : {
+          width: modalSize.width,
+          height: modalSize.height,
+          ...(modalPos ? { position: 'absolute', left: modalPos.x, top: modalPos.y } : {}),
+        }}
       >
-        {/* Header */}
-        <div className={styles.modalHeader}>
+        {/* Header — drag to reposition */}
+        <div className={styles.modalHeader} onMouseDown={handleHeaderMouseDown}>
           <div className={styles.headerLeft}>
             <span className={styles.headerIcon}>✦</span>
             <h2 className={styles.modalTitle}>Contribute to the Playbook</h2>

@@ -39,6 +39,8 @@
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
   flex-shrink: 0;
   background: var(--ifm-color-emphasis-100);
+  cursor: move;
+  user-select: none;
 }
 
 .headerLeft {
