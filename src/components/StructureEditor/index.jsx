@@ -636,7 +636,13 @@ export function StructureEditorContent({ onClose }) {
     try {
       if (ext === 'docx') {
         const arrayBuffer = await file.arrayBuffer();
-        const result = await mammoth.convertToHtml({ arrayBuffer });
+        const result = await mammoth.convertToHtml({ arrayBuffer }, {
+          convertImage: mammoth.images.imgElement(image =>
+            image.read('base64').then(b64 => ({
+              src: `data:${image.contentType};base64,${b64}`,
+            }))
+          ),
+        });
         markdown = htmlToMd(result.value);
       } else {
         const text = await file.text();
