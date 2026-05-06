@@ -11,6 +11,7 @@ import {
   startDeviceFlow,
   pollDeviceFlow,
 } from '@site/src/utils/github';
+import mammoth from 'mammoth';
 import { WysiwygEditor, mdToHtml, htmlToMd } from '@site/src/components/EditModal';
 import styles from './index.module.css';
 
@@ -624,44 +625,48 @@ export function StructureEditorContent({ onClose }) {
 
   /* ── Document upload ──────────────────────────────────────────────────── */
 
-  function handleUploadFile(e) {
+  async function handleUploadFile(e) {
     const file = e.target.files?.[0];
     if (!file) return;
     e.target.value = '';
 
     const ext = file.name.split('.').pop().toLowerCase();
-    const reader = new FileReader();
+    let markdown = '';
 
-    reader.onload = (ev) => {
-      const raw = ev.target.result;
-      let markdown = '';
-
-      if (ext === 'md' || ext === 'mdx') {
-        markdown = raw;
-      } else if (ext === 'txt') {
-        markdown = raw
-          .split(/\n{2,}/)
-          .map(para => para.trim())
-          .filter(Boolean)
-          .map(para => para.replace(/\n/g, ' '))
-          .join('\n\n');
-      } else if (ext === 'html' || ext === 'htm') {
-        markdown = htmlToMd(raw);
+    try {
+      if (ext === 'docx') {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.convertToHtml({ arrayBuffer });
+        markdown = htmlToMd(result.value);
       } else {
-        console.warn('[upload] unsupported format:', ext);
-        return;
+        const text = await file.text();
+        if (ext === 'md' || ext === 'mdx') {
+          markdown = text;
+        } else if (ext === 'txt') {
+          markdown = text
+            .split(/\n{2,}/)
+            .map(p => p.trim())
+            .filter(Boolean)
+            .map(p => p.replace(/\n/g, ' '))
+            .join('\n\n');
+        } else if (ext === 'html' || ext === 'htm') {
+          markdown = htmlToMd(text);
+        } else {
+          return;
+        }
       }
+    } catch (err) {
+      console.error('[upload] parse error:', err);
+      return;
+    }
 
-      const h1 = markdown.match(/^#\s+(.+)$/m);
-      const title = h1
-        ? h1[1].trim()
-        : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
+    const h1 = markdown.match(/^#\s+(.+)$/m);
+    const title = h1
+      ? h1[1].trim()
+      : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
 
-      setUploadPreview({ fileName: file.name, title, markdown });
-      setUploadTargetSection(tree.find(n => n.type === 'section')?.path ?? '');
-    };
-
-    reader.readAsText(file);
+    setUploadPreview({ fileName: file.name, title, markdown });
+    setUploadTargetSection(tree.find(n => n.type === 'section')?.path ?? '');
   }
 
   function handleConfirmUpload() {
@@ -1077,7 +1082,7 @@ export function StructureEditorContent({ onClose }) {
                     <input
                       ref={uploadInputRef}
                       type="file"
-                      accept=".md,.mdx,.txt,.html,.htm"
+                      accept=".md,.mdx,.txt,.html,.htm,.docx"
                       style={{ display: 'none' }}
                       onChange={handleUploadFile}
                     />
