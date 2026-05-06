@@ -154,6 +154,11 @@ const SUPPORTERS = [
     logo: '/img/supporters/hausanlp.svg',
     url: 'https://hausanlp.org/',
   },
+  {
+    name: 'EthioNLP',
+    logo: '/img/supporters/EthioNLP_logo.png',
+    url: 'https://ethionlp.github.io/',
+  },
 ];
 
 function SupportedBySection() {
