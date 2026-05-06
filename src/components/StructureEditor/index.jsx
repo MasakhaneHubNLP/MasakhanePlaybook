@@ -667,11 +667,12 @@ export function StructureEditorContent({ onClose }) {
     }
 
     const h1 = markdown.match(/^#\s+(.+)$/m);
+    const titleFromH1 = !!h1;
     const title = h1
       ? h1[1].trim()
       : file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
 
-    setUploadPreview({ fileName: file.name, title, markdown });
+    setUploadPreview({ fileName: file.name, title, titleFromH1, markdown });
     setUploadTargetSection(tree.find(n => n.type === 'section')?.path ?? '');
   }
 
@@ -1474,7 +1475,16 @@ export function StructureEditorContent({ onClose }) {
                   <input
                     className={styles.uploadTitleInput}
                     value={uploadPreview.title}
-                    onChange={e => setUploadPreview(prev => ({ ...prev, title: e.target.value }))}
+                    onChange={e => {
+                      const newTitle = e.target.value;
+                      setUploadPreview(prev => ({
+                        ...prev,
+                        title: newTitle,
+                        markdown: prev.titleFromH1
+                          ? prev.markdown.replace(/^#\s+.+$/m, `# ${newTitle}`)
+                          : prev.markdown,
+                      }));
+                    }}
                   />
                 </div>
                 <div
