@@ -596,6 +596,7 @@ export function StructureEditorContent({ onClose }) {
 
   // Retry tree load when user signs in (clears a previous 403 rate-limit error)
   const prevAuthToken = useRef(null);
+  const uploadInputRef = useRef(null);
   useEffect(() => {
     if (auth?.token && auth.token !== prevAuthToken.current && error?.includes('rate limit')) {
       prevAuthToken.current = auth.token;
@@ -617,6 +618,43 @@ export function StructureEditorContent({ onClose }) {
   function handleDisconnect() {
     setAuth(null);
     localStorage.removeItem(AUTH_KEY);
+  }
+
+  /* ── Document upload ──────────────────────────────────────────────────── */
+
+  function handleUploadFile(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+
+    const ext = file.name.split('.').pop().toLowerCase();
+    const reader = new FileReader();
+
+    reader.onload = (ev) => {
+      const raw = ev.target.result;
+      let markdown = '';
+
+      if (ext === 'md' || ext === 'mdx') {
+        markdown = raw;
+      } else if (ext === 'txt') {
+        markdown = raw
+          .split(/\n{2,}/)
+          .map(para => para.trim())
+          .filter(Boolean)
+          .map(para => para.replace(/\n/g, ' '))
+          .join('\n\n');
+      } else if (ext === 'html' || ext === 'htm') {
+        markdown = htmlToMd(raw);
+      } else {
+        console.warn('[upload] unsupported format:', ext);
+        return;
+      }
+
+      console.log('[upload] file:', file.name, '| format:', ext, '| chars:', markdown.length);
+      console.log('[upload] markdown preview:\n', markdown.slice(0, 500));
+    };
+
+    reader.readAsText(file);
   }
 
   /* ── Resize handlers ──────────────────────────────────────────────────── */
@@ -1003,9 +1041,17 @@ export function StructureEditorContent({ onClose }) {
                       disabled={!auth}
                       title={!auth ? 'Sign in with GitHub to upload a document' : 'Upload document'}
                       type="button"
+                      onClick={() => uploadInputRef.current?.click()}
                     >
                       📤
                     </button>
+                    <input
+                      ref={uploadInputRef}
+                      type="file"
+                      accept=".md,.mdx,.txt,.html,.htm"
+                      style={{ display: 'none' }}
+                      onChange={handleUploadFile}
+                    />
                     <button
                       className={styles.hideStructureBtn}
                       onClick={() => setLeftHidden(true)}
