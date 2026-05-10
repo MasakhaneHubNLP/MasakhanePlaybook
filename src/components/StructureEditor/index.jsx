@@ -13,6 +13,7 @@ import {
 } from '@site/src/utils/github';
 import mammoth from 'mammoth';
 import { WysiwygEditor, mdToHtml, htmlToMd } from '@site/src/components/EditModal';
+import { splitFrontmatter, slugify, setFrontmatterField } from '@site/src/utils/markdown';
 import styles from './index.module.css';
 
 const AUTH_KEY = 'masakhane_pb_auth';
@@ -51,29 +52,6 @@ async function translateHtmlContent(html, tgtLang, proxyUrl) {
   return div.innerHTML;
 }
 
-function splitFrontmatter(md) {
-  const m = String(md).match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  return m ? { frontmatter: `---\n${m[1]}\n---\n`, content: m[2] } : { frontmatter: '', content: md };
-}
-
-/* ── Helpers ─────────────────────────────────────────────────────────── */
-
-function slugify(str) {
-  return String(str).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50);
-}
-
-function setFrontmatterField(content, key, value) {
-  const m = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (m) {
-    const raw = m[1];
-    const body = m[2];
-    const newRaw = raw.match(new RegExp(`^${key}:`, 'm'))
-      ? raw.replace(new RegExp(`^${key}:.*`, 'm'), `${key}: ${value}`)
-      : `${raw}\n${key}: ${value}`;
-    return `---\n${newRaw}\n---\n${body}`;
-  }
-  return `---\n${key}: ${value}\n---\n\n${content}`;
-}
 
 function starterPage(title, position) {
   return `---\nsidebar_position: ${position}\n---\n\n# ${title}\n\nAdd content here.\n`;

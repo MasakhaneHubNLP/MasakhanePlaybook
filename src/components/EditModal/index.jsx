@@ -2,28 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { fetchRawFile, createEditPR } from '@site/src/utils/github';
+import { splitFrontmatter, inlineMd } from '@site/src/utils/markdown';
 import styles from './index.module.css';
-
-/* ── Markdown ↔ HTML helpers ─────────────────────────────────────────── */
-
-function splitFrontmatter(md) {
-  const m = md.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  return m
-    ? { frontmatter: `---\n${m[1]}\n---\n`, content: m[2] }
-    : { frontmatter: '', content: md };
-}
-
-function inlineMd(text) {
-  return text
-    .replace(/`([^`\n]+)`/g, '<code>$1</code>')
-    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/__(.+?)__/g, '<strong>$1</strong>')
-    .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
-    .replace(/_([^_\n]+)_/g, '<em>$1</em>')
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" style="max-width:100%;height:auto">')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-}
 
 export function mdToHtml(md) {
   const lines = md.split('\n');

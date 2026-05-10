@@ -1,3 +1,5 @@
+import { slugify } from './markdown';
+
 const OWNER = 'MasakhaneHubNLP';
 const REPO = 'MasakhanePlaybook';
 const BASE_BRANCH = 'main';
@@ -10,14 +12,6 @@ function encodeBase64(str) {
       String.fromCharCode(parseInt(hex, 16))
     )
   );
-}
-
-function slugify(str) {
-  return String(str)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 50);
 }
 
 async function ghFetch(path, token, opts = {}) {
