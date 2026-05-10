@@ -13,6 +13,7 @@ import { splitFrontmatter, slugify, setFrontmatterField, mdToHtml, htmlToMd } fr
 import { WysiwygEditor } from '@site/src/components/WysiwygEditor';
 import { AuthPanel } from './AuthPanel';
 import { InlineForm, TreeRow } from './TreeRow';
+import { useLocalStorage } from '@site/src/hooks/useLocalStorage';
 import styles from './index.module.css';
 
 const AUTH_KEY = 'masakhane_pb_auth';
@@ -78,13 +79,7 @@ export function StructureEditorContent({ onClose }) {
     : '';
 
   // Auth: read synchronously from localStorage so the first tree fetch can use the token
-  const [auth, setAuth] = useState(() => {
-    if (typeof window === 'undefined') return null;
-    try {
-      const raw = localStorage.getItem(AUTH_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch { return null; }
-  });
+  const [auth, setAuth] = useLocalStorage(AUTH_KEY, null);
 
   // Tree data
   const [gitFiles, setGitFiles] = useState([]);
@@ -92,7 +87,7 @@ export function StructureEditorContent({ onClose }) {
   const [pageCache, setPageCache] = useState({});
 
   // Changes: persisted in localStorage
-  const [changes, setChanges] = useState({});
+  const [changes, setChanges] = useLocalStorage(CHANGES_KEY, {});
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -197,24 +192,6 @@ export function StructureEditorContent({ onClose }) {
 
   const tree = useMemo(() => computeDocsTree(gitFiles, catData, changes), [gitFiles, catData, changes]);
 
-  /* ── Bootstrap: load pending changes from localStorage ── */
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(CHANGES_KEY);
-      if (raw) setChanges(JSON.parse(raw));
-    } catch {}
-  }, []);
-
-  // Persist changes to localStorage whenever they change
-  useEffect(() => {
-    if (Object.keys(changes).length === 0) {
-      localStorage.removeItem(CHANGES_KEY);
-    } else {
-      localStorage.setItem(CHANGES_KEY, JSON.stringify(changes));
-    }
-  }, [changes]);
-
   // Fetch tree — use auth token when available (5000 req/hr vs 60/hr unauthenticated)
   const loadTree = useCallback((token) => {
     setLoading(true);
@@ -253,14 +230,11 @@ export function StructureEditorContent({ onClose }) {
 
   async function handleConnect(token) {
     const info = await verifyGitHubToken(token);
-    const authData = { token, ...info };
-    setAuth(authData);
-    localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
+    setAuth({ token, ...info });
   }
 
   function handleDisconnect() {
     setAuth(null);
-    localStorage.removeItem(AUTH_KEY);
   }
 
   /* ── Document upload ──────────────────────────────────────────────────── */
