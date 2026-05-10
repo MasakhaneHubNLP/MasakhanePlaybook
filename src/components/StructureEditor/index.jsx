@@ -9,8 +9,8 @@ import {
   verifyGitHubToken,
 } from '@site/src/utils/github';
 import mammoth from 'mammoth';
-import { WysiwygEditor, mdToHtml, htmlToMd } from '@site/src/components/EditModal';
-import { splitFrontmatter, slugify, setFrontmatterField } from '@site/src/utils/markdown';
+import { splitFrontmatter, slugify, setFrontmatterField, mdToHtml, htmlToMd } from '@site/src/utils/markdown';
+import { WysiwygEditor } from '@site/src/components/WysiwygEditor';
 import { AuthPanel } from './AuthPanel';
 import { InlineForm, TreeRow } from './TreeRow';
 import styles from './index.module.css';
