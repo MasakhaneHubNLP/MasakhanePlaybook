@@ -9,6 +9,56 @@
     <icon>https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/img/favicon.ico</icon>
     <rights>Copyright © 2026 Masakhane.</rights>
     <entry>
+        <title type="html"><![CDATA[The Rise of AfricaNLP: 20 Years of Progress in One Paper]]></title>
+        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey</id>
+        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey"/>
+        <updated>2026-05-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A new bibliometric survey maps two decades of African NLP research — 2.2K papers, 4.9K authors, and clear signals of where the field is heading.]]></summary>
+        <content type="html"><![CDATA[<p>When you spend years working inside a research community, you accumulate a sense of how it's changing — but you rarely get to see the change quantified. A new survey we published on arXiv tries to do exactly that for <strong>African NLP</strong>: map two decades of contributions, contributors, and impact, end to end.</p>
+<p><strong>Read the paper:</strong> <a href="https://arxiv.org/abs/2509.25477" target="_blank" rel="noopener noreferrer" class="">The Rise of AfricaNLP: A Survey of Contributions, Contributors, Community Impact, and Bibliometric Analysis</a></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-we-did">What we did<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#what-we-did" class="hash-link" aria-label="Link direto para What we did" title="Link direto para What we did" translate="no">​</a></h2>
+<p>We assembled and analysed a dataset of <strong>2.2K NLP papers</strong>, <strong>4.9K contributing authors</strong>, and <strong>7.8K human-annotated contribution sentences</strong> spanning <strong>2005–2025</strong>. The goal: examine how the field has grown across:</p>
+<ul>
+<li class=""><strong>Publications and venues</strong> — where AfricaNLP work appears, and how that's shifted</li>
+<li class=""><strong>NLP topics and tasks</strong> — what's being worked on, and what's missing</li>
+<li class=""><strong>Contributors</strong> — authors, institutions, geographic distribution</li>
+<li class=""><strong>Funding and community structures</strong> — who funds what, who collaborates with whom</li>
+</ul>
+<p>We also built a <strong>research explorer tool</strong> so the community can query the dataset and track emerging trends without re-doing the bibliometric work.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-it-matters">Why it matters<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#why-it-matters" class="hash-link" aria-label="Link direto para Why it matters" title="Link direto para Why it matters" translate="no">​</a></h2>
+<p>A field's reputation is often built on a handful of headline projects. The reality is broader and messier — and the only way to see it is to count carefully.</p>
+<p>A few things stood out to us in the data (the paper has the full picture):</p>
+<ul>
+<li class="">The growth in AfricaNLP publications over the last five years is <strong>non-linear</strong>, but the contribution is unevenly distributed — both across languages and across institutions. Closing those gaps is the field's next decade of work.</li>
+<li class="">Community-led collaborations like <strong>Masakhane</strong>, <strong>HausaNLP</strong>, <strong>EthioNLP</strong>, and others account for a meaningful share of the recent growth, especially for low-resource languages that don't have institutional NLP labs of their own.</li>
+<li class=""><strong>Annotation, dataset construction, and evaluation</strong> remain disproportionately under-cited relative to the engineering effort they require — a structural issue this survey hopes to nudge.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-this-is-on-the-masakhane-playbook-blog">Why this is on the Masakhane Playbook blog<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#why-this-is-on-the-masakhane-playbook-blog" class="hash-link" aria-label="Link direto para Why this is on the Masakhane Playbook blog" title="Link direto para Why this is on the Masakhane Playbook blog" translate="no">​</a></h2>
+<p>Several of the survey's authors — including the lead authors and reviewers — are active in the Masakhane community. The work intersects directly with what the <strong>Playbook</strong> documents: how annotation, dataset, and benchmark contributions accumulate over time and shape what's possible.</p>
+<p>If you're choosing what to work on next, or framing a grant or a thesis around African-language NLP, we'd encourage you to read the survey, query the explorer, and write back to us with what you find missing. The dataset is open; gaps are an invitation, not a complaint.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="read--contribute">Read &amp; contribute<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#read--contribute" class="hash-link" aria-label="Link direto para Read &amp; contribute" title="Link direto para Read &amp; contribute" translate="no">​</a></h2>
+<ul>
+<li class="">📄 <strong>Paper:</strong> <a href="https://arxiv.org/abs/2509.25477" target="_blank" rel="noopener noreferrer" class="">arxiv.org/abs/2509.25477</a></li>
+<li class="">🤝 <strong>Discuss the findings:</strong> join <code>#research</code> in <a href="https://discord.gg/ChNPHV2PPS" target="_blank" rel="noopener noreferrer" class="">our Discord</a></li>
+<li class="">✏️ <strong>Suggest corrections to the dataset:</strong> the explorer tool accepts community input — see the paper for details</li>
+</ul>
+<p>The next two decades of AfricaNLP will look very different if we're deliberate about how we build infrastructure, fund work, and credit contribution. This survey is one snapshot — we'd like to keep taking them.</p>
+<hr>
+<p><strong>Cite the survey:</strong></p>
+<blockquote>
+<p>Belay, T. D., Hussen, K. Y., Imam, S. H., Ahmad, I. S., Inuwa-Dutse, I., Haile, A. B., Sidorov, G., Vazquez, E. R., Ameer, I., Abdulmumin, I., Gwadabe, T., Marivate, V., Yimam, S. M., &amp; Muhammad, S. H. (2026). <em>The Rise of AfricaNLP: A Survey of Contributions, Contributors, Community Impact, and Bibliometric Analysis.</em> arXiv:2509.25477.</p>
+</blockquote>]]></content>
+        <author>
+            <name>Shamsuddeen Hassan Muhammad</name>
+            <uri>https://github.com/shmuhammadd</uri>
+        </author>
+        <category label="research" term="research"/>
+        <category label="africanlp" term="africanlp"/>
+        <category label="survey" term="survey"/>
+        <category label="publication" term="publication"/>
+        <category label="bibliometrics" term="bibliometrics"/>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[We're looking for testers — try MasakhaneTool early]]></title>
         <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/call-for-masakhane-tool-testers</id>
         <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/call-for-masakhane-tool-testers"/>
@@ -73,56 +123,6 @@
         <category label="tool" term="tool"/>
         <category label="beta" term="beta"/>
         <category label="masakhane-tool" term="masakhane-tool"/>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Rise of AfricaNLP: 20 Years of Progress in One Paper]]></title>
-        <id>https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey</id>
-        <link href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey"/>
-        <updated>2026-05-04T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[A new bibliometric survey maps two decades of African NLP research — 2.2K papers, 4.9K authors, and clear signals of where the field is heading.]]></summary>
-        <content type="html"><![CDATA[<p>When you spend years working inside a research community, you accumulate a sense of how it's changing — but you rarely get to see the change quantified. A new survey we published on arXiv tries to do exactly that for <strong>African NLP</strong>: map two decades of contributions, contributors, and impact, end to end.</p>
-<p><strong>Read the paper:</strong> <a href="https://arxiv.org/abs/2509.25477" target="_blank" rel="noopener noreferrer" class="">The Rise of AfricaNLP: A Survey of Contributions, Contributors, Community Impact, and Bibliometric Analysis</a></p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-we-did">What we did<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#what-we-did" class="hash-link" aria-label="Link direto para What we did" title="Link direto para What we did" translate="no">​</a></h2>
-<p>We assembled and analysed a dataset of <strong>2.2K NLP papers</strong>, <strong>4.9K contributing authors</strong>, and <strong>7.8K human-annotated contribution sentences</strong> spanning <strong>2005–2025</strong>. The goal: examine how the field has grown across:</p>
-<ul>
-<li class=""><strong>Publications and venues</strong> — where AfricaNLP work appears, and how that's shifted</li>
-<li class=""><strong>NLP topics and tasks</strong> — what's being worked on, and what's missing</li>
-<li class=""><strong>Contributors</strong> — authors, institutions, geographic distribution</li>
-<li class=""><strong>Funding and community structures</strong> — who funds what, who collaborates with whom</li>
-</ul>
-<p>We also built a <strong>research explorer tool</strong> so the community can query the dataset and track emerging trends without re-doing the bibliometric work.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-it-matters">Why it matters<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#why-it-matters" class="hash-link" aria-label="Link direto para Why it matters" title="Link direto para Why it matters" translate="no">​</a></h2>
-<p>A field's reputation is often built on a handful of headline projects. The reality is broader and messier — and the only way to see it is to count carefully.</p>
-<p>A few things stood out to us in the data (the paper has the full picture):</p>
-<ul>
-<li class="">The growth in AfricaNLP publications over the last five years is <strong>non-linear</strong>, but the contribution is unevenly distributed — both across languages and across institutions. Closing those gaps is the field's next decade of work.</li>
-<li class="">Community-led collaborations like <strong>Masakhane</strong>, <strong>HausaNLP</strong>, <strong>EthioNLP</strong>, and others account for a meaningful share of the recent growth, especially for low-resource languages that don't have institutional NLP labs of their own.</li>
-<li class=""><strong>Annotation, dataset construction, and evaluation</strong> remain disproportionately under-cited relative to the engineering effort they require — a structural issue this survey hopes to nudge.</li>
-</ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-this-is-on-the-masakhane-playbook-blog">Why this is on the Masakhane Playbook blog<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#why-this-is-on-the-masakhane-playbook-blog" class="hash-link" aria-label="Link direto para Why this is on the Masakhane Playbook blog" title="Link direto para Why this is on the Masakhane Playbook blog" translate="no">​</a></h2>
-<p>Several of the survey's authors — including the lead authors and reviewers — are active in the Masakhane community. The work intersects directly with what the <strong>Playbook</strong> documents: how annotation, dataset, and benchmark contributions accumulate over time and shape what's possible.</p>
-<p>If you're choosing what to work on next, or framing a grant or a thesis around African-language NLP, we'd encourage you to read the survey, query the explorer, and write back to us with what you find missing. The dataset is open; gaps are an invitation, not a complaint.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="read--contribute">Read &amp; contribute<a href="https://masakhanehubnlp.github.io/MasakhanePlaybook/pt/blog/rise-of-africanlp-survey#read--contribute" class="hash-link" aria-label="Link direto para Read &amp; contribute" title="Link direto para Read &amp; contribute" translate="no">​</a></h2>
-<ul>
-<li class="">📄 <strong>Paper:</strong> <a href="https://arxiv.org/abs/2509.25477" target="_blank" rel="noopener noreferrer" class="">arxiv.org/abs/2509.25477</a></li>
-<li class="">🤝 <strong>Discuss the findings:</strong> join <code>#research</code> in <a href="https://discord.gg/ChNPHV2PPS" target="_blank" rel="noopener noreferrer" class="">our Discord</a></li>
-<li class="">✏️ <strong>Suggest corrections to the dataset:</strong> the explorer tool accepts community input — see the paper for details</li>
-</ul>
-<p>The next two decades of AfricaNLP will look very different if we're deliberate about how we build infrastructure, fund work, and credit contribution. This survey is one snapshot — we'd like to keep taking them.</p>
-<hr>
-<p><strong>Cite the survey:</strong></p>
-<blockquote>
-<p>Belay, T. D., Hussen, K. Y., Imam, S. H., Ahmad, I. S., Inuwa-Dutse, I., Haile, A. B., Sidorov, G., Vazquez, E. R., Ameer, I., Abdulmumin, I., Gwadabe, T., Marivate, V., Yimam, S. M., &amp; Muhammad, S. H. (2026). <em>The Rise of AfricaNLP: A Survey of Contributions, Contributors, Community Impact, and Bibliometric Analysis.</em> arXiv:2509.25477.</p>
-</blockquote>]]></content>
-        <author>
-            <name>Shamsuddeen Hassan Muhammad</name>
-            <uri>https://github.com/shmuhammadd</uri>
-        </author>
-        <category label="research" term="research"/>
-        <category label="africanlp" term="africanlp"/>
-        <category label="survey" term="survey"/>
-        <category label="publication" term="publication"/>
-        <category label="bibliometrics" term="bibliometrics"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Call for Chapters: Masakhane Playbook]]></title>
