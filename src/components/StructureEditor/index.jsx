@@ -23,6 +23,10 @@ const CHANGES_KEY = 'masakhane_pb_changes';
 // European/Arabic/Swahili → Helsinki-NLP via HF; African languages → MyMemory
 const SUPPORTED_AUTO_TRANSLATE = new Set(['fr', 'ar', 'sw', 'de', 'es', 'pt', 'ha', 'yo', 'am', 'ig', 'zu', 'om', 'so', 'rw']);
 
+/**
+ * Sends one text chunk to the translation proxy. Falls back to the original
+ * `text` when the response lacks `translation_text` (e.g. empty or error body).
+ */
 async function autoTranslateChunk(text, tgtLang, proxyUrl) {
   const res = await fetch(proxyUrl, {
     method: 'POST',
@@ -40,6 +44,12 @@ async function autoTranslateChunk(text, tgtLang, proxyUrl) {
   return data[0]?.translation_text || text;
 }
 
+/**
+ * Translates block-level text nodes in an HTML string in-place.
+ * Replaces each block's `textContent` (not innerHTML), so any nested tags
+ * (links, bold, code) are flattened — intentional to keep the proxy payload clean.
+ * Blocks shorter than 3 chars are skipped to avoid wasting proxy quota.
+ */
 async function translateHtmlContent(html, tgtLang, proxyUrl) {
   const div = document.createElement('div');
   div.innerHTML = html;
@@ -67,6 +77,12 @@ function starterCategory(label, position, description = '') {
 
 /* ── Modal content ───────────────────────────────────────────────────── */
 
+/**
+ * Full structure-editor UI mounted inside the modal portal.
+ * @param {{ onClose: () => void }} props
+ *   onClose — called when the user clicks × or presses Escape; the portal
+ *   wrapper is responsible for unmounting this component.
+ */
 export function StructureEditorContent({ onClose }) {
   const { siteConfig } = useDocusaurusContext();
   const oauthClientId = siteConfig.customFields?.GITHUB_OAUTH_CLIENT_ID || '';

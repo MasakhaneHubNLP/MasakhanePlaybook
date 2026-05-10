@@ -6,6 +6,7 @@ const BASE_BRANCH = 'main';
 const API = 'https://api.github.com';
 const RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BASE_BRANCH}`;
 
+/** Unicode-safe base64: percent-encodes then collapses to byte chars before btoa. */
 function encodeBase64(str) {
   return btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, hex) =>
@@ -14,6 +15,10 @@ function encodeBase64(str) {
   );
 }
 
+/**
+ * Authenticated GitHub API fetch. Throws on non-2xx responses and attaches
+ * `.status` to the error so callers can branch on 403/404 without re-parsing.
+ */
 async function ghFetch(path, token, opts = {}) {
   const res = await fetch(`${API}${path}`, {
     ...opts,
@@ -35,18 +40,9 @@ async function ghFetch(path, token, opts = {}) {
 }
 
 /**
- * Open a GitHub OAuth popup and resolve with an access token.
- *
- * @param {string} clientId   - GitHub OAuth App client_id (safe to expose)
- * @param {string} proxyUrl   - Cloudflare Worker URL that exchanges code → token
- * @param {string} callbackUrl - Full URL to /oauth-callback on the same origin
- */
-/**
- * GitHub Device Flow — no client_secret required.
- * The proxy only needs to forward requests and add CORS headers.
- *
- * Step 1: call startDeviceFlow → get user_code to show in UI
- * Step 2: call pollDeviceFlow → resolves with access_token when user authorises
+ * GitHub Device Flow — no client_secret required; the proxy only adds CORS headers.
+ * Returns { device_code, user_code, verification_uri, expires_in, interval }.
+ * Show `user_code` in the UI, then call `pollDeviceFlow` to await authorisation.
  */
 export async function startDeviceFlow(clientId, proxyUrl) {
   const resp = await fetch(`${proxyUrl}/device-code`, {
@@ -59,6 +55,11 @@ export async function startDeviceFlow(clientId, proxyUrl) {
   // → { device_code, user_code, verification_uri, expires_in, interval }
 }
 
+/**
+ * Polls the proxy until the user approves (returns token), cancels, or the
+ * code expires. `signal` is an AbortSignal — resolves with access_token string.
+ * Handles GitHub's `slow_down` error by adding 5 s to every subsequent poll.
+ */
 export async function pollDeviceFlow(clientId, deviceCode, proxyUrl, intervalSecs, signal) {
   let wait = intervalSecs;
   while (true) {
@@ -204,6 +205,11 @@ function buildDocsTree(files, cats, basePath = 'docs') {
   return nodes;
 }
 
+/**
+ * Derives the docs tree that the user would see after their pending edits land.
+ * Overlays `changes` (add/rename/delete ops) on top of the live git file list
+ * before building the tree, so the UI reflects unsaved work without a round-trip.
+ */
 export function computeDocsTree(gitFiles, catData, changes) {
   let files = [...gitFiles];
   const cats = { ...catData };
