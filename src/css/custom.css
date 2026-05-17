@@ -120,29 +120,31 @@ article p,
 }
 
 .navbar__brand {
-  padding: 0.25rem 0.6rem;
-  border-radius: 8px;
-  transition: background 0.15s, transform 0.1s;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
+  box-shadow: 0 2px 8px rgba(26, 82, 118, 0.35);
+  transition: opacity 0.15s, transform 0.1s;
 }
 
 .navbar__brand:hover {
-  background: rgba(var(--brand-rgb), 0.10);
+  opacity: 0.88;
   transform: translateY(-1px);
   text-decoration: none;
 }
 
-[data-theme='dark'] .navbar__brand:hover {
-  background: rgba(var(--brand-rgb), 0.15);
+[data-theme='dark'] .navbar__brand {
+  background: linear-gradient(135deg, #2e86c1 0%, #5dade2 100%);
 }
 
 .navbar__title {
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--ifm-color-primary-dark);
+  color: #fff;
 }
 
 [data-theme='dark'] .navbar__title {
-  color: var(--ifm-color-primary);
+  color: #0d0d0d;
 }
 
 .navbar__logo {
