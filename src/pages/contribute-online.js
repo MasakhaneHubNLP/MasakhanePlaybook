@@ -232,6 +232,137 @@ export default function ContributeOnline() {
             </ul>
           </article>
 
+          {/* ── Step 2: Manage Structure ──────────────────────── */}
+          <div className={styles.cfcSubhead} id="step-structure">
+            <Heading as="h2" className={styles.cfcSubheadTitle}>
+              Step 2 — Manage structure
+            </Heading>
+            <p className={styles.cfcSubheadLead}>
+              The left panel shows the full Playbook tree. You can add, rename,
+              reorder, and delete sections, pages, and subsections without
+              touching any files directly.
+            </p>
+          </div>
+
+          {/* Add a section */}
+          <div className={styles.cfcSubhead} style={{ marginTop: '1rem', textAlign: 'left' }}>
+            <Heading as="h3" className={styles.cfcSubheadTitle} style={{ fontSize: '1.2rem' }}>
+              Add a top-level section
+            </Heading>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {[
+              { num: '01', title: 'Open the editor', body: 'Click "Start Contributing Online" at the bottom of this page to launch the editor dialog.' },
+              { num: '02', title: 'Click "+ Section"', body: 'At the top of the left panel, click the "+ Section" button. An inline form appears.' },
+              { num: '03', title: 'Enter a name', body: 'Type the section title (e.g. "Data Quality"). Press Enter or click Confirm.' },
+              { num: '04', title: 'Section created', body: 'The tree shows the new section with a default intro page. Two files are staged: docs/{slug}/_category_.json and docs/{slug}/intro.md.' },
+            ].map((s) => (
+              <div key={s.num} className={styles.processStep}>
+                <div className={styles.processNum}>{s.num}</div>
+                <h4 className={styles.processTitle}>{s.title}</h4>
+                <p className={styles.processBody}>{s.body}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Add a page / subsection */}
+          <div className={styles.cfcSubhead} style={{ marginTop: '2rem', textAlign: 'left' }}>
+            <Heading as="h3" className={styles.cfcSubheadTitle} style={{ fontSize: '1.2rem' }}>
+              Add a page or subsection
+            </Heading>
+          </div>
+          <div className={styles.requirementsGrid}>
+            <article className={styles.requirementsCard}>
+              <div className={styles.requirementsHeader}>
+                <h4 className={styles.requirementsTitle}>Add a page inside a section</h4>
+              </div>
+              <ul className={styles.requirementsList}>
+                <li><span className={styles.requirementsBullet}>1</span><span>Hover over any section name in the tree — a <strong>+ Page</strong> icon appears.</span></li>
+                <li><span className={styles.requirementsBullet}>2</span><span>Click it and type the page title, then confirm.</span></li>
+                <li><span className={styles.requirementsBullet}>3</span><span>The new page opens in the right panel ready to edit. Staged file: <code>docs/{'{section}/{slug}.md'}</code>.</span></li>
+              </ul>
+            </article>
+            <article className={styles.requirementsCard}>
+              <div className={styles.requirementsHeader}>
+                <h4 className={styles.requirementsTitle}>Add a subsection under a page</h4>
+              </div>
+              <ul className={styles.requirementsList}>
+                <li><span className={styles.requirementsBullet}>1</span><span>Hover over any existing page — a <strong>+ Subsection</strong> icon appears.</span></li>
+                <li><span className={styles.requirementsBullet}>2</span><span>Click it and enter the subsection name.</span></li>
+                <li><span className={styles.requirementsBullet}>3</span><span>The page becomes a parent folder. Staged files: <code>_category_.json</code> + <code>index.md</code> for the new subsection.</span></li>
+              </ul>
+            </article>
+          </div>
+
+          {/* Rename / reorder / delete */}
+          <article className={styles.requirementsCard} style={{ marginTop: '1rem' }}>
+            <div className={styles.requirementsHeader}>
+              <h4 className={styles.requirementsTitle}>Rename, reorder, and delete</h4>
+            </div>
+            <ul className={styles.requirementsList}>
+              <li><span className={styles.requirementsBullet}>✎</span><span><strong>Rename:</strong> hover any item → click the rename icon → type a new name → press Enter.</span></li>
+              <li><span className={styles.requirementsBullet}>↕</span><span><strong>Reorder:</strong> use the up/down arrows that appear on hover to move items within their section.</span></li>
+              <li><span className={styles.requirementsBullet}>✕</span><span><strong>Delete:</strong> click the trash icon → confirm. The deletion is staged and can be undone in the changes panel before submitting.</span></li>
+            </ul>
+          </article>
+
+          {/* ── Step 3: Edit Existing Content ─────────────────── */}
+          <div className={styles.cfcSubhead} id="step-edit">
+            <Heading as="h2" className={styles.cfcSubheadTitle}>
+              Step 3 — Edit existing content
+            </Heading>
+            <p className={styles.cfcSubheadLead}>
+              Click the edit icon next to any page or section in the tree to
+              open it in the full rich-text editor.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {[
+              { num: '01', title: 'Select a page', body: 'In the left panel tree, click the pencil icon next to any page. The page content loads in the right panel.' },
+              { num: '02', title: 'Edit with the toolbar', body: 'Use the rich-text toolbar above the editor area to format your content (see toolbar reference below).' },
+              { num: '03', title: 'Save', body: 'Click Save. The change is staged locally — it appears in the pending changes panel with a "~" indicator. Nothing is sent to GitHub yet.' },
+            ].map((s) => (
+              <div key={s.num} className={styles.processStep}>
+                <div className={styles.processNum}>{s.num}</div>
+                <h4 className={styles.processTitle}>{s.title}</h4>
+                <p className={styles.processBody}>{s.body}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* WYSIWYG toolbar reference */}
+          <div className={styles.cfcSubhead} style={{ marginTop: '2rem', textAlign: 'left' }}>
+            <Heading as="h3" className={styles.cfcSubheadTitle} style={{ fontSize: '1.2rem' }}>
+              Toolbar reference
+            </Heading>
+          </div>
+          <div className={styles.requirementsGrid}>
+            <article className={styles.requirementsCard}>
+              <div className={styles.requirementsHeader}>
+                <h4 className={styles.requirementsTitle}>Text formatting</h4>
+              </div>
+              <ul className={styles.requirementsList}>
+                <li><span className={styles.requirementsBullet}>B</span><span><strong>Bold</strong>, <em>Italic</em>, Underline, Strikethrough</span></li>
+                <li><span className={styles.requirementsBullet}>H</span><span>Headings H1, H2, H3</span></li>
+                <li><span className={styles.requirementsBullet}>¶</span><span>Bullet list, Numbered list, Blockquote</span></li>
+                <li><span className={styles.requirementsBullet}>A</span><span>Text colour picker</span></li>
+                <li><span className={styles.requirementsBullet}>✕</span><span>Remove all formatting from selection</span></li>
+              </ul>
+            </article>
+            <article className={styles.requirementsCard}>
+              <div className={styles.requirementsHeader}>
+                <h4 className={styles.requirementsTitle}>Media &amp; links</h4>
+              </div>
+              <ul className={styles.requirementsList}>
+                <li><span className={styles.requirementsBullet}>🔗</span><span>Insert link (prompts for URL) / Remove link</span></li>
+                <li><span className={styles.requirementsBullet}>🖼</span><span>Insert image from local file (embedded inline)</span></li>
+                <li><span className={styles.requirementsBullet}>▶</span><span>Insert video by URL — YouTube, Vimeo, or direct link</span></li>
+                <li><span className={styles.requirementsBullet}>📎</span><span>Insert video from local file (max 10 MB, embedded inline)</span></li>
+              </ul>
+            </article>
+          </div>
+
           {/* Detailed step sections will be added in subsequent commits */}
 
         </div>
