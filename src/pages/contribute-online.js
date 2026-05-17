@@ -316,25 +316,24 @@ function StepSubmit() {
 
 /* ── Accordion step definitions ──────────────────────────── */
 const STEPS = [
-  { num: 1, title: 'Authenticate with GitHub',              Content: StepAuth },
-  { num: 2, title: 'Manage structure',                      Content: StepStructure },
-  { num: 3, title: 'Edit existing content',                 Content: StepEdit },
-  { num: 4, title: 'Upload documents',                      Content: StepUpload },
-  { num: 5, title: 'Translate a page',                      Content: StepTranslate },
-  { num: 6, title: 'Review changes and submit a PR',        Content: StepSubmit },
+  { label: 'Authenticate',  title: 'Authenticate with GitHub',       Content: StepAuth },
+  { label: 'Structure',     title: 'Manage structure',               Content: StepStructure },
+  { label: 'Edit',          title: 'Edit existing content',          Content: StepEdit },
+  { label: 'Upload',        title: 'Upload documents',               Content: StepUpload },
+  { label: 'Translate',     title: 'Translate a page',               Content: StepTranslate },
+  { label: 'Submit PR',     title: 'Review changes and submit a PR', Content: StepSubmit },
 ];
 
 /* ── Page ────────────────────────────────────────────────── */
 export default function ContributeOnline() {
-  const [open, setOpen] = useState(new Set());
+  const [activeTab, setActiveTab] = useState(0);
   const [editorOpen, setEditorOpen] = useState(false);
 
-  const toggle = (num) =>
-    setOpen((prev) => {
-      const next = new Set(prev);
-      next.has(num) ? next.delete(num) : next.add(num);
-      return next;
-    });
+  const prev = () => setActiveTab((t) => Math.max(0, t - 1));
+  const next = () => setActiveTab((t) => Math.min(STEPS.length - 1, t + 1));
+  const isFirst = activeTab === 0;
+  const isLast  = activeTab === STEPS.length - 1;
+  const { title, Content } = STEPS[activeTab];
 
   return (
     <Layout
@@ -382,72 +381,70 @@ export default function ContributeOnline() {
             </p>
           </div>
           <div className={styles.expectationGrid}>
-            {FEATURES.map(({ Icon, title, body }) => (
-              <article key={title} className={styles.expectationCard}>
+            {FEATURES.map(({ Icon, title: t, body }) => (
+              <article key={t} className={styles.expectationCard}>
                 <div className={styles.expectationIcon}><Icon /></div>
-                <h3 className={styles.expectationTitle}>{title}</h3>
+                <h3 className={styles.expectationTitle}>{t}</h3>
                 <p className={styles.expectationBody}>{body}</p>
               </article>
             ))}
           </div>
 
-          {/* ── Accordion ──────────────────────────────────── */}
+          {/* ── Tabbed step guide ──────────────────────────── */}
           <div className={styles.cfcSubhead}>
             <Heading as="h2" className={styles.cfcSubheadTitle}>Step-by-step guide</Heading>
             <p className={styles.cfcSubheadLead}>
-              Click any step to expand the full instructions.
+              Follow the steps below, or use Next / Previous to go through them in order.
             </p>
           </div>
 
-          <div className={acc.accordion}>
-            {STEPS.map(({ num, title, Content }) => {
-              const isOpen = open.has(num);
-              return (
-                <div key={num} className={acc.accordionItem}>
-                  <button
-                    type="button"
-                    className={clsx(acc.accordionHeader, isOpen && acc.accordionHeaderOpen)}
-                    onClick={() => toggle(num)}
-                    aria-expanded={isOpen}
-                  >
-                    <span className={clsx(acc.stepBadge, isOpen && acc.stepBadgeOpen)}>
-                      {num}
-                    </span>
-                    <span className={clsx(acc.accordionTitle, isOpen && acc.accordionTitleOpen)}>
-                      {title}
-                    </span>
-                    <span className={clsx(acc.accordionChevron, isOpen && acc.accordionChevronOpen)} aria-hidden="true">
-                      ▼
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className={acc.accordionBody}>
-                      <Content />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* ── Launch CTA ─────────────────────────────────── */}
-          <div className={styles.cfcSubhead} style={{ marginTop: '4rem' }}>
-            <Heading as="h2" className={styles.cfcSubheadTitle}>Ready? Launch the editor</Heading>
-            <p className={styles.cfcSubheadLead}>
-              Everything runs in your browser. Authenticate once with GitHub and
-              start contributing — no installation needed.
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.75rem', flexWrap: 'wrap' }}>
+          {/* Tab strip */}
+          <div className={acc.tabList} role="tablist" aria-label="Contribution steps">
+            {STEPS.map(({ label }, i) => (
               <button
+                key={label}
+                role="tab"
                 type="button"
-                className={clsx('button', styles.primaryButton)}
-                onClick={() => setEditorOpen(true)}
+                aria-selected={i === activeTab}
+                className={clsx(acc.tab, i === activeTab && acc.tabActive)}
+                onClick={() => setActiveTab(i)}
               >
-                Start Contributing Online
+                <span className={acc.tabNum}>{i + 1}</span>
+                <span className={acc.tabLabel}>{label}</span>
               </button>
-              <Link to="/contribute" className={clsx('button', styles.secondaryButton)}>
-                Prefer cloning? See GitHub guide
-              </Link>
+            ))}
+          </div>
+
+          {/* Tab panel */}
+          <div role="tabpanel" className={acc.tabPanel}>
+            <Heading as="h3" style={{ fontSize: '1.3rem', marginBottom: '1.5rem' }}>
+              Step {activeTab + 1} — {title}
+            </Heading>
+            <Content />
+
+            {/* Next / Previous nav */}
+            <div className={acc.tabNav}>
+              {!isFirst ? (
+                <button type="button" className={acc.navBtn} onClick={prev}>
+                  ← Previous
+                </button>
+              ) : (
+                <span className={acc.navSpacer} />
+              )}
+
+              {!isLast ? (
+                <button type="button" className={clsx(acc.navBtn, acc.navBtnPrimary)} onClick={next}>
+                  Next →
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className={clsx(acc.navBtn, acc.navBtnPrimary)}
+                  onClick={() => setEditorOpen(true)}
+                >
+                  Start Contributing Online →
+                </button>
+              )}
             </div>
           </div>
 
