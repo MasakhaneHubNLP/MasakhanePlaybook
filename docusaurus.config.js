@@ -391,19 +391,23 @@ const config = {
             position: "left",
           },
           {
-            to: "/blog",
-            label: "Blog",
+            type: "dropdown",
+            label: "About",
             position: "left",
-          },
-          {
-            to: "/newsletter",
-            label: "Newsletter",
-            position: "left",
-          },
-          {
-            to: "/about",
-            label: "About Us",
-            position: "left",
+            items: [
+              {
+                to: "/about",
+                label: "About Us",
+              },
+              {
+                to: "/blog",
+                label: "Blog",
+              },
+              {
+                to: "/newsletter",
+                label: "Newsletter",
+              },
+            ],
           },
           {
             type: "custom-ContributeButtonNavbarItem",
