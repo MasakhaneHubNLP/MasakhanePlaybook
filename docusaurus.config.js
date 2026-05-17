@@ -360,6 +360,7 @@ const config = {
         },
       },
       navbar: {
+        title: "Home",
         logo: {
           alt: "Masakhane Playbook Home",
           src: "img/playbook-mark.svg",
